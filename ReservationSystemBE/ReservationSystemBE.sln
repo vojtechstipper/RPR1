@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservationSystemBE", "ReservationSystemBE\ReservationSystemBE.csproj", "{BF35154D-63F3-40DA-BB42-CA50817E02B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF35154D-63F3-40DA-BB42-CA50817E02B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF35154D-63F3-40DA-BB42-CA50817E02B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF35154D-63F3-40DA-BB42-CA50817E02B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF35154D-63F3-40DA-BB42-CA50817E02B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {411C987A-39E4-4AFD-9331-0AA2865F44EC}
+	EndGlobalSection
+EndGlobal

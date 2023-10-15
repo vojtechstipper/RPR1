@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReservationSystemBE", "Rese
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservationSystem.Domain", "Domain\ReservationSystem.Domain.csproj", "{513FA314-A214-4104-89E3-0D467D8E40DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservationSystem.Shared", "Shared\ReservationSystem.Shared.csproj", "{0C420F4D-685A-4152-8CD8-225EA0D8B451}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{513FA314-A214-4104-89E3-0D467D8E40DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{513FA314-A214-4104-89E3-0D467D8E40DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{513FA314-A214-4104-89E3-0D467D8E40DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C420F4D-685A-4152-8CD8-225EA0D8B451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C420F4D-685A-4152-8CD8-225EA0D8B451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C420F4D-685A-4152-8CD8-225EA0D8B451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C420F4D-685A-4152-8CD8-225EA0D8B451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

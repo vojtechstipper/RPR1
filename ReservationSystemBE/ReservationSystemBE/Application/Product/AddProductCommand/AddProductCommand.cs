@@ -1,8 +1,9 @@
-﻿using ReservationSystem.Domain.Products;
+﻿using MediatR;
+using ReservationSystem.Domain.Products;
 
 namespace ReservationSystemBE.Application.Product.AddProductCommand;
 
-public class AddProductCommand
+public class AddProductCommand:IRequest<string>
 {
     public string Name { get; set; } = string.Empty;
     public string ProductTypeId { get; set; }
@@ -10,7 +11,10 @@ public class AddProductCommand
     public List<PriceLevel> PriceLevels { get; set; } = new List<PriceLevel>();
 }
 
-public class AddProductCommandHandler
+public class AddProductCommandHandler : IRequestHandler<AddProductCommand, string>
 {
-
+    public Task<string> Handle(AddProductCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }

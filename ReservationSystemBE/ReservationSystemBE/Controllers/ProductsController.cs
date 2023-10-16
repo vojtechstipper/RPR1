@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.Product.AddProductCommand;
+using ReservationSystemBE.Application.Product.GetProductsQuery;
 
 namespace ReservationSystemBE.Controllers;
 
@@ -19,13 +20,13 @@ public class ProductsController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> AddProduct([FromBody] AddProductCommand command)
     {
-        return Ok(_mediator.Send(command));
+        return Ok(await _mediator.Send(command));
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> GetProducts()
+    public async Task<ActionResult<List<ProductDto>>> GetProducts()
     {
-        return Ok();
+        return Ok(await _mediator.Send(new GetProductsQuery()));
     }
 }

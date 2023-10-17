@@ -1,16 +1,14 @@
 version: '3.8'
 services:
   mysql:
-    image: mysql:latest
-    container_name: mysql_container
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ms-sql-container
     environment:
-      MYSQL_ROOT_PASSWORD: Heslo123
-      MYSQL_DATABASE: ReservationSystem
+      SA_PASSWORD: Heslo123
+      ACCEPT_EULA: "Y"
 
     ports:
-      - "3306:3306"
-    volumes:
-      - ./mysql_data:/var/lib/mysql
+      - "1433:1433"
     networks:
       - mynetwork
 

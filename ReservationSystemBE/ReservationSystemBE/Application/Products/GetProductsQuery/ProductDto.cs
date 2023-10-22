@@ -1,7 +1,7 @@
 ﻿using ReservationSystem.Domain.Allergens;
 using ReservationSystem.Domain.Products;
 
-namespace ReservationSystemBE.Application.Product.GetProductsQuery;
+namespace ReservationSystemBE.Application.Products.GetProductsQuery;
 
 public class ProductDto
 {

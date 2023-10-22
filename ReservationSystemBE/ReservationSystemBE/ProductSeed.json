@@ -1,0 +1,121 @@
+{
+  "Items": [
+    {
+      "Products": [
+        {
+          "Name": "Espresso",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 50.0
+            }
+          ]
+        },
+        {
+          "Name": "Espresso lungo",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 50.0
+            }
+          ]
+        },
+        {
+          "Name": "Dappio",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 55.0
+            }
+          ]
+        },
+        {
+          "Name": "Capuccino",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 60.0
+            }
+          ]
+        },
+        {
+          "Name": "Flat White",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 65.0
+            }
+          ]
+        },
+        {
+          "Name": "Latté",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 75.0
+            }
+          ]
+        },
+        {
+          "Name": "Espresso tonic",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 85.0
+            }
+          ]
+        },
+        {
+          "Name": "Ledové latté",
+          "PriceLevels": [
+            {
+              "Name": "Bez rostlinného mléka",
+              "Price": 85.0
+            }
+          ]
+        }
+      ],
+      "ProductType": "Káva"
+    },
+    {
+      "Products": [],
+      "ProductType": "Čaje - sypané"
+    },
+    {
+      "Products": [],
+      "ProductType": "Čepované nápoje"
+    },
+    {
+      "Products": [],
+      "ProductType": "Alkoholické nápoje"
+    },
+    {
+      "Products": [],
+      "ProductType": "Nealkoholické nápoje"
+    },
+    {
+      "Products": [],
+      "ProductType": "Občerstvení"
+    },
+    {
+      "Products": [],
+      "ProductType": "Smooothie"
+    },
+    {
+      "Products": [],
+      "ProductType": "Doplňkový prodej"
+    },
+    {
+      "Products": [],
+      "ProductType": "Malý Croissant"
+    },
+    {
+      "Products": [],
+      "ProductType": "Rolls / Velký croissant"
+    },
+    {
+      "Products": [],
+      "ProductType": "Snídaňové menu"
+    }
+  ]
+}

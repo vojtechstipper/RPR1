@@ -3,7 +3,7 @@ using ReservationSystem.Domain.Allergens;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Infrastructure.Persistence;
 
-namespace ReservationSystemBE.Application.Product.AddProductCommand;
+namespace ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 
 public class AddProductCommand : IRequest<string>
 {
@@ -32,7 +32,7 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, strin
             Name = "Ořechy",
         };
         ProductType productType = new() { Name = "Specialitky" };
-        ReservationSystem.Domain.Products.Product product = new()
+        Product product = new()
         {
             Allergens = new List<Allergen>() { allergen },
             Name = "Houska",

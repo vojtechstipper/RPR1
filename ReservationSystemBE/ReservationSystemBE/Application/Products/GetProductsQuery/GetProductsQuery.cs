@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReservationSystemBE.Infrastructure.Persistence;
 
-namespace ReservationSystemBE.Application.Product.GetProductsQuery;
+namespace ReservationSystemBE.Application.Products.GetProductsQuery;
 
 public record GetProductsQuery : IRequest<List<ProductDto>>;
 

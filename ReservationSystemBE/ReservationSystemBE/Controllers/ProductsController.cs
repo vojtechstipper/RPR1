@@ -4,7 +4,6 @@ using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 using ReservationSystemBE.Application.Products.Commands.EditProductCommand;
 using ReservationSystemBE.Application.Products.GetProductQuery;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ReservationSystemBE.Controllers;
 

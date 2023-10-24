@@ -9,4 +9,10 @@ V hlavní složce se nachází soubor compose.yml. V této složce je potřeba o
 ```bash
 docker compose up
 ```
+
+Ve složce ReservationSystem se nachází docker compose pro spuštění backendu a to pomocí příkazu
+```bash
+docker compose up --build
+```
+
 Poté se vytvoří kontejner s Microsoft SQL Server, který je potřebný pro běh BE.

@@ -11,14 +11,22 @@ services:
   server:
     build:
       context: .
-      target: final
+      dockerfile: Dockerfile
     ports:
       - 8180:80
-    networks:
-      - mynetwork
+    depends_on:
+      - db
 
-networks:
-  mynetwork:
+      
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ms-sql-container
+    environment:
+      SA_PASSWORD: Heslo123
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

@@ -4,6 +4,10 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.Development.json",
+        optional: true,
+        reloadOnChange: true);
+
 builder.Services.AddDbContext<ReservationSystemDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 

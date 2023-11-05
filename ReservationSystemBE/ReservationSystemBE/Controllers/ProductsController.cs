@@ -25,7 +25,7 @@ public class ProductsController : Controller
         return Ok(await _mediator.Send(command));
     }
 
-    [HttpPut("{id}/edit")]
+    [HttpPut("edit")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ProductDto>> EditProduct([FromBody] EditProductCommand command)
     {

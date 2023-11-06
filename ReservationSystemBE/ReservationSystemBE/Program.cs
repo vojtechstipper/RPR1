@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ReservationSystemBE.Infrastructure.Persistence;
 using System.Text.Json.Serialization;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.Development.json",
@@ -18,8 +19,18 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Pr
 
 builder.Services.AddSwaggerGen(opt => opt.CustomSchemaIds(type => type.ToString().Replace("+", ".")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000");
+                      });
+});
+
 var app = builder.Build();
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();

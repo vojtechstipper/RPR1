@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
+using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Products.Commands.EditProductCommand;
 
@@ -15,8 +16,24 @@ public class EditProductCommand : IRequest<ProductDto>
 
 public class EditProductCommandHandler : IRequestHandler<EditProductCommand, ProductDto>
 {
-    public Task<ProductDto> Handle(EditProductCommand request, CancellationToken cancellationToken)
+    private readonly ReservationSystemDbContext _context;
+
+    public EditProductCommandHandler(ReservationSystemDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
+    }
+
+    public async Task<ProductDto> Handle(EditProductCommand request, CancellationToken cancellationToken)
+    {
+        var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
+        if (product is not null)
+        {
+            product.Name = request.Name;
+            product.ProductTypeId = request.ProductTypeId;
+            product.PriceLevels = request.PriceLevels;
+            _context.Update(product);
+            await _context.SaveChangesAsync();
+        }
+        return new();
     }
 }

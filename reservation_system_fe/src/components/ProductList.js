@@ -8,7 +8,7 @@ function ProductList() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await api.getProducts();
+        const response = await api.get('/product/list');
         setProducts(response.data);
       } catch (error) {
         console.error('Chyba při načítání produktů:', error);

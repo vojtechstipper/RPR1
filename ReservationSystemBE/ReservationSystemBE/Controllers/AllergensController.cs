@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ReservationSystemBE.Application.Allergens.Commands;
 using ReservationSystemBE.Application.Allergens.Queries;
 
 namespace ReservationSystemBE.Controllers;
@@ -20,5 +21,12 @@ public class AllergensController : Controller
     public async Task<ActionResult<List<AllergenDto>>> GetAllergensList()
     {
         return Ok(await _mediator.Send(new GetAllergensQuery()));
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> AddAllergen([FromBody] AddAllergenCommand command)
+    {
+        return Ok(await _mediator.Send(command));
     }
 }

@@ -17,7 +17,7 @@ public class TestController : Controller
         _mediator = mediator;
     }
 
-    [HttpPost]
+    [HttpPost("products")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> SeedProducts()
     {     

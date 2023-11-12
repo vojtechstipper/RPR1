@@ -16,3 +16,6 @@ docker compose up --build
 ```
 
 Poté se vytvoří kontejner s Microsoft SQL Server, který je potřebný pro běh BE.
+
+
+Po úspěšném vytvoření DB serveru je potřeba otevřít ve Visual Studiu Nuget Packet Manager a do příkazové řádky napsat příkaz Update-Database (tento příkaz vytvoří strukturu DB)

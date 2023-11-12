@@ -24,24 +24,8 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, strin
 
     public async Task<string> Handle(AddProductCommand request, CancellationToken cancellationToken)
     {
-        //jen na seedování prozatimní
-        //Allergen allergen = new()
-        //{
-        //    Code = 1,
-        //    Description = "Může obsahovat ořechy",
-        //    Name = "Ořechy",
-        //};
-        //ProductType productType = new() { Name = "Specialitky" };
-        //Product product = new()
-        //{
-        //    Allergens = new List<Allergen>() { allergen },
-        //    Name = "Houska",
-        //    ProductType = productType,
-        //    PriceLevels = new List<PriceLevel>() { new PriceLevel() { Name = "Normální", Price = 50 } }
-        //};
         var allergens = await _dbContext.Allergens.Where(x => request.AllergensIds.Contains(x.Id)).ToListAsync(cancellationToken);
         var productType = await _dbContext.ProductTypes.FirstOrDefaultAsync(x => x.Id == request.ProductTypeId);
-
 
         var product = new Product()
         {

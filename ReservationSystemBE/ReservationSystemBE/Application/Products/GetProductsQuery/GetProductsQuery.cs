@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystemBE.Infrastructure.Persistence;
 
@@ -9,10 +10,12 @@ public record GetProductsQuery : IRequest<List<ProductDto>>;
 public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<ProductDto>>
 {
     private readonly ReservationSystemDbContext _dbContext;
+    private readonly IMapper _mapper;
 
-    public GetProductsQueryHandler(ReservationSystemDbContext dbContext)
+    public GetProductsQueryHandler(ReservationSystemDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
+        _mapper = mapper;
     }
 
     public async Task<List<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
@@ -21,15 +24,9 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<Pr
              .Include(x => x.ProductType)
              .Include(x => x.PriceLevels)
              .Include(x => x.Allergens)
-             .Select(x => new ProductDto()
-             {
-                 Allergens = x.Allergens,
-                 Id = x.Id,
-                 Name = x.Name,
-                 PriceLevels = x.PriceLevels,
-                 ProductType = x.ProductType,
-             }).ToListAsync();
+            .ToListAsync();
 
-        return products ?? new List<ProductDto>();
+        var idk = _mapper.Map<List<ProductDto>>(products);
+        return idk ?? new List<ProductDto>();
     }
 }

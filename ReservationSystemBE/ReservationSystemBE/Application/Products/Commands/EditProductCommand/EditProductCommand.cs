@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
 using ReservationSystemBE.Infrastructure.Persistence;
@@ -17,10 +18,12 @@ public class EditProductCommand : IRequest<ProductDto>
 public class EditProductCommandHandler : IRequestHandler<EditProductCommand, ProductDto>
 {
     private readonly ReservationSystemDbContext _context;
+    private readonly IMapper _mapper;
 
-    public EditProductCommandHandler(ReservationSystemDbContext context)
+    public EditProductCommandHandler(ReservationSystemDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<ProductDto> Handle(EditProductCommand request, CancellationToken cancellationToken)
@@ -34,6 +37,6 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
             _context.Update(product);
             await _context.SaveChangesAsync();
         }
-        return new();
+        return _mapper.Map<ProductDto>(product) ?? new();
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ReservationSystemBE.Infrastructure.Persistence;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -27,6 +28,8 @@ builder.Services.AddCors(options =>
                           policy.WithOrigins("http://localhost:3000");
                       });
 });
+
+builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 

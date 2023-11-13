@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductList from './components/ProductList'; // Upřesněte cestu k vaší komponentě
+import './App.css';
 
 function App() {
   return (

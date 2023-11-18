@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystemBE.Infrastructure.Persistence;
 
-namespace ReservationSystemBE.Application.ProductTypes.Queries;
+namespace ReservationSystemBE.Application.Products.GetGrouppedProducts;
 
 public record GetGrouppedProductTypeWithProductsQuery : IRequest<List<ProductTypeWithProductsDto>>;
 

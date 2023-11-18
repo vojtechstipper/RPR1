@@ -2,12 +2,12 @@
 using ReservationSystem.Domain.Allergens;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Allergens.Queries;
+using ReservationSystemBE.Application.Products.GetGrouppedProducts;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
-using ReservationSystemBE.Application.ProductTypes.Queries;
 
 namespace ReservationSystemBE.Application.Products;
 
-public class ProductProfile:Profile
+public class ProductProfile : Profile
 {
     public ProductProfile()
     {

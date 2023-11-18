@@ -1,4 +1,4 @@
-﻿namespace ReservationSystemBE.Application.ProductTypes.Queries;
+﻿namespace ReservationSystemBE.Application.Products.GetGrouppedProducts;
 
 public class ProductTypeWithOrderDto
 {

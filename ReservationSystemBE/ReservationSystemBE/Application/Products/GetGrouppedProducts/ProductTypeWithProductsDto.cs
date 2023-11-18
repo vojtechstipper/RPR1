@@ -1,7 +1,7 @@
 ﻿using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
 
-namespace ReservationSystemBE.Application.ProductTypes.Queries;
+namespace ReservationSystemBE.Application.Products.GetGrouppedProducts;
 
 public class ProductTypeWithProductsDto
 {

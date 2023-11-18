@@ -49,7 +49,7 @@ public class ProductsController : Controller
 
     [HttpGet("groupped")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<string>> GetProductsGrouppedByProductType()
+    public async Task<ActionResult<List<ProductTypeWithProductsDto>>> GetProductsGrouppedByProductType()
     {
         return Ok(await _mediator.Send(new GetGrouppedProductTypeWithProductsQuery()));
     }

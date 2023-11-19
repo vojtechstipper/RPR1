@@ -8,6 +8,7 @@ namespace ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 public class AddProductCommand : IRequest<string>
 {
     public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public string ProductTypeId { get; set; }
     public List<string> AllergensIds { get; set; } = new List<string>();
     public List<PriceLevel> PriceLevels { get; set; } = new List<PriceLevel>();
@@ -31,6 +32,7 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, strin
         {
             Allergens = allergens,
             Name = request.Name,
+            Description= request.Description,
             ProductType = productType,
             PriceLevels = request.PriceLevels
         };

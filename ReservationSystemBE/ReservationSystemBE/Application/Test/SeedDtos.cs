@@ -11,6 +11,7 @@ public class SeedDtos
     public class ProductSeedDto
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public List<PriceLevelSeedDto> PriceLevels { get; set; }
     }
 
@@ -23,5 +24,17 @@ public class SeedDtos
     public class SeedObject
     {
         public List<ProductTypeSeedDto> Items { get; set; }
+    }
+
+    public class AllergensDto
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Code { get; set; }
+    }
+
+    public class SeedObjectAllergens
+    {
+        public List<AllergensDto> Allergens { get; set; }
     }
 }

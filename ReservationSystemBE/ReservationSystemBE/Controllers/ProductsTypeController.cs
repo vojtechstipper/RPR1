@@ -1,14 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
-using ReservationSystemBE.Application.Products.GetProductsQuery;
 using ReservationSystemBE.Application.ProductTypes.Commands;
 
 namespace ReservationSystemBE.Controllers;
 
 [ApiController]
 [Route("/productstypes")]
-public class ProductsTypeController:Controller
+public class ProductsTypeController : Controller
 {
     private readonly IMediator _mediator;
 
@@ -23,4 +21,5 @@ public class ProductsTypeController:Controller
     {
         return Ok(await _mediator.Send(command));
     }
+
 }

@@ -30,6 +30,7 @@ public class SeedProductsCommandHandler : IRequestHandler<SeedProductsCommand, U
                 item.Products.Select(it => new Product
                 {
                     Name = it.Name,
+                    Description=it.Description,
                     PriceLevels = it.PriceLevels
                     .Select(pl => new PriceLevel(pl.Name, (decimal)pl.Price))
                     .ToList()

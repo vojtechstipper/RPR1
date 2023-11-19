@@ -1,7 +1,7 @@
 import api from './api';
-
+import getProductsGrouppedResponseObject from '../responses/getProductsGrouppedResponse';
 // Funkce pro získání seznamu produktů
-export const getProducts = async () => {
+ const getProducts = async () => {
   try {
     const response = await api.get('/product/list');
     return response.data;
@@ -10,8 +10,17 @@ export const getProducts = async () => {
   }
 };
 
+ const getProductsGroupped = async () => {
+  try {
+    const response = await api.get('/product/groupped');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Funkce pro přidání produktu
-export const addProduct = async (productData) => {
+ const addProduct = async (productData) => {
   try {
     const response = await api.post('/product', productData);
     return response.data;
@@ -21,7 +30,7 @@ export const addProduct = async (productData) => {
 };
 
 // Funkce pro editaci produktu
-export const editProduct = async (productId, productData) => {
+ const editProduct = async (productId, productData) => {
   try {
     const response = await api.put(`/product/${productId}/edit`, productData);
     return response.data;
@@ -31,7 +40,7 @@ export const editProduct = async (productId, productData) => {
 };
 
 // Funkce pro získání produktu podle ID
-export const getProductById = async (productId) => {
+ const getProductById = async (productId) => {
   try {
     const response = await api.get(`/product/${productId}`);
     return response.data;
@@ -39,5 +48,7 @@ export const getProductById = async (productId) => {
     throw error;
   }
 };
+
+export { getProductsGroupped, getProductById, getProducts };
 
 // Zde můžete vytvořit další funkce pro práci s API.

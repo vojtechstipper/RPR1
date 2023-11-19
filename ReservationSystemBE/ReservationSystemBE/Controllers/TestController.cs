@@ -23,4 +23,11 @@ public class TestController : Controller
     {     
         return Ok(await _mediator.Send(new SeedProductsCommand()));
     }
+
+    [HttpPost("allergens")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> SeedAllergens()
+    {
+        return Ok(await _mediator.Send(new SeedAllergensCommand()));
+    }
 }

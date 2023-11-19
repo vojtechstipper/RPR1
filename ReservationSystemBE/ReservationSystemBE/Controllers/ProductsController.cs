@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 using ReservationSystemBE.Application.Products.Commands.EditProductCommand;
+using ReservationSystemBE.Application.Products.GetGrouppedProducts;
 using ReservationSystemBE.Application.Products.GetProductQuery;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
 
@@ -44,5 +45,12 @@ public class ProductsController : Controller
     public async Task<ActionResult<ProductDto>> GetProduct([FromRoute] string id)
     {
         return Ok(await _mediator.Send(new GetProductByIdQuery(id)));
+    }
+
+    [HttpGet("groupped")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<ProductTypeWithProductsDto>>> GetProductsGrouppedByProductType()
+    {
+        return Ok(await _mediator.Send(new GetGrouppedProductTypeWithProductsQuery()));
     }
 }

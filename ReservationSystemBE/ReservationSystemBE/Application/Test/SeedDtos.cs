@@ -24,4 +24,16 @@ public class SeedDtos
     {
         public List<ProductTypeSeedDto> Items { get; set; }
     }
+
+    public class AllergensDto
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Code { get; set; }
+    }
+
+    public class SeedObjectAllergens
+    {
+        public List<AllergensDto> Allergens { get; set; }
+    }
 }

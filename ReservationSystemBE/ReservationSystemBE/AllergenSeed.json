@@ -1,0 +1,49 @@
+{
+  "Allergens": [
+    {
+      "Name": "Lepek",
+      "Description": "Bílkovina obsažená v pšenici a dalších obilovinách, způsobující citlivost u některých jedinců.",
+      "Code": 1
+    },
+    {
+      "Name": "Mléko",
+      "Description": "Produkty obsahující mléko nebo laktózu, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 2
+    },
+    {
+      "Name": "Ořechy",
+      "Description": "Ořechy nebo arašídy, které mohou vyvolat alergie u náchylných jedinců.",
+      "Code": 3
+    },
+    {
+      "Name": "Korýši",
+      "Description": "Mořské plody jako krevety, krab a langusty, známé pro způsobování alergií.",
+      "Code": 4
+    },
+    {
+      "Name": "Sójové boby",
+      "Description": "Produkty obsahující sóju, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 5
+    },
+    {
+      "Name": "Ryby",
+      "Description": "Určité druhy ryb, které mohou být alergenní pro některé jedince.",
+      "Code": 6
+    },
+    {
+      "Name": "Vajíčka",
+      "Description": "Produkty obsahující vajíčka, která mohou způsobit alergie u některých lidí.",
+      "Code": 7
+    },
+    {
+      "Name": "Sezam",
+      "Description": "Semena nebo produkty obsahující sezam, známé pro vyvolávání alergií.",
+      "Code": 8
+    },
+    {
+      "Name": "Síranové sloučeniny",
+      "Description": "Sloučeniny používané jako konzervanty v různých potravinách a nápojích, vyvolávající reakce u některých jedinců.",
+      "Code": 9
+    }
+  ]
+}

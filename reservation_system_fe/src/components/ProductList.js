@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import FoodItemCard from './FoodItemCard';
+import BeverageItemCard from './BeverageItemCard';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -23,11 +24,11 @@ function ProductList() {
   return (
     <div>
     {products.map((product) => (
-<FoodItemCard name={product.name} description={product.description} allergens={product.allergens}></FoodItemCard>))}
+<BeverageItemCard name={product.name} description={product.description} ></BeverageItemCard>))}
   
 
  </div>
   );
-};
+}
 
 export default ProductList;

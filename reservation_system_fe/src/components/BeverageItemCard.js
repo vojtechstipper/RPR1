@@ -19,29 +19,24 @@ const BeverageItemCard = ({name}, {description}) => {
 
 //   const { data } = this.data;
     return (
-        <Paper elevation={5} sx={{width: 500}}>
-            <Card sx={{ display: 'flex', boxShadow: 14, width: 500, marginTop: 20, backgroundColor: "#f1efef", padding: 2 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Paper elevation={5} sx={{width: 350}}>
+            <Card sx={{ display: 'flex', boxShadow: 14, width: 350, marginTop: 20, backgroundColor: "#f1efef", padding: 2 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column'}}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         {/*Left Sside*/}
-                        <Grid container spacing={2}>
-                            <Grid item xs={8}>
+                        <Grid container>
+                            <Grid item xs={8} width={100}>
                                 <Typography style={{fontWeight: "bold"}} fontSize={20} variant="h4">
                                     {name}
                                 </Typography>
                                 <Typography style={{fontWeight: "bold"}} variant="h6.heading" color="red">
                                     35 CZK
                                 </Typography>
-                                <Typography variant="subtitle1">
-                                    {/*{description}*/}
-                                    Zde je nějaký popisek k danému produktu, který zatím v databázi nemáme.
-
-                                </Typography>
                                 <Typography style={{fontWeight: "bold"}} variant="subtitle2" >
-                                    Alergeny: 1, 2, 3
+                                    500ml
                                 </Typography>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={4} >
                                 <CardMedia
                                     component="img"
                                     sx={{ width: 151, height: 100}}
@@ -81,4 +76,4 @@ const BeverageItemCard = ({name}, {description}) => {
     );
 };
 
-export default ProductCard;
+export default BeverageItemCard;

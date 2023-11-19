@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReservationSystemBE.Infrastructure.Persistence;
 
@@ -10,9 +11,11 @@ using ReservationSystemBE.Infrastructure.Persistence;
 namespace ReservationSystemBE.Migrations
 {
     [DbContext(typeof(ReservationSystemDbContext))]
-    partial class ReservationSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231119105747_AddedDescriptionToProduct")]
+    partial class AddedDescriptionToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

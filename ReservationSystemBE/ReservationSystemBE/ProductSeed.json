@@ -4,6 +4,7 @@
       "Products": [
         {
           "Name": "Espresso",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",
@@ -13,6 +14,7 @@
         },
         {
           "Name": "Espresso lungo",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",
@@ -22,6 +24,7 @@
         },
         {
           "Name": "Dappio",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",
@@ -31,6 +34,7 @@
         },
         {
           "Name": "Capuccino",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",
@@ -40,6 +44,7 @@
         },
         {
           "Name": "Flat White",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",
@@ -49,6 +54,7 @@
         },
         {
           "Name": "Latté",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",
@@ -58,6 +64,7 @@
         },
         {
           "Name": "Espresso tonic",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",
@@ -67,6 +74,7 @@
         },
         {
           "Name": "Ledové latté",
+          "Description": "",
           "PriceLevels": [
             {
               "Name": "Bez rostlinného mléka",

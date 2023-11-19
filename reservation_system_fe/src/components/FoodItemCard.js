@@ -13,7 +13,7 @@ import {IconButton, Paper} from "@mui/material";
 import {useState} from "react";
 
 
-const ProductCard = ({name}, {description}) => {
+const FoodItemCard = ({name}, {description}) => {
     const [count, setCount] = useState(0);
     const theme = useTheme();
 
@@ -81,4 +81,4 @@ const ProductCard = ({name}, {description}) => {
   );
 };
 
-export default ProductCard;
+export default FoodItemCard;

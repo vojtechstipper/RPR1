@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import ProductCard from './ProductCard';
+import FoodItemCard from './FoodItemCard';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -23,7 +23,7 @@ function ProductList() {
   return (
     <div>
     {products.map((product) => (
-<ProductCard name={product.name} description={product.description} allergens={product.allergens}></ProductCard>))}
+<FoodItemCard name={product.name} description={product.description} allergens={product.allergens}></FoodItemCard>))}
   
 
  </div>

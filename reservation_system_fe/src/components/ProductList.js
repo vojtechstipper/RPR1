@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { getProductsGroupped } from '../services/apiService';
-import ProductCard from './ProductCard';
-import Grid from '@mui/material/Grid';
-
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import SearchIcon from '@mui/icons-material/Search'; // Import ikony lupy
+import FoodItemCard from './FoodItemCard';
+import MenuWrapper from './MenuWrapper';
+import Grid from "@mui/material/Grid";
 
 function ProductList() {
-  const [productTypesWithProducts, setProducts] = useState([]);
+    const [productTypesWithProducts, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchTermChange = (term) => {
+    setSearchTerm(term);
+    console.log(term);
+  };
 
   useEffect(() => {
     async function fetchProducts() {
@@ -22,8 +23,8 @@ function ProductList() {
       }
     }
 
-    fetchProducts();
-  }, []);
+        fetchProducts();
+    }, []);
 
   const filteredProducts = productTypesWithProducts.map((product) => {
     const filteredProducts = product.products.filter(
@@ -40,38 +41,21 @@ function ProductList() {
     };
   });
 
-  return (
-    <div>
-      <FormControl variant="standard">
-        <Input
-          id="input-with-icon-adornment"
-          endAdornment={
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          }
-          placeholder="Vyhledat podle názvu nebo typu"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </FormControl>
 
+
+  return (
+    <MenuWrapper handleSearchTermChange={handleSearchTermChange}>
       {filteredProducts.map((product) => (
-        <div key={product.productType.name}>
+         <div key={product.productType.name}>
           {product.showProductType && <h1>{product.productType.name}</h1>}
           <Grid container>
             {product.products.map((item) => (
-              <ProductCard
-                key={item.name}
-                name={item.name}
-                description={item.description}
-                allergens={item.allergens}
-              ></ProductCard>
+              <FoodItemCard name={item.name} />
             ))}
           </Grid>
         </div>
       ))}
-    </div>
+    </MenuWrapper>
   );
 }
 

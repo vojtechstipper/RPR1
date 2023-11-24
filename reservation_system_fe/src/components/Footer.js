@@ -1,0 +1,74 @@
+import React from 'react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import { Container } from '@mui/material';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
+
+function Footer() {
+  return (
+    <Paper component="footer" sx={{ padding: 1, marginTop: 1, width: '100%', bgcolor: 'background.paper' }}>
+      <Container maxWidth="xl">
+        <Grid container spacing={2} alignItems="flex-start" justifyContent="space-between">
+        <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
+            <Typography variant="h6">Kontaktní údaje</Typography>
+            <Typography>Informace o provozovateli: </Typography>
+            <Typography>Adresa: Moravská Ostrava 3397, Ostrava 702 00</Typography>
+            <Typography>Telefonní číslo: 737 513 759</Typography>
+            <Typography>E-mailová adresa: lanzaya@email.cz</Typography>
+        </Box>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
+            <Typography variant="h6">Otevírací doba</Typography>
+            <Typography>Pondělí: 9 - 17</Typography>
+            <Typography>Úterý: 8 - 17</Typography>
+            <Typography>Středa: 8 - 17</Typography>
+            <Typography>Čtvrtek: 8 - 17</Typography>
+            <Typography>Pátek: 9 - 17</Typography>
+            <Typography>Sobota - Neděle: dle akcí</Typography>
+        </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
+              <Typography variant="h6" gutterBottom>Sociální sítě</Typography>
+              <Link href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none' }}>
+                <InstagramIcon sx={{ mr: 1 }} />
+                Instagram
+              </Link>
+              <Link href="https://www.facebook.com/profile.php?id=61550106100216" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none' }}>
+                <FacebookIcon sx={{ mr: 1 }} />
+                Facebook
+              </Link>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
+            <Typography variant="h6">Mapa</Typography>
+            <Box
+              component="iframe"
+              sx={{
+                width: 1, 
+                maxWidth: '300px', 
+                height: 150, 
+              }}
+              title="map"
+              src="https://maps.google.com/maps?q=City%20Campus&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              frameBorder="0"
+              allowFullScreen
+              loading="lazy"
+            />
+        </Box>
+          </Grid>
+        
+        </Grid>
+      </Container>
+    </Paper>
+  );
+}
+
+export default Footer;

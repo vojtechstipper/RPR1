@@ -1,13 +1,20 @@
 import React from 'react';
-import ProductList from './components/ProductList'; // Upřesněte cestu k vaší komponentě
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from "./pages/HomePage.js"
+import AboutPage from "./pages/AboutPage.js"
+import MenuPage from "./pages/MenuPage.js"
+
 
 function App() {
   return (
-    <div>
-      <h1>Vaše Aplikace</h1>
-      <ProductList />
-    </div>
+    <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="menu" element={<MenuPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

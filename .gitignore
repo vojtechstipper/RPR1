@@ -10,13 +10,20 @@
 *.userosscache
 *.sln.docstates
 */.idea/workspace.xml 
-*/.vs
+.vs/*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
 # Mono auto generated files
 mono_crash.*
+
+
+
+
+.idea/*
+
+
 
 # Build results
 [Dd]ebug/

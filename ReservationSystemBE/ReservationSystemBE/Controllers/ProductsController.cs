@@ -28,6 +28,7 @@ public class ProductsController : Controller
 
     [HttpPut("edit")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductDto>> EditProduct([FromBody] EditProductCommand command)
     {
         return Ok(await _mediator.Send(command));

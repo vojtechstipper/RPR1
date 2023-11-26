@@ -17,7 +17,7 @@ function ProductList() {
         async function fetchProducts() {
             try {
                 const response = await getProductsGroupped();
-                setProducts(response.result);
+                setProducts(response);
             } catch (error) {
                 console.error('Chyba při načítání produktů:', error);
             }

@@ -2,6 +2,7 @@
 using MediatR;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
+using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Products.Commands.EditProductCommand;
@@ -37,6 +38,10 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
             _context.Update(product);
             await _context.SaveChangesAsync();
         }
-        return _mapper.Map<ProductDto>(product) ?? new();
+        else
+        {
+            throw new ValidationException($"Entity not found with Id: {request.Id}", "EntityNotFound");
+        }
+        return _mapper.Map<ProductDto>(product);
     }
 }

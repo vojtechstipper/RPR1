@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using AutoWrapper.Wrappers;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
+using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
-using System.Net;
-using System.Web.Http;
 
 namespace ReservationSystemBE.Application.Products.Commands.EditProductCommand;
 
@@ -43,8 +40,8 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
         }
         else
         {
-                      
+            throw new ValidationException($"Entity not found with Id: {request.Id}", "EntityNotFound");
         }
-        return _mapper.Map<ProductDto>(product) ?? new();
+        return _mapper.Map<ProductDto>(product);
     }
 }

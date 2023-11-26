@@ -1,5 +1,5 @@
-using AutoWrapper;
 using Microsoft.EntityFrameworkCore;
+using ReservationSystemBE.Infrastructure.MiddleWares;
 using ReservationSystemBE.Infrastructure.Persistence;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
-app.UseApiResponseAndExceptionWrapper(new AutoWrapperOptions { UseApiProblemDetailsException = true });
+app.UseEntityNotFoundExceptionMiddleware();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseSwagger();
 app.UseSwaggerUI();

@@ -46,8 +46,4 @@
     <None Include="C:\Users\vojtech.stipper\OneDrive - ITIXO s.r.o\School\ROPR\RPR1\ReservationSystemBE\ReservationSystemBE\.editorconfig" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\MiddleWares\" />
-  </ItemGroup>
-
 </Project>

@@ -1,15 +1,22 @@
 import React from 'react';
-import ProductList from './components/ProductList';
 import './App.css';
 import Footer from './components/Footer';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from "./pages/HomePage.js"
+import AboutPage from "./pages/AboutPage.js"
+import MenuPage from "./pages/MenuPage.js"
+
 
 function App() {
   return (
-    <div>
-      <h1>Vaše Aplikace</h1>
-      <ProductList />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="menu" element={<MenuPage />} />
+      </Routes>
+      <Footer/>
+    </BrowserRouter>
   );
 }
 

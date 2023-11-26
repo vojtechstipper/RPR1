@@ -15,6 +15,7 @@ function App() {
           <Route path="about" element={<AboutPage />} />
           <Route path="menu" element={<MenuPage />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

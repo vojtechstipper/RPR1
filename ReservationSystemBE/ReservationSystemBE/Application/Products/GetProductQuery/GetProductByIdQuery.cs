@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using ReservationSystem.Shared.Exceptions;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
+using ReservationSystemBE.Infrastructure.Exceptions;
 
 namespace ReservationSystemBE.Application.Products.GetProductQuery;
 
@@ -9,7 +11,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
 {
     public Task<ProductDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        throw new ValidationException($"Function is not impelemented", ExceptionCodes.NotImplemented);
     }
 }
 

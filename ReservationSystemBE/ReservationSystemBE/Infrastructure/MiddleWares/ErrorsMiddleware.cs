@@ -33,6 +33,9 @@ public class EntityNotFoundExceptionMiddleware
                 case ExceptionCodes.UnprocessableException:
                     context.Response.StatusCode = 422;
                     break;
+                case ExceptionCodes.NotImplemented:
+                    context.Response.StatusCode = 501;
+                    break;
                 default:
                     context.Response.StatusCode = 500;
                     break;

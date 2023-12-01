@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from "./pages/HomePage.js"
 import AboutPage from "./pages/AboutPage.js"
 import MenuPage from "./pages/MenuPage.js"
+import AllergensPage from "./pages/AllergensPage.js"
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="menu" element={<MenuPage />} />
+          <Route path="allergens" element={<AllergensPage />} />
       </Routes>
       <Footer/>
     </BrowserRouter>

@@ -10,6 +10,15 @@ import getProductsGrouppedResponseObject from '../responses/getProductsGrouppedR
   }
 };
 
+const getAllergens = async () => {
+  try {
+    const response = await api.get('/allergen/list');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
  const getProductsGroupped = async () => {
   try {
     const response = await api.get('/product/groupped');
@@ -49,6 +58,6 @@ import getProductsGrouppedResponseObject from '../responses/getProductsGrouppedR
   }
 };
 
-export { getProductsGroupped, getProductById, getProducts };
+export { getProductsGroupped, getProductById, getProducts, getAllergens };
 
 // Zde můžete vytvořit další funkce pro práci s API.

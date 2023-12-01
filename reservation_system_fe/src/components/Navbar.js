@@ -23,6 +23,10 @@ export default function ButtonAppBar() {
         navigate('/menu');
     };
 
+    const navigateAllergens = () => {
+        navigate('/allergens');
+    };
+
     const navigateAbout = () => {
         navigate('/about');
     };
@@ -68,6 +72,19 @@ export default function ButtonAppBar() {
                     >
                         <Typography variant="h6" fontWeight="bold" component="div">
                             Nabídka
+                        </Typography>
+                    </Button>
+                    <Button
+                        sx={{
+                            textTransform: "none",
+                            size: "large",
+                            marginLeft: 5,
+                            color: "inherit"
+                        }}
+                        onClick={navigateAllergens}
+                    >
+                        <Typography variant="h6" fontWeight="bold" component="div">
+                            Alergeny
                         </Typography>
                     </Button>
                     <Button

@@ -30,11 +30,13 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
     public async Task<ProductDto> Handle(EditProductCommand request, CancellationToken cancellationToken)
     {
         var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
+        var allergens = _context.Allergens.Where(x=>request.AllergensIds.Contains(x.Id)).ToList();
         if (product is not null)
         {
             product.Name = request.Name;
             product.ProductTypeId = request.ProductTypeId;
             product.PriceLevels = request.PriceLevels;
+            product.Allergens = allergens;
             _context.Update(product);
             await _context.SaveChangesAsync();
         }

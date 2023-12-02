@@ -43,18 +43,22 @@ function ProductList() {
 
 
     return (
-        <MenuWrapper handleSearchTermChange={handleSearchTermChange}>
-            {filteredProducts.map((product) => (
-                <div key={product.productType.name}>
-                    {product.showProductType && <h1>{product.productType.name}</h1>}
-                    <Grid container>
-                        {product.products.map((item) => (
-                            <FoodItemCard name={item.name}/>
-                        ))}
-                    </Grid>
-                </div>
-            ))}
-        </MenuWrapper>
+      <MenuWrapper handleSearchTermChange={handleSearchTermChange}>
+        {filteredProducts.map((product) => (
+          <div key={product.productType.name}>
+            {product.showProductType && <h1>{product.productType.name}</h1>}
+            <Grid container>
+              {product.products.map((item) => (
+                <FoodItemCard
+                  name={item.name}
+                  description={item.description}
+                  allergens={item.allergens}
+                />
+              ))}
+            </Grid>
+          </div>
+        ))}
+      </MenuWrapper>
     );
 }
 

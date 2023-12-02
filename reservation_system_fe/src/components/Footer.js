@@ -10,8 +10,10 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 
 function Footer() {
   return (
-    <Paper component="footer" sx={{ padding: 1, marginTop: 1, width: '98%', bgcolor: 'background.paper' }}>
-      <Container maxWidth={false}>
+ 
+      <Container maxWidth={false} sx={{ bgcolor:"#d3d3d3", marginTop:"50px",  maxWidth: "2080px",
+      minWidth: "700px",
+      width: "80%", }}>
         <Grid container spacing={2} alignItems="flex-start" justifyContent="space-between">
         <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
@@ -67,7 +69,7 @@ function Footer() {
         
         </Grid>
       </Container>
-    </Paper>
+   
   );
 }
 

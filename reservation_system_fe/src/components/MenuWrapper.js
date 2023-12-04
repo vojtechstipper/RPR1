@@ -35,31 +35,21 @@ const MenuWrapper = ({children, handleSearchTermChange, searchTermVal}) => {
                 flexWrap: "wrap",
               }}
             >
-              <Box sx={{ flex: "1 1 auto" }}>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Káva
-                </Button>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Čaje
-                </Button>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Čepované/rozlévané nápoje
-                </Button>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Balené nápoje
-                </Button>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Smoothie
-                </Button>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Jídlo
-                </Button>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Speciality
-                </Button>
-                <Button sx={{ fontWeight: "bold", color: "black" }}>
-                  Jiné
-                </Button>
+         <Box sx={{ flex: "1 1 auto" }}>
+                {children.map((item) => (
+                  <Button
+                    sx={{
+                      fontWeight: "bold",
+                      color: "black",
+                      marginBottom: "8px",
+                    }} onClick={() => {
+                      handleSearchTermChange(item.key)
+                    }}
+                  >
+                    {item.key}
+
+                  </Button>
+                ))}
               </Box>
         
          

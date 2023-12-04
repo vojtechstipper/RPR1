@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using ReservationSystem.Domain.Allergens;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Infrastructure.Persistence;
 using System.Text.Json;
@@ -23,6 +25,9 @@ public class SeedProductsCommandHandler : IRequestHandler<SeedProductsCommand, U
         string jsonString = File.ReadAllText(Path.Combine(fileName));
         SeedObject seed = JsonSerializer.Deserialize<SeedObject>(jsonString)!;
 
+
+        var allergens = await _context.Allergens.ToListAsync();
+
         var productTypesToInsert = seed.Items
             .Where(item => item.Products.Any())
             .Select(item => new ProductType(
@@ -30,10 +35,11 @@ public class SeedProductsCommandHandler : IRequestHandler<SeedProductsCommand, U
                 item.Products.Select(it => new Product
                 {
                     Name = it.Name,
-                    Description=it.Description,
+                    Description = it.Description,
                     PriceLevels = it.PriceLevels
                     .Select(pl => new PriceLevel(pl.Name, (decimal)pl.Price))
-                    .ToList()
+                    .ToList(),
+                    Allergens = it.AllergenCodes != null ? allergens.Where(x => it.AllergenCodes.Contains(x.Code)).ToList() : new List<Allergen>()
                 }).ToList()
                 ))
             .ToList();

@@ -362,7 +362,8 @@
               "Name": "Standardní",
               "Price": 95.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1,2,3,5,6,8,9]
         },
         {
           "Name": "Obložený toast",
@@ -372,7 +373,8 @@
               "Name": "Standardní",
               "Price": 60.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 2, 3, 5, 6, 8, 9 ]
         },
         {
           "Name": "Párek v rohlíku",
@@ -382,7 +384,8 @@
               "Name": "Standardní",
               "Price": 35.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 2, 3,  6,11 ]
         }
       ],
       "ProductType": "Občerstvení"
@@ -397,7 +400,8 @@
               "Name": "0,3l",
               "Price": 55.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 2,3,6 ]
         },
         {
           "Name": "Brownie",
@@ -407,7 +411,8 @@
               "Name": "0,3l",
               "Price": 55.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1,2,3,8 ]
         }
       ],
       "ProductType": "Smooothie"
@@ -422,7 +427,8 @@
               "Name": "Standardní",
               "Price": 25.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 2,3 ]
         },
         {
           "Name": "Strážnické brambůrky originál/hořčicové",
@@ -442,7 +448,8 @@
               "Name": "Standardní",
               "Price": 35.0
             }
-          ]
+          ],
+          "AllergenCodes": [3]
         },
         {
           "Name": "Orbit žvýkačky",
@@ -452,7 +459,8 @@
               "Name": "Standardní",
               "Price": 25.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 6 ]
         },
         {
           "Name": "Proteinové tyčinky",
@@ -462,7 +470,8 @@
               "Name": "Od 45",
               "Price": 45.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 2,3,6,8]
         },
         {
           "Name": "Nanuky",
@@ -482,7 +491,8 @@
               "Name": "Standardní",
               "Price": 5.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 6 ]
         },
         {
           "Name": "1 dávka UNIsport šťáva",
@@ -502,7 +512,8 @@
               "Name": "60g",
               "Price": 39.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1,6,8 ]
         }
       ],
       "ProductType": "Doplňkový prodej"
@@ -517,7 +528,8 @@
               "Name": "malý",
               "Price": 59.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ,8]
         },
         {
           "Name": "Čoko-malina",
@@ -527,7 +539,8 @@
               "Name": "malý",
               "Price": 59.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         },
         {
           "Name": "Bílá čoko-malina",
@@ -537,7 +550,8 @@
               "Name": "malý",
               "Price": 59.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         },
         {
           "Name": "Oreo",
@@ -547,7 +561,8 @@
               "Name": "malý",
               "Price": 59.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         },
         {
           "Name": "Slaný karamel",
@@ -557,7 +572,8 @@
               "Name": "malý",
               "Price": 59.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         },
         {
           "Name": "Kinder Bueno",
@@ -567,7 +583,8 @@
               "Name": "malý",
               "Price": 59.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         },
         {
           "Name": "Rolls Slanina Vejce",
@@ -577,7 +594,8 @@
               "Name": "velký",
               "Price": 90.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         },
         {
           "Name": "Dřevorubecký",
@@ -587,7 +605,8 @@
               "Name": "velký",
               "Price": 90.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         },
         {
           "Name": "Mascarpone-jahoda",
@@ -597,7 +616,8 @@
               "Name": "velký",
               "Price": 90.0
             }
-          ]
+          ],
+          "AllergenCodes": [ 1, 3, 7 ]
         }
       ],
       "ProductType": "Speciality"

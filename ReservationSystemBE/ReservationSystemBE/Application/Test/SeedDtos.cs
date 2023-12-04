@@ -13,6 +13,7 @@ public class SeedDtos
         public string Name { get; set; }
         public string Description { get; set; }
         public List<PriceLevelSeedDto> PriceLevels { get; set; }
+        public List<int>? AllergenCodes { get; set; }
     }
 
     public class ProductTypeSeedDto

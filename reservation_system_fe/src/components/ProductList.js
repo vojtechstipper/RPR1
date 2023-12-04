@@ -50,9 +50,9 @@ function ProductList() {
             <Grid container>
               {product.products.map((item) => (
                 <FoodItemCard
-                  name={item.name}
                   description={item.description}
                   allergens={item.allergens}
+                  foodItem={item}
                 />
               ))}
             </Grid>

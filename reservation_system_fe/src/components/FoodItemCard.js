@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import {useState} from "react";
 
 
-const FoodItemCard =  ({ name, description, allergens }) => {
+const FoodItemCard =  ({foodItem }) => {
   const [count, setCount] = useState(0);
 
   const handleAddClick = () => {
@@ -24,6 +24,8 @@ const FoodItemCard =  ({ name, description, allergens }) => {
   const handleRemoveClick = () => {
     setCount((prevCount) => (prevCount > 0 ? prevCount - 1 : prevCount));
   };
+
+  const hasAllergens = foodItem.allergens && foodItem.allergens.length > 0;
 
   return (
     <Paper
@@ -53,22 +55,23 @@ const FoodItemCard =  ({ name, description, allergens }) => {
                   fontSize={20}
                   variant="h4"
                 >
-                  {name}
+                  {foodItem.name}
                 </Typography>
                 <Typography
                   style={{ fontWeight: "bold" }}
                   variant="h6.heading"
                   color="red"
                 >
-                  35 CZK
+                  CZK {foodItem.priceLevels[0].price}
                 </Typography>
-                <Typography variant="subtitle1">{description}</Typography>
+                <Typography variant="subtitle1">{foodItem.description}</Typography>
+                {hasAllergens && (
                 <Typography style={{ fontWeight: "bold", display: "flex", }} variant="subtitle2">
-                  Alergeny: {allergens.map(al => al.code).join(', ')}
-                  <Tooltip style={{marginLeft:5}} title={allergens.map(al => al.name).join(', ')}>
+                  Alergeny: {foodItem.allergens.map(al => al.code).join(', ')}
+                  <Tooltip style={{marginLeft:5}} title={foodItem.allergens.map(al => al.name).join(', ')}>
                     <InfoOutlinedIcon />
                   </Tooltip>
-                </Typography>
+                </Typography>)}
               </Grid>
               <Grid item xs={4}>
                 <CardMedia

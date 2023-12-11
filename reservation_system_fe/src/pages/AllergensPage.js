@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar"
 import React from 'react';
 import AllergensList from "../components/AllergensList";
+import Footer from "../components/Footer";
 
 
 function AllergensPage() {
@@ -9,6 +10,7 @@ function AllergensPage() {
         <div>
             <Navbar/>
             <AllergensList />
+            <Footer/>
         </div>
 
     )

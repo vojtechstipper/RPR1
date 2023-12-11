@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import {AppBar, Button, Container, IconButton, InputBase, Paper, styled, Toolbar} from '@mui/material';
+import {AppBar, Button, IconButton, InputBase, styled, Toolbar} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 const TransparentAppBar = styled(AppBar)(({theme}) => ({

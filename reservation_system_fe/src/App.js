@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.css';
-import Footer from './components/Footer';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from "./pages/HomePage.js"
 import AboutPage from "./pages/AboutPage.js"
 import MenuPage from "./pages/MenuPage.js"
 import AllergensPage from "./pages/AllergensPage.js"
+import AdminHomePage from "./pages/AdminHomePage";
+import AdminStatsPage from "./pages/AdminStatsPage";
+import AdminEditProductPage from "./pages/AdminEditProductPage";
+import AdminEditUserPage from "./pages/AdminEditUserPage";
 
 
 function App() {
@@ -16,8 +19,11 @@ function App() {
           <Route path="about" element={<AboutPage />} />
           <Route path="menu" element={<MenuPage />} />
           <Route path="allergens" element={<AllergensPage />} />
+          <Route path="admin/home" element={<AdminHomePage />} />
+          <Route path="admin/stats" element={<AdminStatsPage />} />
+          <Route path="admin/edit/products" element={<AdminEditProductPage />} />
+          <Route path="admin/edit/users" element={<AdminEditUserPage />} />
       </Routes>
-      <Footer/>
     </BrowserRouter>
   );
 }

@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import { Container } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -11,9 +10,9 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 function Footer() {
   return (
  
-      <Container maxWidth={false} sx={{ bgcolor:"#d3d3d3", marginTop:"50px",  maxWidth: "2080px",
+      <Container maxWidth={false} sx={{ bgcolor:"#d3d3d3", marginTop:"50px",  maxWidth: "2000px",
       minWidth: "700px",
-      width: "80%", }}>
+      width: "80%", borderRadius: "12px" }}>
         <Grid container spacing={2} alignItems="flex-start" justifyContent="space-between">
         <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>

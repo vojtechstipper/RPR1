@@ -16,8 +16,8 @@ function Footer() {
         <Grid container spacing={2} alignItems="flex-start" justifyContent="space-between">
         <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-            <Typography variant="h6">Kontaktní údaje</Typography>
-            <Typography>Informace o provozovateli: </Typography>
+            <Typography variant="h6" fontWeight="bold">Kontaktní údaje</Typography>
+            <Typography>Informace o provozovateli: (text bude dodán)</Typography>
             <Typography>Adresa: Moravská Ostrava 3397, Ostrava 702 00</Typography>
             <Typography>Telefonní číslo: 737 513 759</Typography>
             <Typography>E-mailová adresa: lanzaya@email.cz</Typography>
@@ -25,7 +25,7 @@ function Footer() {
         </Grid>
         <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-            <Typography variant="h6">Otevírací doba</Typography>
+            <Typography variant="h6" fontWeight="bold">Otevírací doba</Typography>
             <Typography>Pondělí: 9 - 17</Typography>
             <Typography>Úterý: 8 - 17</Typography>
             <Typography>Středa: 8 - 17</Typography>
@@ -36,12 +36,12 @@ function Footer() {
           </Grid>
           <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-              <Typography variant="h6" gutterBottom>Sociální sítě</Typography>
-              <Link href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none' }}>
+              <Typography variant="h6" gutterBottom fontWeight="bold">Sociální sítě</Typography>
+              <Link href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none', color:'black' }}>
                 <InstagramIcon sx={{ mr: 1 }} />
                 Instagram
               </Link>
-              <Link href="https://www.facebook.com/profile.php?id=61550106100216" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none' }}>
+              <Link href="https://www.facebook.com/profile.php?id=61550106100216" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none', color:'black' }}>
                 <FacebookIcon sx={{ mr: 1 }} />
                 Facebook
               </Link>
@@ -49,7 +49,7 @@ function Footer() {
           </Grid>
           <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-            <Typography variant="h6">Mapa</Typography>
+            <Typography variant="h6" fontWeight="bold">Mapa</Typography>
             <Box
               component="iframe"
               sx={{

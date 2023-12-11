@@ -27,6 +27,14 @@ const getAllergens = async () => {
     throw error;
   }
 };
+ const getProductsList = async () => {
+  try {
+    const response = await api.get('/product/list');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // Funkce pro přidání produktu
  const addProduct = async (productData) => {
@@ -58,6 +66,12 @@ const getAllergens = async () => {
   }
 };
 
-export { getProductsGroupped, getProductById, getProducts, getAllergens };
+export {
+  getProductsGroupped,
+  getProductById,
+  getProducts,
+  getAllergens,
+  getProductsList,
+};
 
 // Zde můžete vytvořit další funkce pro práci s API.

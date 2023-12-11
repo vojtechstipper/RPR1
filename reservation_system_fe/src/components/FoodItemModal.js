@@ -9,30 +9,30 @@ import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Button } from '@mui/material';
-import { getProductById } from '../services/apiService';
+import { getProductById, getAllergensDropdown } from "../services/apiService";
 
 const FoodItemModal = ({open,onClose,itemId}) => {
     const [textFieldValue, setTextFieldValue] = useState('');
     const [selectValue, setSelectValue] = useState('');
     const [multiSelectValue, setMultiSelectValue] = useState([]);
     const [product, setProduct] = useState(null);
-  
+    const [alergeny, setAlergeny] = useState([]);
     const handleTextFieldChange = (e) => setTextFieldValue(e.target.value);
     const handleSelectChange = (e) => setSelectValue(e.target.value);
     const handleMultiSelectChange = (e) => setMultiSelectValue(e.target.value);
 
 
-
-
-
     useEffect(() => {
       async function fetchProduct() {
+        console.log("ve fetchi" + itemId);
         if(itemId!=null)
         {
-          console.log("fetching product wtih id " + itemId);
+          console.log("fetching product with id " + itemId);
           try {
             const response = await getProductById(itemId);
             setProduct(response);
+            const responseAllergensDropdown = await getAllergensDropdown();
+            setAlergeny(responseAllergensDropdown);
           } catch (error) {
             console.error("Chyba při načítání produktů:", error);
           }
@@ -43,16 +43,12 @@ const FoodItemModal = ({open,onClose,itemId}) => {
   }, []);
 
 
-    const [alergeny, setAlergeny] = useState([
-        { id: 1, nazev: 'Gluten' },
-        { id: 2, nazev: 'Laktóza' },
-        { id: 3, nazev: 'Ořechy' }
-      ]);
+   
 
       const [kategorie, setKatetorie] = useState([
-        { id: 1, nazev: 'Speciality' },
-        { id: 2, nazev: 'Čaje' },
-        { id: 3, nazev: 'Limonády' }
+        { id: "546a5d02212c43a0a945585f13237bcc", nazev: 'Speciality' },
+        { id: "546a5d02212c43a0a945585f13237bca", nazev: 'Čaje' },
+        { id: "546a5d02212c43a0a945585f13237bc9", nazev: 'Toasty' }
       ]);
 
   
@@ -73,7 +69,7 @@ const FoodItemModal = ({open,onClose,itemId}) => {
           >
             <TextField
               label="Název"
-              value={textFieldValue}
+              value={product?.name??"Zaloha"}
               onChange={handleTextFieldChange}
               fullWidth
               margin="normal"
@@ -84,7 +80,7 @@ const FoodItemModal = ({open,onClose,itemId}) => {
               <Select
                 labelId="select-label"
                 id="select"
-                value={selectValue}
+                value={product?.productTypeId??""}
                 onChange={handleSelectChange}
               >
                 {kategorie.map((item) => (
@@ -98,7 +94,7 @@ const FoodItemModal = ({open,onClose,itemId}) => {
                 labelId="multi-select-label"
                 id="multi-select"
                 multiple
-                value={multiSelectValue}
+                value={product?.allergens?.map((item)=>item.id)??[]}
                 onChange={handleMultiSelectChange}
                 input={<Input />}
                 renderValue={(selected) => selected.join(", ")}

@@ -23,6 +23,13 @@ public class AllergensController : Controller
         return Ok(await _mediator.Send(new GetAllergensQuery()));
     }
 
+    [HttpGet("dropdown")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<AllergenDropDownDto>>> GetAllergensDropdown()
+    {
+        return Ok(await _mediator.Send(new GetAllergensDropDownQuery()));
+    }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<string>> AddAllergen([FromBody] AddAllergenCommand command)

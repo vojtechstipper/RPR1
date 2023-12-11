@@ -8,9 +8,9 @@ using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Products.GetProductQuery;
 
-public record GetProductByIdQuery(string Id) : IRequest<ProductDto>;
+public record GetProductByIdQuery(string Id) : IRequest<ProductEditDto>;
 
-public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ProductDto>
+public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ProductEditDto>
 {
     private readonly ReservationSystemDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
         _mapper = mapper;
     }
 
-    public async Task<ProductDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ProductEditDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         var product = await _dbContext.Products
               .Include(x => x.ProductType)
@@ -32,7 +32,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
         if (product is null)
             throw new ValidationException($"Product with Id: {request.Id} was not found", ExceptionCodes.EntityNotFound);
 
-        var productDto = _mapper.Map<ProductDto>(product);
+        var productDto = _mapper.Map<ProductEditDto>(product);
         return productDto;
     }
 }

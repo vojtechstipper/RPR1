@@ -43,7 +43,7 @@ public class ProductsController : Controller
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<ProductDto>> GetProduct([FromRoute] string id)
+    public async Task<ActionResult<ProductEditDto>> GetProduct([FromRoute] string id)
     {
         return Ok(await _mediator.Send(new GetProductByIdQuery(id)));
     }

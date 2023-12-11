@@ -66,12 +66,22 @@ const getAllergens = async () => {
   }
 };
 
+const getAllergensDropdown = async () => {
+  try {
+    const response = await api.get(`/allergen/dropdown`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   getProductsGroupped,
   getProductById,
   getProducts,
   getAllergens,
   getProductsList,
+  getAllergensDropdown
 };
 
 // Zde můžete vytvořit další funkce pro práci s API.

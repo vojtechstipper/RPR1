@@ -9,47 +9,76 @@ import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Button } from '@mui/material';
-import { getProductById, getAllergensDropdown } from "../services/apiService";
+import {
+  getProductById,
+  getAllergensDropdown,
+  editProduct,
+  getProductTypesDropdown,
+} from "../services/apiService";
 
 const FoodItemModal = ({open,onClose,itemId}) => {
     const [textFieldValue, setTextFieldValue] = useState('');
+    const [textDescriptoion, setTextDescription] = useState('');
     const [selectValue, setSelectValue] = useState('');
     const [multiSelectValue, setMultiSelectValue] = useState([]);
     const [product, setProduct] = useState(null);
     const [alergeny, setAlergeny] = useState([]);
+    const [productTypes, setProductTypes] = useState([]);
     const handleTextFieldChange = (e) => setTextFieldValue(e.target.value);
     const handleSelectChange = (e) => setSelectValue(e.target.value);
     const handleMultiSelectChange = (e) => setMultiSelectValue(e.target.value);
+    const handleTextDescriptionChanged = (e) => setTextDescription(e.target.value);
+
+    const handleExitClicked =  () => {
+      itemId = null;
+      onClose();
+    }
+
+    const handleSaveClicked = async () => {
+      console.log("clicked");
+      const jsonData = {
+        id: itemId,
+        name: textFieldValue,
+        productTypeId: selectValue,
+        allergensIds: multiSelectValue,
+        priceLevels: [
+          {
+            name: "1",
+            price: 10.99,
+          },
+        ],
+      };
+      try{
+        const response = await editProduct(jsonData);
+      }
+      catch(error)
+      {
+        console.error("Chyba při editaci produktu:", error);
+      }
+    }
 
 
     useEffect(() => {
-      async function fetchProduct() {
-        console.log("ve fetchi" + itemId);
-        if(itemId!=null)
-        {
-          console.log("fetching product with id " + itemId);
+      async function fetchProduct() {     
+        if (itemId != null) {         
           try {
             const response = await getProductById(itemId);
             setProduct(response);
             const responseAllergensDropdown = await getAllergensDropdown();
             setAlergeny(responseAllergensDropdown);
+            const responseProductTypesDropdown = await getProductTypesDropdown();
+            setProductTypes(responseProductTypesDropdown);
+            setTextDescription(response.description);
+            setTextFieldValue(response.name);
+            setSelectValue(response.productTypeId);
           } catch (error) {
-            console.error("Chyba při načítání produktů:", error);
+            console.error("Chyba při načítání produktu:", error);
           }
         }
       }
   
       fetchProduct();
-  }, []);
-
-
-   
-
-      const [kategorie, setKatetorie] = useState([
-        { id: "546a5d02212c43a0a945585f13237bcc", nazev: 'Speciality' },
-        { id: "546a5d02212c43a0a945585f13237bca", nazev: 'Čaje' },
-        { id: "546a5d02212c43a0a945585f13237bc9", nazev: 'Toasty' }
-      ]);
+  }, [itemId]);
 
   
     return (
@@ -69,22 +98,22 @@ const FoodItemModal = ({open,onClose,itemId}) => {
           >
             <TextField
               label="Název"
-              value={product?.name??"Zaloha"}
+              value={textFieldValue}
               onChange={handleTextFieldChange}
               fullWidth
               margin="normal"
             />
-            <Textarea minRows={3} placeholder="Popis produktu"></Textarea>
+            <Textarea minRows={3} value={textDescriptoion} onChange={handleTextDescriptionChanged}></Textarea>
             <FormControl fullWidth margin="normal">
               <InputLabel id="select-label">Select Dropdown</InputLabel>
               <Select
                 labelId="select-label"
                 id="select"
-                value={product?.productTypeId??""}
+                value={selectValue}
                 onChange={handleSelectChange}
               >
-                {kategorie.map((item) => (
-                  <MenuItem value={item.id}>{item.nazev}</MenuItem>
+                {productTypes.map((item) => (
+                  <MenuItem value={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -94,21 +123,21 @@ const FoodItemModal = ({open,onClose,itemId}) => {
                 labelId="multi-select-label"
                 id="multi-select"
                 multiple
-                value={product?.allergens?.map((item)=>item.id)??[]}
+                value={multiSelectValue}
                 onChange={handleMultiSelectChange}
                 input={<Input />}
                 renderValue={(selected) => selected.join(", ")}
               >
                 {alergeny.map((item) => (
-                  <MenuItem value={item.id}>{item.nazev}</MenuItem>
+                  <MenuItem value={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
 
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success" onClick={handleSaveClicked}>
               Potvrdit
             </Button>
-            <Button variant="contained" color="error">
+            <Button variant="contained" color="error" onClick={handleExitClicked}>
               Zrušit
             </Button>
           </Box>

@@ -47,9 +47,9 @@ const getAllergens = async () => {
 };
 
 // Funkce pro editaci produktu
- const editProduct = async (productId, productData) => {
+ const editProduct = async ( productData) => {
   try {
-    const response = await api.put(`/product/${productId}/edit`, productData);
+    const response = await api.put(`/product/edit`, productData);
     return response.data;
   } catch (error) {
     throw error;
@@ -66,6 +66,8 @@ const getAllergens = async () => {
   }
 };
 
+
+
 const getAllergensDropdown = async () => {
   try {
     const response = await api.get(`/allergen/dropdown`);
@@ -75,13 +77,24 @@ const getAllergensDropdown = async () => {
   }
 };
 
+
+const getProductTypesDropdown = async () => {
+  try {
+    const response = await api.get(`/productstypes/dropdown`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export {
   getProductsGroupped,
   getProductById,
   getProducts,
   getAllergens,
   getProductsList,
-  getAllergensDropdown
+  getAllergensDropdown,
+  editProduct,
+  getProductTypesDropdown
 };
 
 // Zde můžete vytvořit další funkce pro práci s API.

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextField, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Dialog, DialogTitle, DialogActions, DialogContent, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { getProductsList } from '../services/apiService';
@@ -47,9 +47,8 @@ const FoodList = () => {
   };
 
   const handleEditItem = (index) => {
-    //setNewItem(items[index]);
-    setEditItemIndex(index);
     console.log(index);
+    setEditItemIndex(index);
     setEditModalOpen(true);
   };
 
@@ -57,6 +56,7 @@ const FoodList = () => {
 
   const handleCancelEdit = () => {
     // Cancel the edit
+    console.log("Cancel Edit called");
     setEditItemIndex(null);
     setNewItem('');
     setEditModalOpen(false);

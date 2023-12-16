@@ -10,5 +10,6 @@ public class AllergenConfiguration : IEntityTypeConfiguration<Allergen>
     {
         builder.ToTable("Allergens");
         builder.HasKey(x => x.Id);
+
     }
 }

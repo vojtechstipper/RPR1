@@ -27,6 +27,14 @@ const getAllergens = async () => {
     throw error;
   }
 };
+ const getProductsList = async () => {
+  try {
+    const response = await api.get('/product/list');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // Funkce pro přidání produktu
  const addProduct = async (productData) => {
@@ -39,9 +47,9 @@ const getAllergens = async () => {
 };
 
 // Funkce pro editaci produktu
- const editProduct = async (productId, productData) => {
+ const editProduct = async ( productData) => {
   try {
-    const response = await api.put(`/product/${productId}/edit`, productData);
+    const response = await api.put(`/product/edit`, productData);
     return response.data;
   } catch (error) {
     throw error;
@@ -58,6 +66,35 @@ const getAllergens = async () => {
   }
 };
 
-export { getProductsGroupped, getProductById, getProducts, getAllergens };
+
+
+const getAllergensDropdown = async () => {
+  try {
+    const response = await api.get(`/allergen/dropdown`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+const getProductTypesDropdown = async () => {
+  try {
+    const response = await api.get(`/productstypes/dropdown`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export {
+  getProductsGroupped,
+  getProductById,
+  getProducts,
+  getAllergens,
+  getProductsList,
+  getAllergensDropdown,
+  editProduct,
+  getProductTypesDropdown
+};
 
 // Zde můžete vytvořit další funkce pro práci s API.

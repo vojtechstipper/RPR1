@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
 using ReservationSystemBE.Infrastructure.Exceptions;
@@ -29,15 +30,17 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
 
     public async Task<ProductDto> Handle(EditProductCommand request, CancellationToken cancellationToken)
     {
-        var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
-        var allergens = _context.Allergens.Where(x=>request.AllergensIds.Contains(x.Id)).ToList();
+        var product = _context.Products.Include(x=>x.Allergens).FirstOrDefault(x => x.Id == request.Id);
+        var allergens = _context.Allergens.Where(x => request.AllergensIds.Contains(x.Id)).ToList();
         if (product is not null)
         {
             product.Name = request.Name;
             product.ProductTypeId = request.ProductTypeId;
             product.PriceLevels = request.PriceLevels;
+           // product.Allergens.Clear();
             product.Allergens = allergens;
             _context.Update(product);
+           // _context.Update(allergens);
             await _context.SaveChangesAsync();
         }
         else

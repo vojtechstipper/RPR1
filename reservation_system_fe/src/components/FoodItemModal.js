@@ -18,6 +18,8 @@ import {
 
 const FoodItemModal = ({open,onClose,itemId}) => {
     const [textFieldValue, setTextFieldValue] = useState('');
+    const [textFieldPriceValue, setTextFieldPriceValue] = useState('');
+    const [textFieldPriceNameValue, setTextFieldPriceNameValue] = useState('');
     const [textDescriptoion, setTextDescription] = useState('');
     const [selectValue, setSelectValue] = useState('');
     const [multiSelectValue, setMultiSelectValue] = useState([]);
@@ -25,6 +27,8 @@ const FoodItemModal = ({open,onClose,itemId}) => {
     const [alergeny, setAlergeny] = useState([]);
     const [productTypes, setProductTypes] = useState([]);
     const handleTextFieldChange = (e) => setTextFieldValue(e.target.value);
+    const handleTextFieldPriceChange = (e) => setTextFieldPriceValue(e.target.value);
+    const handleTextFieldPriceNameChange = (e) => setTextFieldPriceNameValue(e.target.value);
     const handleSelectChange = (e) => setSelectValue(e.target.value);
     const handleMultiSelectChange = (e) => setMultiSelectValue(e.target.value);
     const handleTextDescriptionChanged = (e) => setTextDescription(e.target.value);
@@ -43,8 +47,8 @@ const FoodItemModal = ({open,onClose,itemId}) => {
         allergensIds: multiSelectValue,
         priceLevels: [
           {
-            name: "1",
-            price: 10.99,
+            name: textFieldPriceNameValue,
+            price: parseInt(textFieldPriceValue),
           },
         ],
       };
@@ -80,15 +84,15 @@ const FoodItemModal = ({open,onClose,itemId}) => {
       fetchProduct();
   }, [itemId]);
 
-  
+
     return (
       <div>
         <Modal open={open} onClose={onClose}>
           <Box
             sx={{
-              top: "50%",
-              left: "50%",
-              transform: "translate(+100%, +50%)",
+              top: "0%",
+              left: "0%",
+              transform: "translate(+100%, +10%)",
               width: 400,
               bgcolor: "background.paper",
               border: "2px solid #000",
@@ -103,7 +107,7 @@ const FoodItemModal = ({open,onClose,itemId}) => {
               fullWidth
               margin="normal"
             />
-            <Textarea minRows={3} value={textDescriptoion} onChange={handleTextDescriptionChanged}></Textarea>
+            <Textarea fullwidth minRows={3} value={textDescriptoion} onChange={handleTextDescriptionChanged}></Textarea>
             <FormControl fullWidth margin="normal">
               <InputLabel id="select-label">Select Dropdown</InputLabel>
               <Select
@@ -126,13 +130,31 @@ const FoodItemModal = ({open,onClose,itemId}) => {
                 value={multiSelectValue}
                 onChange={handleMultiSelectChange}
                 input={<Input />}
-                renderValue={(selected) => selected.join(", ")}
+               
+                //selected.join(", ")
+              
               >
                 {alergeny.map((item) => (
                   <MenuItem value={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
+            <TextField
+              label="Cena"
+              type="number"
+              value={textFieldPriceValue}
+              onChange={handleTextFieldPriceChange}
+              
+              margin="normal"
+            />
+              <TextField
+              label="Název ceny"
+              value={textFieldPriceNameValue}
+              onChange={handleTextFieldPriceNameChange}
+              
+              margin="normal"
+            />
+            <div>
 
             <Button variant="contained" color="success" onClick={handleSaveClicked}>
               Potvrdit
@@ -140,6 +162,8 @@ const FoodItemModal = ({open,onClose,itemId}) => {
             <Button variant="contained" color="error" onClick={handleExitClicked}>
               Zrušit
             </Button>
+
+            </div>
           </Box>
         </Modal>
       </div>

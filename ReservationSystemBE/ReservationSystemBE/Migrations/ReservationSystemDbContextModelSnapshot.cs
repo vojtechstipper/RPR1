@@ -33,7 +33,7 @@ namespace ReservationSystemBE.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("AllergenProduct");
+                    b.ToTable("AllergenProduct", (string)null);
                 });
 
             modelBuilder.Entity("ReservationSystem.Domain.Allergens.Allergen", b =>
@@ -54,7 +54,7 @@ namespace ReservationSystemBE.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Allergens");
+                    b.ToTable("Allergens", (string)null);
                 });
 
             modelBuilder.Entity("ReservationSystem.Domain.Products.PriceLevel", b =>
@@ -76,7 +76,7 @@ namespace ReservationSystemBE.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PriceLevels");
+                    b.ToTable("PriceLevels", (string)null);
                 });
 
             modelBuilder.Entity("ReservationSystem.Domain.Products.Product", b =>
@@ -100,7 +100,7 @@ namespace ReservationSystemBE.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("ReservationSystem.Domain.Products.ProductType", b =>
@@ -114,7 +114,7 @@ namespace ReservationSystemBE.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductTypes");
+                    b.ToTable("ProductTypes", (string)null);
                 });
 
             modelBuilder.Entity("AllergenProduct", b =>

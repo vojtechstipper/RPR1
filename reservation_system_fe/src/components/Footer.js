@@ -10,7 +10,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 function Footer() {
   return (
  
-      <Container maxWidth={false} sx={{ bgcolor:"#d3d3d3", marginTop:"50px",  maxWidth: "2000px",
+      <Container maxWidth={false} sx={{marginTop:"50px",  maxWidth: "2000px",
       minWidth: "700px",
       width: "80%", borderRadius: "12px" }}>
         <Grid container spacing={2} alignItems="flex-start" justifyContent="space-between">

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReservationSystemBE.Infrastructure.MiddleWares;
 using ReservationSystemBE.Infrastructure.Persistence;
+using ReservationSystemBE.Infrastructure.SignalRHub;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -18,6 +19,8 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
+builder.Services.AddSignalR();
 
 builder.Services.AddSwaggerGen(opt => opt.CustomSchemaIds(type => type.ToString().Replace("+", ".")));
 
@@ -38,5 +41,6 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();
+app.MapHub<OrderHub>("/orderHub");
 
 app.Run();

@@ -1,17 +1,65 @@
 import React from 'react';
 import Typography from "@mui/material/Typography";
 import AdminSideBar from "../components/AdminSidebar";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { useEffect, useState } from "react";
+import { Button } from '@mui/material';
+import moment from 'moment/moment';
+import AdminOrderCard from '../components/AdminOrderCard';
 
 
 function AdminHomePage() {
+    const [connection, setConnection] = useState(null);
+    const [inputText, setInputText] = useState('');
+    const [messages, setMessages] = useState([]);
+  
+    useEffect(() => {
+      const connect = new HubConnectionBuilder()
+        .withUrl("https://localhost:7038/orderHub")
+        .withAutomaticReconnect()
+        .build();
+  
+      setConnection(connect);
+    }, []);
+  
+    useEffect(() => {
+      if (connection) {
+        connection
+          .start()
+          .then(() => {
+            connection.on("ReceivedOrder", (message) => {
+              message.orderedAt = moment(message.orderedAt).format("HH:mm");
+              message.orderedFor = moment(message.orderedFor).format("HH:mm");
+
+              setMessages((prevMessages) => [...prevMessages, message]);
+            });
+          })
+          .catch((error) => console.log(error));
+      }
+    }, [connection]);
+  
+    const sendMessage = async () => {
+        console.log("send message");
+      if (connection) await connection.send("SendMessage", inputText);
+      setInputText("");
+    };
+  
     return (
-        <div style={{ display: "flex"}}>
-            <AdminSideBar/>
-            <div>
-                <Typography>ADMIN HOME PAGE</Typography>
-            </div>
+      <div style={{ display: "flex" }}>
+        <AdminSideBar />
+        <div>
+          <Typography>ADMIN HOME PAGE</Typography>
+          <Button onClick={sendMessage} type="primary">
+            Send
+          </Button>
         </div>
-    )
+        <div>
+          {messages.map((message, index) => (
+            <AdminOrderCard data={message}></AdminOrderCard>
+          ))}
+        </div>
+      </div>
+    );
 }
 
 export default AdminHomePage;

@@ -6,12 +6,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import { useNavigate } from 'react-router-dom';
 import Footer from "../components/Footer";
 
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay, virtualize } from 'react-swipeable-views-utils';
-import { mod } from 'react-swipeable-views-core';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-const VirtualizeSwipeableViews = virtualize(AutoPlaySwipeableViews);
 
 
 function HomePage() {
@@ -27,19 +22,7 @@ function HomePage() {
         "https://www.ostravainfo.cz/images_firmy/9365_1-1521_1-campus-jpg-jpeg.jpeg",
     ];
     const [index, setIndex] = useState(0);
-    const slideRenderer = ({ key, index }) => {
-        const imgIndex = mod(index, images.length);
-        return (
-            <Paper key={key} elevation={4} sx={{ position: 'relative', height: 600, overflow: 'hidden'}}>
-                <img src={images[imgIndex]} alt={`Slide ${imgIndex}`} style={{ width: '100%', height: 'auto' }} />
-            </Paper>
-        );
-    };
-    const springConfig = {
-        duration: '0.6s',
-        easeFunction: 'cubic-bezier(0.455, 0.03, 0.515, 0.955)',
-        delay: '0s',
-    };
+  
 
       
 
@@ -84,12 +67,7 @@ function HomePage() {
                     width: '100%', 
                 }}>
                     <Box sx={{ width: '80%', height: 600}}>
-                    <VirtualizeSwipeableViews
-                        index={index}
-                        onChangeIndex={(index) => setIndex(index)}
-                        slideRenderer={slideRenderer}
-                        springConfig={springConfig}
-                    />
+                  
                 </Box>
                     <Box sx={{ 
                         display: 'flex', 

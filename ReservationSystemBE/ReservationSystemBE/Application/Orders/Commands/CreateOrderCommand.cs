@@ -39,14 +39,21 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             orderItems.Add(new OrderItem() { Product = products.First(x => x.Id == item.ProductId), Count = item.Count });
         }
 
-        Order order = new() { UserId = "tempUserId", OrderItems = orderItems, DateCreated = DateTime.Now, DateOrdered = DateTime.Now.AddMinutes(20) };
+        Order order = new() { UserId = "tempUserId", OrderItems = orderItems, DateCreated = DateTime.Now, DateOrdered = request.OrderTime };
 
         _reservationSystemDbContext.Orders.Add(order);
 
         await _reservationSystemDbContext.SaveChangesAsync();
 
+        var orderItemsForMessage = orderItems.Select(x => new OrderItemDto() { ProductName = x.Product.Name, Count = x.Count }).ToList();
+
         //TODO provolání servicy, která pošle event
-        await _hub.Clients.All.SendAsync("ReceivedOrder", new OrderMessage());
+        await _hub.Clients.All.SendAsync("ReceivedOrder", new OrderMessage()
+        { OrderItems = orderItemsForMessage,
+            UserName = "Petr Novák",
+            UserEmail = "petr.novak@gmail.com",
+            OrderedAt = order.DateCreated,
+            OrderedFor = order.DateOrdered });
 
         return Unit.Value;
     }

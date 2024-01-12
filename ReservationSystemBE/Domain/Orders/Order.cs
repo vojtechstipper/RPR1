@@ -14,4 +14,19 @@ public class Order : Entity
     /// </summary>
     public DateTime DateOrdered { get; set; }
     public List<OrderItem> OrderItems { get; set; }
+    /// <summary>
+    /// Identifikátor objednávky ve formátu YYYYMMDDxxx
+    /// </summary>
+    public string OrderIdentifikator { get; set; }
+
+    public OrderStatus Status { get; set; }
+}
+
+public enum OrderStatus
+{
+    NotStarted,
+    InPreparation,
+    Prepared,
+    Finished,
+    Canceled
 }

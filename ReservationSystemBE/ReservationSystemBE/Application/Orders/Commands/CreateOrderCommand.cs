@@ -39,7 +39,15 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             orderItems.Add(new OrderItem() { Product = products.First(x => x.Id == item.ProductId), Count = item.Count });
         }
 
-        Order order = new() { UserId = "tempUserId", OrderItems = orderItems, DateCreated = DateTime.Now, DateOrdered = request.OrderTime };
+        Order order = new()
+        {
+            UserId = "tempUserId",
+            OrderItems = orderItems,
+            DateCreated = DateTime.Now,
+            DateOrdered = request.OrderTime,
+            OrderIdentifikator = "20240112001",
+            Status = OrderStatus.NotStarted
+        };
 
         _reservationSystemDbContext.Orders.Add(order);
 
@@ -49,11 +57,16 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
 
         //TODO provolání servicy, která pošle event
         await _hub.Clients.All.SendAsync("ReceivedOrder", new OrderMessage()
-        { OrderItems = orderItemsForMessage,
+        {
+            Id = order.Id,
+            OrderItems = orderItemsForMessage,
+            OrderIdentifikator = order.OrderIdentifikator,
             UserName = "Petr Novák",
             UserEmail = "petr.novak@gmail.com",
             OrderedAt = order.DateCreated,
-            OrderedFor = order.DateOrdered });
+            OrderedFor = order.DateOrdered,
+            OrderStatus = order.Status
+        });
 
         return Unit.Value;
     }

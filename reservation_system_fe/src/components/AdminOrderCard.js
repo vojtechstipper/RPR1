@@ -7,6 +7,9 @@ const AdminOrderCard = ({data}) => {
     return (
         <Card>
         <CardContent>
+        <Typography textAlign="right" variant="h8" fontWeight="bold" component="div">
+            #{data.orderIdentifikator}
+          </Typography>
         <Typography variant="h5" fontWeight="bold" component="div">
             Položky
           </Typography>
@@ -16,13 +19,12 @@ const AdminOrderCard = ({data}) => {
               {orderItem.count} x {orderItem.productName}
             </Typography>
           ))}
-
           
           <Typography variant="h5" fontWeight="bold" component="div">
             Vyzvednutí
           </Typography>
           <Typography color="text.secondary">
-            {data.orderedAt}
+            {data.orderedFor}
           </Typography>
           <Typography variant="h5" fontWeight="bold" component="div">
             Zákazník
@@ -32,6 +34,9 @@ const AdminOrderCard = ({data}) => {
           </Typography>
           <Typography variant="h5" fontWeight="bold" component="div">
             Poznámka
+          </Typography>
+          <Typography color="text.secondary">
+            Žádná poznámka
           </Typography>
         </CardContent>
       </Card>

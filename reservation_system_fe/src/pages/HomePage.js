@@ -1,12 +1,10 @@
 import Navbar from "../components/Navbar"
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography, Button, Grid, Paper, CardMedia, IconButton } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useNavigate } from 'react-router-dom';
 import Footer from "../components/Footer";
-
-
 
 
 function HomePage() {
@@ -16,15 +14,6 @@ function HomePage() {
     const goToMenu = () => {
         navigate('/menu');
     };
-
-    const images = [
-        "https://scontent-prg1-1.xx.fbcdn.net/v/t39.30808-6/369508160_122111374238003536_4799389075648270822_n.jpg?stp=cp6_dst-jpg_p720x720&_nc_cat=100&ccb=1-7&_nc_sid=783fdb&_nc_ohc=54sf1TBtXNAAX--2aeD&_nc_ht=scontent-prg1-1.xx&oh=00_AfDrFyy2KdtyZcj32oHN8wv7R5MtPQMAlH8vbCUwSx3iBg&oe=657FCE99",
-        "https://www.ostravainfo.cz/images_firmy/9365_1-1521_1-campus-jpg-jpeg.jpeg",
-    ];
-    const [index, setIndex] = useState(0);
-  
-
-      
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -66,15 +55,24 @@ function HomePage() {
                     height: '600px',
                     width: '100%', 
                 }}>
-                    <Box sx={{ width: '80%', height: 600}}>
-                  
-                </Box>
+                    <Paper elevation={4} sx={{ 
+                        maxWidth: '80%',
+                        height: '80%',
+                        overflow: 'hidden',
+                    }}>
+                        <CardMedia
+                            component="img"
+                            image="https://scontent-prg1-1.xx.fbcdn.net/v/t39.30808-6/369508160_122111374238003536_4799389075648270822_n.jpg?stp=cp6_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=783fdb&_nc_ohc=Dh9im525BksAX_OkLaJ&_nc_ht=scontent-prg1-1.xx&oh=00_AfCMiyr2qWRW0Hash3CVbSD7BEHgibSuDUnbUs8GQEPFNQ&oe=65AD4A59"
+                            alt="City Campus Coffee"
+                            sx={{ height: 'auto', width: '100%' }}
+                        />
+                    </Paper>
                     <Box sx={{ 
                         display: 'flex', 
                         flexDirection: 'column', 
                         flexGrow: 0,
-                        borderRadius: '12px',
-                        padding: '10px',
+                        borderRadius: '10px',
+                        padding: '10px'
                         }}>
                         <IconButton component="a" href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D" target="_blank" sx={{ color: 'black' }}>
                             <InstagramIcon fontSize="large" />

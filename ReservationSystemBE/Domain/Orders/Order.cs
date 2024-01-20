@@ -20,6 +20,7 @@ public class Order : Entity
     public string OrderIdentifikator { get; set; }
 
     public OrderStatus Status { get; set; }
+    public string Note { get; set; }
 }
 
 public enum OrderStatus

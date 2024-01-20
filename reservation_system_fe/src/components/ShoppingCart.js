@@ -1,25 +1,37 @@
-import React from "react";
-import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Button,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useShoppingCart } from "./ShoppingCartContext";
 
 const ShoppingCart = () => {
-  const { cartData, addToCart } = useShoppingCart();
+  const { cartData, addToCart, changeCart } = useShoppingCart();
 
   const updateData = (newData) => {
     addToCart(newData);
   };
 
+  useEffect(() => {
+    console.log("cartData changed:", cartData);   
+  }, [cartData]);
+
   const handleCountChange = (index, newCount) => {
-    const newData = cartData.map((item, i) =>
-      i === index ? { ...item, count: newCount } : item
-    );
-    updateData(newData);
+    cartData[index].count = newCount;   
+    changeCart(cartData);
   };
-  
+
   const handleDeleteItem = (index) => {
     const newData = cartData.filter((_, i) => i !== index);
-    updateData(newData);
+    console.log(newData);
+    changeCart(newData);
   };
 
   return (
@@ -34,13 +46,21 @@ const ShoppingCart = () => {
                   <TableCell>{item.productName}</TableCell>
                   <TableCell>{item.note}</TableCell>
                   <TableCell>
-                    <Button onClick={() => handleCountChange(index, item.count - 1)}>-</Button>
+                    <Button
+                      onClick={() => handleCountChange(index, item.count - 1)}
+                    >
+                      -
+                    </Button>
                     {item.count}
-                    <Button onClick={() => handleCountChange(index, item.count + 1)}>+</Button>
+                    <Button
+                      onClick={() => handleCountChange(index, item.count + 1)}
+                    >
+                      +
+                    </Button>
                   </TableCell>
                   <TableCell>{item.price} CZK</TableCell>
                   <TableCell>
-                    <Button  onClick={() => handleDeleteItem(index)}>
+                    <Button onClick={() => handleDeleteItem(index)}>
                       <DeleteIcon />
                     </Button>
                   </TableCell>

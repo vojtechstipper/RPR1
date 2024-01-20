@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Button } from "@mui/material";
 import axios from "axios";
+import { useShoppingCart } from "./ShoppingCartContext";
 
-const OrderButton = ({ onDataUpdate, onPlaceOrder, orderItems, order }) => {
+const OrderButton = ({  onPlaceOrder, order }) => {
+  const { cartData} = useShoppingCart();
   const [orderData, setOrderData] = useState({
-    items: orderItems,
+    items: cartData,
     orderTime: new Date().toISOString(),
-    note: order.note,
+    note:"",
   });
 
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    console.log("UseEffect v buttonu - " + orderItems);
-    console.log(order);
-    if (Array.isArray(orderItems) && orderItems.length > 0) {
-      const newTotalPrice = orderItems.reduce((acc, item) => {
+    if (Array.isArray(cartData) && cartData.length > 0) {
+      const newTotalPrice = cartData.reduce((acc, item) => {
         return acc + item.count * item.price;
       }, 0);
       setTotalPrice(newTotalPrice);
 
       setOrderData({
-        items: orderItems.map((item) => ({
+        items: cartData.map((item) => ({
           count: item.count || 0,
           productId: item.productId || "",
         })),
-        orderTime: convertTimeStringToISOFormat(order.orderTime),
-        orderNote: order.note || "nic",
+       // orderTime: convertTimeStringToISOFormat(order.orderTime),
+        orderNote:  "nic",
       });
     } else {
       setTotalPrice(0);
@@ -35,7 +35,7 @@ const OrderButton = ({ onDataUpdate, onPlaceOrder, orderItems, order }) => {
         orderTime: new Date().toISOString(),
       });
     }
-  }, [orderItems]);
+  }, [cartData]);
 
   function convertTimeStringToISOFormat(timeString) {
     // Get today's date
@@ -54,16 +54,12 @@ const OrderButton = ({ onDataUpdate, onPlaceOrder, orderItems, order }) => {
   }
   const placeOrder = async () => {
     try {
-      console.log("Order: ");
-      console.log(order);
-
       const response = await axios.post(
         "https://localhost:7038/order",
         orderData
       );
 
       onPlaceOrder();
-      onDataUpdate([]);
 
       console.log("Objednávka byla úspěšně odeslána", response.data);
     } catch (error) {

@@ -20,7 +20,7 @@ const FoodItemCard = ({ foodItem }) => {
   const handleAddToCart = () => {
     addToCart({
       productName: foodItem.name,
-      note: "Poznámka",
+      productId: foodItem.id,
       count: 1,
       price: foodItem.priceLevels[0].price,
     });

@@ -14,7 +14,6 @@ function ShoppingCartPage() {
     const [orderNote, setOrderNote] = useState("");
   
     useEffect(() => {
-      console.log("cartData changed page:", cartData);   
     }, [cartData]);
   
     const updateOrderTime = (time) => {

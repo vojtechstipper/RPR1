@@ -14,8 +14,6 @@ const OrderButton = ({  onPlaceOrder, order }) => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    console.log("cartData changed button:", cartData); 
-    console.log(order);
     if (Array.isArray(cartData) && cartData.length > 0) {
       const newTotalPrice = cartData.reduce((acc, item) => {
         return acc + item.count * item.price;
@@ -56,9 +54,6 @@ const OrderButton = ({  onPlaceOrder, order }) => {
   }
   const placeOrder = async () => {
     try {
-      console.log("Order: ");
-      console.log(order);
-
       const response = await axios.post(
         "https://localhost:7038/order",
         orderData

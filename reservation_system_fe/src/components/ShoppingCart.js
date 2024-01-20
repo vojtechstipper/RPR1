@@ -1,48 +1,24 @@
-import React, { useState } from "react";
-import {
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Button,
-} from "@mui/material";
+import React from "react";
+import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useShoppingCart } from "./ShoppingCartContext";
 
-const ShoppingCart = ({ onDataUpdate }) => {
-  const [data, setData] = useState([
-    {
-      productName: "Párek v rohlíku",
-      note: "Poznámka",
-      count: 0,
-      price: 45,
-    },
-    {
-      productName: "Kafe",
-      note: "Poznámka",
-      count: 0,
-      price: 100,
-    },
-    // Další položky podle potřeby
-  ]);
+const ShoppingCart = () => {
+  const { cartData, addToCart } = useShoppingCart();
 
   const updateData = (newData) => {
-    setData(newData);
-    onDataUpdate(newData);
+    addToCart(newData);
   };
 
   const handleCountChange = (index, newCount) => {
-    const newData = [...data];
-    newData[index].count = newCount;
+    const newData = cartData.map((item, i) =>
+      i === index ? { ...item, count: newCount } : item
+    );
     updateData(newData);
   };
-
+  
   const handleDeleteItem = (index) => {
-    const newData = [...data];
-    newData.splice(index, 1);
+    const newData = cartData.filter((_, i) => i !== index);
     updateData(newData);
   };
 
@@ -53,26 +29,18 @@ const ShoppingCart = ({ onDataUpdate }) => {
           <h3 style={{ padding: "10px" }}>Košík</h3>
           <Table>
             <TableBody>
-              {data.map((item, index) => (
+              {cartData.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.productName}</TableCell>
                   <TableCell>{item.note}</TableCell>
                   <TableCell>
-                    <Button
-                      onClick={() => handleCountChange(index, item.count - 1)}
-                    >
-                      -
-                    </Button>
+                    <Button onClick={() => handleCountChange(index, item.count - 1)}>-</Button>
                     {item.count}
-                    <Button
-                      onClick={() => handleCountChange(index, item.count + 1)}
-                    >
-                      +
-                    </Button>
+                    <Button onClick={() => handleCountChange(index, item.count + 1)}>+</Button>
                   </TableCell>
                   <TableCell>{item.price} CZK</TableCell>
                   <TableCell>
-                    <Button onClick={() => handleDeleteItem(index)}>
+                    <Button  onClick={() => handleDeleteItem(index)}>
                       <DeleteIcon />
                     </Button>
                   </TableCell>

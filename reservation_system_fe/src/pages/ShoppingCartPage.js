@@ -8,10 +8,19 @@ import OrderButton from "../components/OrderButton";
 
 function ShoppingCartPage() {
     const [cartData, setCartData] = useState([]);
+    const [order, setOrder] = useState();
     const [orderTime, setOrderTime] = useState("");
+    const [orderNote, setOrderNote] = useState("");
   
     const updateCartData = (newData) => {
+      console.log("updateCardData")
+      console.log(cartData)
       setCartData(newData);
+      setOrder({
+        orderItems:cartData,
+        orderTime:orderTime,
+        orderNote:orderNote
+      })
     };
   
     const updateOrderTime = (time) => {
@@ -73,7 +82,7 @@ function ShoppingCartPage() {
           marginBottom: "100px",
         }}
       >
-        <OrderButton onDataUpdate={updateCartData} onPlaceOrder={placeOrder} />
+        <OrderButton onDataUpdate={updateCartData} onPlaceOrder={placeOrder} orderItems={cartData} order={order} />
       </Box>
 
       <Footer />

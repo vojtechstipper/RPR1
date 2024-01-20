@@ -5,6 +5,7 @@ namespace ReservationSystemBE.Infrastructure.SignalRHub;
 public class OrderMessage
 {
     public string Name { get; set; } = string.Empty;
+    public string OrderNote { get; set; } = string.Empty;
     public string Id { get; set; } = string.Empty;
     public List<OrderItemDto> OrderItems { get; set; }
     public DateTime OrderedAt { get; set; }

@@ -11,6 +11,7 @@ public class CreateOrderCommand : IRequest<Unit>
 {
     public List<OrderItemsDto> Items { get; set; }
     public DateTime OrderTime { get; set; }
+    public string Note { get; set; } = string.Empty;
 
     public class OrderItemsDto
     {
@@ -46,7 +47,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             DateCreated = DateTime.Now,
             DateOrdered = request.OrderTime,
             OrderIdentifikator = "20240112001",
-            Status = OrderStatus.NotStarted
+            Status = OrderStatus.NotStarted,
+            Note = request.Note,
         };
 
         _reservationSystemDbContext.Orders.Add(order);
@@ -65,7 +67,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             UserEmail = "petr.novak@gmail.com",
             OrderedAt = order.DateCreated,
             OrderedFor = order.DateOrdered,
-            OrderStatus = order.Status
+            OrderStatus = order.Status,
+            OrderNote = order.Note
         });
 
         return Unit.Value;

@@ -2,27 +2,31 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography, Button } from "@mui/material";
 import axios from "axios";
 
-const OrderButton = ({ onDataUpdate, onPlaceOrder }) => {
+const OrderButton = ({ onDataUpdate, onPlaceOrder, orderItems, order }) => {
   const [orderData, setOrderData] = useState({
-    items: [],
+    items: orderItems,
     orderTime: new Date().toISOString(),
+    note: order.note,
   });
 
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    if (Array.isArray(onDataUpdate) && onDataUpdate.length > 0) {
-      const newTotalPrice = onDataUpdate.reduce((acc, item) => {
+    console.log("UseEffect v buttonu - " + orderItems);
+    console.log(order);
+    if (Array.isArray(orderItems) && orderItems.length > 0) {
+      const newTotalPrice = orderItems.reduce((acc, item) => {
         return acc + item.count * item.price;
       }, 0);
       setTotalPrice(newTotalPrice);
 
       setOrderData({
-        items: onDataUpdate.map((item) => ({
+        items: orderItems.map((item) => ({
           count: item.count || 0,
-          productId: item.productName || "",
+          productId: item.productId || "",
         })),
-        orderTime: new Date().toISOString(),
+        orderTime: convertTimeStringToISOFormat(order.orderTime),
+        orderNote: order.note || "nic",
       });
     } else {
       setTotalPrice(0);
@@ -31,10 +35,28 @@ const OrderButton = ({ onDataUpdate, onPlaceOrder }) => {
         orderTime: new Date().toISOString(),
       });
     }
-  }, [onDataUpdate]);
+  }, [orderItems]);
 
+  function convertTimeStringToISOFormat(timeString) {
+    // Get today's date
+    const today = new Date();
+
+    // Split the time string into hours and minutes
+    const [hours, minutes] = timeString.split(":").map(Number);
+
+    // Set the hours and minutes to today's date
+    today.setHours(hours + 1, minutes, 0, 0);
+
+    // Convert the date to ISO format
+    const isoFormat = today.toISOString();
+
+    return isoFormat;
+  }
   const placeOrder = async () => {
     try {
+      console.log("Order: ");
+      console.log(order);
+
       const response = await axios.post(
         "https://localhost:7038/order",
         orderData

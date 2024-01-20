@@ -1,27 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ShoppingCart from "../components/ShoppingCart";
 import Box from "@mui/material/Box";
 import ShoppingNote from "../components/ShoppingNote";
 import OrderButton from "../components/OrderButton";
+import { useShoppingCart } from "../components/ShoppingCartContext";
 
 function ShoppingCartPage() {
-    const [cartData, setCartData] = useState([]);
+    const {cartData} = useShoppingCart();
     const [order, setOrder] = useState();
     const [orderTime, setOrderTime] = useState("");
     const [orderNote, setOrderNote] = useState("");
   
-    const updateCartData = (newData) => {
-      console.log("updateCardData")
-      console.log(cartData)
-      setCartData(newData);
-      setOrder({
-        orderItems:cartData,
-        orderTime:orderTime,
-        orderNote:orderNote
-      })
-    };
+    useEffect(() => {
+      console.log("cartData changed page:", cartData);   
+    }, [cartData]);
   
     const updateOrderTime = (time) => {
       setOrderTime(time);
@@ -48,7 +42,7 @@ function ShoppingCartPage() {
           borderRadius: "12px",
         }}
       >
-        <ShoppingCart onDataUpdate={updateCartData} />
+        <ShoppingCart  />
       </Box>
 
       <Box
@@ -82,7 +76,7 @@ function ShoppingCartPage() {
           marginBottom: "100px",
         }}
       >
-        <OrderButton onDataUpdate={updateCartData} onPlaceOrder={placeOrder} orderItems={cartData} order={order} />
+        <OrderButton onPlaceOrder={placeOrder} order={order} />
       </Box>
 
       <Footer />

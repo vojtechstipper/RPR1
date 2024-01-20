@@ -67,7 +67,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             UserEmail = "petr.novak@gmail.com",
             OrderedAt = order.DateCreated,
             OrderedFor = order.DateOrdered,
-            OrderStatus = order.Status
+            OrderStatus = order.Status,
+            OrderNote = order.Note
         });
 
         return Unit.Value;

@@ -15,12 +15,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const ShoppingCart = ({ onDataUpdate }) => {
   const [data, setData] = useState([
     {
+      productId:"32237550caa742b180f143b47bcf576f",
       productName: "Párek v rohlíku",
       note: "Poznámka",
       count: 0,
       price: 45,
     },
     {
+      productId:"276fb3324e3e4b34ac98e6070bdce4f7",
       productName: "Kafe",
       note: "Poznámka",
       count: 0,

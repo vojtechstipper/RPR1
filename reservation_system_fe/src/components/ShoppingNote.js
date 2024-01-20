@@ -4,6 +4,10 @@ import Box from "@mui/material/Box";
 
 const ShoppingNote = ({ onTimeChange }) => {
   const [currentTime, setCurrentTime] = useState(getCurrentTime());
+  const [orderNote, setOrderNote] = useState("");
+
+  const handleNoteChanged = (e) => setOrderNote(e.target.value);
+
 
   // Funkce pro získání aktuálního času
   function getCurrentTime() {
@@ -20,7 +24,11 @@ const ShoppingNote = ({ onTimeChange }) => {
     onTimeChange(currentTime);
   }
 
+
+
+  
   // useEffect pro aktualizaci aktuálního času po načtení komponenty
+  // TODO: Dostupné časy načítat z BE!
   useEffect(() => {
     const interval = setInterval(() => {
       updateCurrentTime();
@@ -50,6 +58,8 @@ const ShoppingNote = ({ onTimeChange }) => {
             fullWidth
             multiline
             rows={1}
+            value={orderNote}
+            onChange={handleNoteChanged}
           />
         </Grid>
 

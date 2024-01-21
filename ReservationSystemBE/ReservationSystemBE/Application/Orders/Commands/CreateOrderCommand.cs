@@ -40,13 +40,15 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             orderItems.Add(new OrderItem() { Product = products.First(x => x.Id == item.ProductId), Count = item.Count });
         }
 
+        Random random = new Random();
+
         Order order = new()
         {
             UserId = "tempUserId",
             OrderItems = orderItems,
             DateCreated = DateTime.Now,
             DateOrdered = request.OrderTime,
-            OrderIdentifikator = "20240112001",
+            OrderIdentifikator = "20240112"+ GenerateRandomNumberString(random, 3),
             Status = OrderStatus.NotStarted,
             Note = request.Note,
         };
@@ -72,5 +74,16 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
         });
 
         return Unit.Value;
+    }
+    static string GenerateRandomNumberString(Random random, int length)
+    {
+        // Generate a string of specified length with random digits
+        char[] digits = new char[length];
+        for (int i = 0; i < length; i++)
+        {
+            digits[i] = (char)(random.Next(10) + '0');
+        }
+
+        return new string(digits);
     }
 }

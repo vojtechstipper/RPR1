@@ -1,5 +1,4 @@
 import api from './api';
-import getProductsGrouppedResponseObject from '../responses/getProductsGrouppedResponse';
 // Funkce pro získání seznamu produktů
  const getProducts = async () => {
   try {
@@ -86,6 +85,24 @@ const getProductTypesDropdown = async () => {
     throw error;
   }
 };
+
+const getNotStartedOrders = async () => {
+  try {
+    const response = await api.get(`/order/not-started`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const sendOrder = async (orderData) => {
+  try {
+    const response = await api.post("/order", orderData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export {
   getProductsGroupped,
   getProductById,
@@ -94,7 +111,9 @@ export {
   getProductsList,
   getAllergensDropdown,
   editProduct,
-  getProductTypesDropdown
+  getProductTypesDropdown,
+  sendOrder,
+  getNotStartedOrders
 };
 
 // Zde můžete vytvořit další funkce pro práci s API.

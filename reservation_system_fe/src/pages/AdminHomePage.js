@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Button } from '@mui/material';
 import moment from 'moment/moment';
 import AdminOrderCard from '../components/AdminOrderCard';
+import { getNotStartedOrders } from '../services/apiService';
 
 
 function AdminHomePage() {
@@ -14,6 +15,18 @@ function AdminHomePage() {
     const [messages, setMessages] = useState([]);
   
     useEffect(() => {
+
+      async function fetchOrders() {
+        try {
+          const response = await getNotStartedOrders();
+          //init stav objednávek
+          setMessages([...response]);
+        } catch (error) {
+          console.error("Chyba při načítání produktů:", error);
+        }
+    }
+
+    fetchOrders();
       const connect = new HubConnectionBuilder()
         .withUrl("https://localhost:7038/orderHub")
         .withAutomaticReconnect()
@@ -30,7 +43,7 @@ function AdminHomePage() {
             connection.on("ReceivedOrder", (message) => {
               message.orderedAt = moment(message.orderedAt).format("HH:mm");
               message.orderedFor = moment(message.orderedFor).format("HH:mm");
-
+              //Tady se zprávy jen přidávají do již existujícího pole zpráv
               setMessages((prevMessages) => [...prevMessages, message]);
             });
           })

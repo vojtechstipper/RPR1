@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography, Button } from "@mui/material";
 import axios from "axios";
 import { useShoppingCart } from "./ShoppingCartContext";
+import { sendOrder } from "../services/apiService";
 
 const OrderButton = ({  onPlaceOrder, order }) => {
   const { cartData} = useShoppingCart();
@@ -53,15 +54,10 @@ const OrderButton = ({  onPlaceOrder, order }) => {
     return isoFormat;
   }
   const placeOrder = async () => {
-    try {
-      const response = await axios.post(
-        "https://localhost:7038/order",
-        orderData
-      );
-
-      onPlaceOrder();
-
-      console.log("Objednávka byla úspěšně odeslána", response.data);
+    try {  
+     const response = await sendOrder(orderData);          
+     onPlaceOrder();      
+     console.log("Objednávka byla úspěšně odeslána", response.data);  
     } catch (error) {
       console.error("Chyba při odesílání objednávky na API", error);
     }

@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.Orders.Commands;
-using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
-using ReservationSystemBE.Application.Products.GetProductsQuery;
+using ReservationSystemBE.Application.Orders.Queries;
+using ReservationSystemBE.Infrastructure.SignalRHub;
 
 namespace ReservationSystemBE.Controllers;
 
@@ -23,5 +23,12 @@ public class OrdersController : Controller
     public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand command)
     {
         return Ok(await _mediator.Send(command));
+    }
+
+    [HttpGet("not-started")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<OrderMessage>>> GetNotStartedOrders()
+    {
+        return Ok(await _mediator.Send(new GetNotStartedOrdersQuery()));
     }
 }

@@ -21,6 +21,21 @@ public class Order : Entity
 
     public OrderStatus Status { get; set; }
     public string Note { get; set; }
+
+    public void SetAcceptOrDeclineOrder(OrderAcceptanceStatus status)
+    {
+        switch (status)
+        {
+            case OrderAcceptanceStatus.Accepted:
+                Status = OrderStatus.InPreparation;
+                break;
+            case OrderAcceptanceStatus.Declined:
+                Status = OrderStatus.Canceled;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 public enum OrderStatus
@@ -30,4 +45,10 @@ public enum OrderStatus
     Prepared,
     Finished,
     Canceled
+}
+public enum OrderAcceptanceStatus
+{
+    Accepted,
+    Declined,
+    None
 }

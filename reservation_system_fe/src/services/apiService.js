@@ -103,6 +103,15 @@ const sendOrder = async (orderData) => {
     throw error;
   }
 };
+
+const sendChangeOrderStatusRequest = async (orderStatus) => {
+  try {
+    const response = await api.post("/order/accept", orderStatus);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export {
   getProductsGroupped,
   getProductById,
@@ -113,7 +122,8 @@ export {
   editProduct,
   getProductTypesDropdown,
   sendOrder,
-  getNotStartedOrders
+  getNotStartedOrders,
+  sendChangeOrderStatusRequest
 };
 
 // Zde můžete vytvořit další funkce pro práci s API.

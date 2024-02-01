@@ -31,4 +31,12 @@ public class OrdersController : Controller
     {
         return Ok(await _mediator.Send(new GetNotStartedOrdersQuery()));
     }
+
+    //TODO ověření zda se jedná o admina
+    [HttpPost("accept")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> CreateOrder([FromBody] ChangeOrderStatusCommand command)
+    {
+        return Ok(await _mediator.Send(command));
+    }
 }

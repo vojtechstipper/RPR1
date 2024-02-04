@@ -9,20 +9,17 @@ import { useShoppingCart } from "../components/ShoppingCartContext";
 
 function ShoppingCartPage() {
     const {cartData} = useShoppingCart();
-    const [order, setOrder] = useState();
     const [orderTime, setOrderTime] = useState("");
     const [orderNote, setOrderNote] = useState("");
   
     useEffect(() => {
     }, [cartData]);
   
-    const updateOrderTime = (time) => {
+    const updateOrderTime = (time) => {     
       setOrderTime(time);
     };
-  
-    const placeOrder = () => {
-      console.log("Objednávka byla odeslána s daty:", cartData);
-      console.log("Čas objednávky:", orderTime);
+    const updateOrderNote = (note) => {
+      setOrderNote(note);
     };
 
   return (
@@ -41,7 +38,7 @@ function ShoppingCartPage() {
           borderRadius: "12px",
         }}
       >
-        <ShoppingCart  />
+        <ShoppingCart />
       </Box>
 
       <Box
@@ -65,7 +62,10 @@ function ShoppingCartPage() {
           borderRadius: "12px",
         }}
       >
-        <ShoppingNote onTimeChange={updateOrderTime} />
+        <ShoppingNote
+          onTimeChange={updateOrderTime}
+          onNoteChange={updateOrderNote}
+        />
       </Box>
 
       <Box
@@ -75,7 +75,7 @@ function ShoppingCartPage() {
           marginBottom: "100px",
         }}
       >
-        <OrderButton onPlaceOrder={placeOrder} order={order} />
+        <OrderButton orderTime={orderTime} orderNote={orderNote} />
       </Box>
 
       <Footer />

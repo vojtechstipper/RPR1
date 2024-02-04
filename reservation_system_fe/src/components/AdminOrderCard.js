@@ -7,13 +7,22 @@ const AdminOrderCard = ({data}) => {
     const [visibleButtons, setButtonsvisible] = useState(false);
   
     const sendChangeOrderStatus = async (accept) => {
-      console.log("nevím proc")
       await sendChangeOrderStatusRequest({
-        orderId: data.Id,
+        orderId: data.id,
         status: accept ? "Accepted" : "Declined",
       });
     setButtonsvisible(true)
   };
+
+  function formatTime(dateString) {
+    const dateTime = new Date(dateString);
+
+    // Extract hours and minutes
+    const hours = dateTime.getHours().toString().padStart(2, "0");
+    const minutes = dateTime.getMinutes().toString().padStart(2, "0");
+
+    return `${hours}:${minutes}`;
+  }
 
     return (
       <Card>
@@ -39,7 +48,7 @@ const AdminOrderCard = ({data}) => {
           <Typography variant="h5" fontWeight="bold" component="div">
             Vyzvednutí
           </Typography>
-          <Typography color="text.secondary">{data.orderedFor}</Typography>
+          <Typography color="text.secondary">{formatTime(data.orderedFor)}</Typography>
           <Typography variant="h5" fontWeight="bold" component="div">
             Zákazník
           </Typography>
@@ -49,7 +58,7 @@ const AdminOrderCard = ({data}) => {
           <Typography variant="h5" fontWeight="bold" component="div">
             Poznámka
           </Typography>
-          <Typography color="text.secondary">Žádná poznámka</Typography>
+          <Typography color="text.secondary">{data.orderNote}</Typography>
           <Button
             variant="contained"
             color="success"

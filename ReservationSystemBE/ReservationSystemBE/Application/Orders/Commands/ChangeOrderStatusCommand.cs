@@ -35,7 +35,7 @@ public class ChangeOrderStatusCommandHandler : IRequestHandler<ChangeOrderStatus
 
     public async Task<OrderStatusChangedDto> Handle(ChangeOrderStatusCommand request, CancellationToken cancellationToken)
     {
-        var order = await _reservationSystemDbContext.Orders.FirstOrDefaultAsync();
+        var order = await _reservationSystemDbContext.Orders.FirstOrDefaultAsync(x => x.Id == request.OrderId);
         if (order is not null)
         {
             order.SetAcceptOrDeclineOrder(request.Status);

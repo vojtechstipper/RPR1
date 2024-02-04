@@ -95,6 +95,15 @@ const getNotStartedOrders = async () => {
   }
 };
 
+const getOrderTimesDropdown = async () => {
+  try {
+    const response = await api.get(`/order/order-times`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const sendOrder = async (orderData) => {
   try {
     const response = await api.post("/order", orderData);
@@ -123,7 +132,8 @@ export {
   getProductTypesDropdown,
   sendOrder,
   getNotStartedOrders,
-  sendChangeOrderStatusRequest
+  sendChangeOrderStatusRequest,
+  getOrderTimesDropdown
 };
 
 // Zde můžete vytvořit další funkce pro práci s API.

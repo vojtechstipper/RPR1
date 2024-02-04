@@ -30,6 +30,13 @@ public class OrdersController : Controller
     public async Task<ActionResult<List<OrderMessage>>> GetNotStartedOrders()
     {
         return Ok(await _mediator.Send(new GetNotStartedOrdersQuery()));
+    } 
+    
+    [HttpGet("order-times")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<OrderTimesDropdownDto>>> GetOrderTimes()
+    {
+        return Ok(await _mediator.Send(new GetTimesForOrderQuery()));
     }
 
     //TODO ověření zda se jedná o admina

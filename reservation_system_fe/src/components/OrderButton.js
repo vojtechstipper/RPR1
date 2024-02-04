@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Button } from "@mui/material";
-import axios from "axios";
 import { useShoppingCart } from "./ShoppingCartContext";
 import { sendOrder } from "../services/apiService";
 
-const OrderButton = ({  onPlaceOrder, order }) => {
-  const { cartData} = useShoppingCart();
+const OrderButton = ({ order, orderTime,orderNote }) => {
+  const { cartData } = useShoppingCart();
   const [orderData, setOrderData] = useState({
     items: cartData,
-    orderTime: new Date().toISOString(),
-    note:"",
+    orderTime: orderTime,
+    note: "",
   });
 
   const [totalPrice, setTotalPrice] = useState(0);
@@ -26,38 +25,23 @@ const OrderButton = ({  onPlaceOrder, order }) => {
           count: item.count || 0,
           productId: item.productId || "",
         })),
-       // orderTime: convertTimeStringToISOFormat(order.orderTime),
-        orderNote:  "nic",
+        note: orderNote,
+        orderTime: orderTime,
       });
     } else {
       setTotalPrice(0);
       setOrderData({
         items: [],
-        orderTime: new Date().toISOString(),
+        orderTime: orderTime,
+        note: orderNote,
       });
     }
-  }, [cartData]);
+  }, [cartData, orderTime, orderNote]);
 
-  function convertTimeStringToISOFormat(timeString) {
-    // Get today's date
-    const today = new Date();
-
-    // Split the time string into hours and minutes
-    const [hours, minutes] = timeString.split(":").map(Number);
-
-    // Set the hours and minutes to today's date
-    today.setHours(hours + 1, minutes, 0, 0);
-
-    // Convert the date to ISO format
-    const isoFormat = today.toISOString();
-
-    return isoFormat;
-  }
   const placeOrder = async () => {
-    try {  
-     const response = await sendOrder(orderData);          
-     onPlaceOrder();      
-     console.log("Objednávka byla úspěšně odeslána", response.data);  
+    try {
+      const response = await sendOrder(orderData);
+      console.log("Objednávka byla úspěšně odeslána", response.data);
     } catch (error) {
       console.error("Chyba při odesílání objednávky na API", error);
     }

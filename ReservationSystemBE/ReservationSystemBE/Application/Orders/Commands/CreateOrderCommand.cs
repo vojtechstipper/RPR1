@@ -48,7 +48,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             OrderItems = orderItems,
             DateCreated = DateTime.Now,
             DateOrdered = request.OrderTime,
-            OrderIdentifikator = "20240112"+ GenerateRandomNumberString(random, 3),
+            OrderIdentifikator = "20240205"+ GenerateRandomNumberString(random, 3),
             Status = OrderStatus.NotStarted,
             Note = request.Note,
         };

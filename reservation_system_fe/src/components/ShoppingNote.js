@@ -1,41 +1,57 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography, TextField, Divider } from "@mui/material";
+import { Grid, Typography, TextField, Divider, Select, MenuItem } from "@mui/material";
 import Box from "@mui/material/Box";
+import { getOrderTimesDropdown } from "../services/apiService";
 
-const ShoppingNote = ({ onTimeChange }) => {
-  const [currentTime, setCurrentTime] = useState(getCurrentTime());
+const ShoppingNote = ({ onTimeChange,onNoteChange }) => {
+  const [times, setTimes] = useState([]);
   const [orderNote, setOrderNote] = useState("");
+  const [time, setTime] = useState(getCurrentTime());
 
-  const handleNoteChanged = (e) => setOrderNote(e.target.value);
+
+  useEffect(() => {
+    async function fetchTimes() {
+      try {
+        const response = await getOrderTimesDropdown();
+        setTimes(response);
+        setTime(response[0].time)
+      } catch (error) {
+        console.error("Chyba při načítání alergenů:", error);
+      }
+    }
+
+    fetchTimes();
+  }, []);
+
+  const handleNoteChanged = (e) => 
+  {
+    setOrderNote(e.target.value);
+    onNoteChange(e.target.value);
+  }
+  const handleTimeChanged = (e) =>{
+    setTime(e.target.value);
+    onTimeChange(e.target.value);
+  } 
 
 
   // Funkce pro získání aktuálního času
   function getCurrentTime() {
-    const now = new Date();
+     const now = new Date();
     const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
+     const minutes = now.getMinutes().toString().padStart(2, "0");
+    //tady bych jen načetl data z api
     return `${hours}:${minutes}`;
   }
 
-  // Funkce pro aktualizaci aktuálního času
-  function updateCurrentTime() {
-    const currentTime = getCurrentTime();
-    setCurrentTime(currentTime);
-    onTimeChange(currentTime);
+  function formatTime(dateString) {
+    const dateTime = new Date(dateString);
+
+    // Extract hours and minutes
+    const hours = dateTime.getHours().toString().padStart(2, "0");
+    const minutes = dateTime.getMinutes().toString().padStart(2, "0");
+
+    return `${hours}:${minutes}`;
   }
-
-
-
-  
-  // useEffect pro aktualizaci aktuálního času po načtení komponenty
-  // TODO: Dostupné časy načítat z BE!
-  useEffect(() => {
-    const interval = setInterval(() => {
-      updateCurrentTime();
-    }, 1000 * 60); // Aktualizovat každou minutu
-
-    return () => clearInterval(interval);
-  }, []); // Prázdné pole zajišťuje, že useEffect bude proveden pouze jednou po načtení komponenty
 
   return (
     <Box
@@ -74,16 +90,19 @@ const ShoppingNote = ({ onTimeChange }) => {
           <Grid item xs={4}>
             <Grid container spacing={2} alignItems="center">
               <Grid item>
-                <TextField
-                  label="Čas"
-                  variant="outlined"
-                  type="time"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={currentTime}
-                  onChange={updateCurrentTime}
-                />
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={time}
+                  label="Age"
+                  onChange={handleTimeChanged}
+                >
+                  {times.map((timee) => (
+                    <MenuItem value={timee.time}>
+                      {formatTime(timee.time)}
+                    </MenuItem>
+                  ))}
+                </Select>
               </Grid>
             </Grid>
           </Grid>

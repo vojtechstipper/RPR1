@@ -51,20 +51,11 @@ function AdminHomePage() {
       }
     }, [connection]);
   
-    const sendMessage = async () => {
-        console.log("send message");
-      if (connection) await connection.send("SendMessage", inputText);
-      setInputText("");
-    };
-  
     return (
       <div style={{ display: "flex" }}>
         <AdminSideBar />
         <div>
           <Typography>ADMIN HOME PAGE</Typography>
-          <Button onClick={sendMessage} type="primary">
-            Send
-          </Button>
         </div>
         <div>
           {messages.map((message, index) => (

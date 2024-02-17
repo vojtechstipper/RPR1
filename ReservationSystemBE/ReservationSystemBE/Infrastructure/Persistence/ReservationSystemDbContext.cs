@@ -10,7 +10,6 @@ public class ReservationSystemDbContext : DbContext
     public DbSet<Allergen> Allergens => Set<Allergen>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductType> ProductTypes => Set<ProductType>();
-    public DbSet<PriceLevel> PriceLevels => Set<PriceLevel>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 

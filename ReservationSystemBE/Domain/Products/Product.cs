@@ -10,5 +10,5 @@ public class Product : Entity
     public ProductType ProductType { get; set; }
     public string ProductTypeId { get; set; }
     public List<Allergen> Allergens { get; set; } = new List<Allergen>();
-    public List<PriceLevel> PriceLevels { get; set; } = new List<PriceLevel>();
+    public PriceLevel PriceLevel { get; set; }
 }

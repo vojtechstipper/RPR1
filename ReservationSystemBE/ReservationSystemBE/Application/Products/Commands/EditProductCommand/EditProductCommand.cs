@@ -14,7 +14,7 @@ public class EditProductCommand : IRequest<ProductDto>
     public string Name { get; set; } = string.Empty;
     public string ProductTypeId { get; set; } = string.Empty;
     public List<string> AllergensIds { get; set; } = new List<string>();
-    public List<PriceLevel> PriceLevels { get; set; } = new List<PriceLevel>();
+    public PriceLevel PriceLevel { get; set; }
 }
 
 public class EditProductCommandHandler : IRequestHandler<EditProductCommand, ProductDto>
@@ -30,17 +30,17 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
 
     public async Task<ProductDto> Handle(EditProductCommand request, CancellationToken cancellationToken)
     {
-        var product = _context.Products.Include(x=>x.Allergens).FirstOrDefault(x => x.Id == request.Id);
+        var product = _context.Products.Include(x => x.Allergens).FirstOrDefault(x => x.Id == request.Id);
         var allergens = _context.Allergens.Where(x => request.AllergensIds.Contains(x.Id)).ToList();
         if (product is not null)
         {
             product.Name = request.Name;
             product.ProductTypeId = request.ProductTypeId;
-            product.PriceLevels = request.PriceLevels;
+            product.PriceLevel = new PriceLevel(request.PriceLevel.Name, request.PriceLevel.Price);
            // product.Allergens.Clear();
             product.Allergens = allergens;
             _context.Update(product);
-           // _context.Update(allergens);
+            // _context.Update(allergens);
             await _context.SaveChangesAsync();
         }
         else

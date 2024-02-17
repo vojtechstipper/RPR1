@@ -24,7 +24,7 @@ public class GetGrouppedProductTypeWithProductsQueryHandler : IRequestHandler<Ge
         var query = await _context.Products
             .Include(x => x.ProductType)
             .Include(x => x.Allergens)
-            .Include(x => x.PriceLevels)
+            .Include(x => x.PriceLevel)
             .GroupBy(x => x.ProductType)
             .ToListAsync();
 

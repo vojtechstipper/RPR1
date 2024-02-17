@@ -126,14 +126,9 @@ namespace ReservationSystemBE.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ProductId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("PriceLevels");
+                    b.ToTable("PriceLevel");
                 });
 
             modelBuilder.Entity("ReservationSystem.Domain.Products.Product", b =>
@@ -149,11 +144,16 @@ namespace ReservationSystemBE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PriceLevelId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ProductTypeId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PriceLevelId");
 
                     b.HasIndex("ProductTypeId");
 
@@ -208,20 +208,19 @@ namespace ReservationSystemBE.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ReservationSystem.Domain.Products.PriceLevel", b =>
-                {
-                    b.HasOne("ReservationSystem.Domain.Products.Product", null)
-                        .WithMany("PriceLevels")
-                        .HasForeignKey("ProductId");
-                });
-
             modelBuilder.Entity("ReservationSystem.Domain.Products.Product", b =>
                 {
+                    b.HasOne("ReservationSystem.Domain.Products.PriceLevel", "PriceLevel")
+                        .WithMany()
+                        .HasForeignKey("PriceLevelId");
+
                     b.HasOne("ReservationSystem.Domain.Products.ProductType", "ProductType")
                         .WithMany("Products")
                         .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PriceLevel");
 
                     b.Navigation("ProductType");
                 });
@@ -229,11 +228,6 @@ namespace ReservationSystemBE.Migrations
             modelBuilder.Entity("ReservationSystem.Domain.Orders.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("ReservationSystem.Domain.Products.Product", b =>
-                {
-                    b.Navigation("PriceLevels");
                 });
 
             modelBuilder.Entity("ReservationSystem.Domain.Products.ProductType", b =>

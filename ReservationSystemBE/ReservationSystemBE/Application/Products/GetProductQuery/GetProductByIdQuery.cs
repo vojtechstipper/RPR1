@@ -25,7 +25,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
     {
         var product = await _dbContext.Products
               .Include(x => x.ProductType)
-              .Include(x => x.PriceLevels)
+              .Include(x => x.PriceLevel)
               .Include(x => x.Allergens)
              .FirstOrDefaultAsync(x => x.Id == request.Id);
 

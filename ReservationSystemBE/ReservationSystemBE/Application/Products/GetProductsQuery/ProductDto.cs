@@ -11,7 +11,7 @@ public class ProductDto
     public string Description { get; set; } = string.Empty;
     public ProductTypeDto ProductType { get; set; }
     public List<AllergenDto> Allergens { get; set; } = new List<AllergenDto>();
-    public List<PriceLevelDto> PriceLevels { get; set; } = new List<PriceLevelDto>();
+    public PriceLevelDto PriceLevel { get; set; } 
 }
 
 public class ProductTypeDto

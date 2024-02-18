@@ -128,6 +128,7 @@ export {
   getAllergens,
   getProductsList,
   getAllergensDropdown,
+  addProduct,
   editProduct,
   getProductTypesDropdown,
   sendOrder,

@@ -5,15 +5,15 @@ import TextField from '@mui/material/TextField';
 import  Textarea from '@mui/material/TextareaAutosize';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { Button, OutlinedInput } from '@mui/material';
+import { Button } from '@mui/material';
 import {
   getProductById,
   getAllergensDropdown,
   editProduct,
   getProductTypesDropdown,
+  addProduct,
 } from "../services/apiService";
 
 const FoodItemModal = ({open,onClose,itemId}) => {
@@ -42,6 +42,7 @@ const FoodItemModal = ({open,onClose,itemId}) => {
       const jsonData = {
         id: itemId,
         name: productName,
+        description: productDescription,
         productTypeId: productType,
         allergensIds: productAllergensSelected,
         priceLevel: 
@@ -50,33 +51,35 @@ const FoodItemModal = ({open,onClose,itemId}) => {
             price: parseInt(productPriceValue),
           }        
       };
-      try{
-        await editProduct(jsonData);
-      }
-      catch(error)
-      {
-        console.error("Chyba při editaci produktu:", error);
-      }
-    }
+      try {
+            if (itemId != null) {
+              await editProduct(jsonData);
+            } else {
+              await addProduct(jsonData);
+            }
+          }
+     catch (error) {
+       console.error("Chyba při vkládání produktu:", error);
+     }
+}
 
 
     useEffect(() => {
       async function fetchProduct() {     
-        if (itemId != null) {         
+        const responseAllergensDropdown = await getAllergensDropdown();
+        setAllergens(responseAllergensDropdown);
+        const responseProductTypesDropdown = await getProductTypesDropdown();
+        setProductTypes(responseProductTypesDropdown);
+        if (itemId != null) {
           try {
             const response = await getProductById(itemId);
             setProduct(response);
             setProductDescription(response.description);
             setProductName(response.name);
             setProductType(response.productTypeId);
-            setProductPriceName(response.priceLevel.name)
-            setProductPriceValue(response.priceLevel.price)
-            setProductAllergensSelected(response.allergensIds)
-
-            const responseAllergensDropdown = await getAllergensDropdown();
-            setAllergens(responseAllergensDropdown);
-            const responseProductTypesDropdown = await getProductTypesDropdown();
-            setProductTypes(responseProductTypesDropdown);
+            setProductPriceName(response.priceLevel.name);
+            setProductPriceValue(response.priceLevel.price);
+            setProductAllergensSelected(response.allergensIds);
           } catch (error) {
             console.error("Chyba při načítání produktu:", error);
           }
@@ -141,15 +144,13 @@ const FoodItemModal = ({open,onClose,itemId}) => {
               label="Cena"
               type="number"
               value={productPriceValue}
-              onChange={handleProductPriceValueChanged}
-              
+              onChange={handleProductPriceValueChanged}              
               margin="normal"
             />
               <TextField
               label="Název ceny"
               value={productPriceName}
-              onChange={handleProductPriceNameChanged}
-              
+              onChange={handleProductPriceNameChanged}              
               margin="normal"
             />
             <div>

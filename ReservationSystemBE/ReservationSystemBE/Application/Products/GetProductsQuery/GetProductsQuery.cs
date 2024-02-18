@@ -22,7 +22,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<Pr
     {
         var products = await _dbContext.Products
              .Include(x => x.ProductType)
-             .Include(x => x.PriceLevels)
+             .Include(x => x.PriceLevel)
              .Include(x => x.Allergens)
             .ToListAsync();
 

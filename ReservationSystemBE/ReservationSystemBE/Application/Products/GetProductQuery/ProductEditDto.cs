@@ -10,5 +10,5 @@ public class ProductEditDto
     public string Description { get; set; } = string.Empty;
     public string ProductTypeId { get; set; } = string.Empty;
     public List<string> AllergensIds { get; set; } = new List<string>();
-    public List<PriceLevelDto> PriceLevels { get; set; } = new List<PriceLevelDto>();
+    public PriceLevelDto PriceLevel { get; set; }
 }

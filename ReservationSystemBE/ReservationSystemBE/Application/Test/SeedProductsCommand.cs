@@ -36,9 +36,7 @@ public class SeedProductsCommandHandler : IRequestHandler<SeedProductsCommand, U
                 {
                     Name = it.Name,
                     Description = it.Description,
-                    PriceLevels = it.PriceLevels
-                    .Select(pl => new PriceLevel(pl.Name, (decimal)pl.Price))
-                    .ToList(),
+                    PriceLevel = new PriceLevel(it.PriceLevel.Name, (decimal)it.PriceLevel.Price),
                     Allergens = it.AllergenCodes != null ? allergens.Where(x => it.AllergenCodes.Contains(x.Code)).ToList() : new List<Allergen>()
                 }).ToList()
                 ))

@@ -14,7 +14,7 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
         builder.HasMany(x => x.Allergens)
             .WithMany(x => x.Products);
 
-        builder.HasMany(x => x.PriceLevels);
+        builder.OwnsOne(x => x.PriceLevel);
 
         builder.HasOne(x => x.ProductType)
             .WithMany(x => x.Products)

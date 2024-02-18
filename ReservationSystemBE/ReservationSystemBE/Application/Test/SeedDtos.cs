@@ -2,7 +2,7 @@
 
 public class SeedDtos
 {
-    public class PriceLevelSeedDto
+    public class SeedDto
     {
         public string Name { get; set; }
         public double Price { get; set; }
@@ -12,7 +12,7 @@ public class SeedDtos
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<PriceLevelSeedDto> PriceLevels { get; set; }
+        public SeedDto PriceLevel{ get; set; }
         public List<int>? AllergenCodes { get; set; }
     }
 

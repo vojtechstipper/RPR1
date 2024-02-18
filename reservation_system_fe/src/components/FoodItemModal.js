@@ -75,6 +75,8 @@ const FoodItemModal = ({open,onClose,itemId}) => {
             setTextDescription(response.description);
             setTextFieldValue(response.name);
             setSelectValue(response.productTypeId);
+            setTextFieldPriceNameValue(response.priceLevel.name)
+            setTextFieldPriceValue(response.priceLevel.price)
           } catch (error) {
             console.error("Chyba při načítání produktu:", error);
           }

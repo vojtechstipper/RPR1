@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Products;
+using ReservationSystemBE.Application.Products.GetProductsQuery;
 using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Products.Commands.AddProductCommand;
@@ -11,7 +12,7 @@ public class AddProductCommand : IRequest<string>
     public string Description { get; set; } = string.Empty;
     public string ProductTypeId { get; set; }
     public List<string> AllergensIds { get; set; } = new List<string>();
-    public List<PriceLevel> PriceLevels { get; set; } = new List<PriceLevel>();
+    public PriceLevelDto PriceLevel { get; set; } 
 }
 
 public class AddProductCommandHandler : IRequestHandler<AddProductCommand, string>
@@ -34,7 +35,7 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, strin
             Name = request.Name,
             Description= request.Description,
             ProductType = productType,
-            PriceLevels = request.PriceLevels
+            PriceLevel = new PriceLevel(request.PriceLevel.Name,request.PriceLevel.Price)
         };
 
         _dbContext.Products.Add(product);

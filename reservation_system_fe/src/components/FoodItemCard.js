@@ -22,7 +22,7 @@ const FoodItemCard = ({ foodItem }) => {
       productName: foodItem.name,
       productId: foodItem.id,
       count: 1,
-      price: foodItem.priceLevels[0].price,
+      price: foodItem.priceLevel.price,
     });
   };
 
@@ -61,7 +61,7 @@ const FoodItemCard = ({ foodItem }) => {
                   variant="h6.heading"
                   color="red"
                 >
-                  CZK {foodItem.priceLevels[0].price}
+                  CZK {foodItem.priceLevel.price}
                 </Typography>
                 <Typography variant="subtitle1">
                   {foodItem.description}

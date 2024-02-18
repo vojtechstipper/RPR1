@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { getProductsList } from '../services/apiService';
+import { deleteProduct, getProductsList } from '../services/apiService';
 import FoodItemModal from './FoodItemModal';
 
 import Box from '@mui/material/Box';
@@ -29,23 +29,6 @@ const FoodList = () => {
 }, []);
 
   const handleAddItem = () => {
-    // if (newItem.trim() !== '') {
-    //   if (editItemIndex !== null) {
-    //     // If editing, update the existing item
-    //     const updatedItems = [...items];
-    //     updatedItems[editItemIndex] = newItem;
-    //     setItems(updatedItems);
-    //     setEditItemIndex(null);
-    //   } else {
-    //     // If adding a new item, add it to the list
-    //     setItems([...items, newItem]);
-    //   }
-
-    //   // Clear the input field
-    //   setNewItem('');
-    // }
-
-
     setEditModalOpen(true);
   };
 
@@ -53,8 +36,6 @@ const FoodList = () => {
     setEditItemIndex(index);
     setEditModalOpen(true);
   };
-
-  const handleSelectChange = (e) => setSelectValue(e.target.value);
 
   const handleCancelEdit = () => {
     // Cancel the edit
@@ -64,22 +45,11 @@ const FoodList = () => {
     setEditModalOpen(false);
   };
 
-  const handleDeleteItem = (index) => {
-    const updatedItems = [...items];
-    updatedItems.splice(index, 1);
-    setItems(updatedItems);
-  };
-
-  const handleSaveEdit = () => {
-    // Save the edited item
-    const updatedItems = [...items];
-    updatedItems[editItemIndex] = newItem;
-    setItems(updatedItems);
-
-    // Close the modal
-    setEditItemIndex(null);
-    setNewItem('');
-    setEditModalOpen(false);
+  const handleDeleteItem = async (index) => {
+    await deleteProduct(index);
+    // const updatedItems = [...items];
+    // updatedItems.splice(index, 1);
+    // setItems(updatedItems);
   };
 
   return (    
@@ -116,7 +86,7 @@ const FoodList = () => {
                 <IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => handleDeleteItem(index)}
+                  onClick={() => handleDeleteItem(item.id)}
                 >
                   <DeleteIcon />
                 </IconButton>

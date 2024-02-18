@@ -17,13 +17,11 @@ public class UploadImageCommandHandler : IRequestHandler<UploadImageCommand, str
     {
         try
         {
-            await _fileService.UploadFile(request.File);
+            return await _fileService.UploadFile(request.File);
         }
         catch (Exception e)
         {
-
             throw e;
         }
-        return "uploaded";
     }
 }

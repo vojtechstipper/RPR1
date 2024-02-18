@@ -1,6 +1,5 @@
 ﻿using ReservationSystem.Domain.Allergens;
 using ReservationSystem.Shared.Entity;
-using System.Reflection.Metadata.Ecma335;
 
 namespace ReservationSystem.Domain.Products;
 

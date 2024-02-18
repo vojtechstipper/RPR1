@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { styled } from '@mui/material/styles';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -8,12 +9,14 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Button } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
   getProductById,
   getAllergensDropdown,
   editProduct,
   getProductTypesDropdown,
   addProduct,
+  uploadImage,
 } from "../services/apiService";
 
 const FoodItemModal = ({open,onClose,itemId}) => {
@@ -22,6 +25,7 @@ const FoodItemModal = ({open,onClose,itemId}) => {
     const [productPriceName, setProductPriceName] = useState('');
     const [productDescription, setProductDescription] = useState('');
     const [productType, setProductType] = useState('');
+    const [imageId, setImageId] = useState('');
     const [productAllergensSelected, setProductAllergensSelected] = useState([]);
     const [product, setProduct] = useState(null);
     const [allergens, setAllergens] = useState([]);
@@ -33,6 +37,19 @@ const FoodItemModal = ({open,onClose,itemId}) => {
     const handleAllergensChanged = (e) => setProductAllergensSelected(e.target.value);
     const handleProductDescriptionChanged = (e) => setProductDescription(e.target.value);
 
+
+
+    const VisuallyHiddenInput = styled('input')({
+      clip: 'rect(0 0 0 0)',
+      clipPath: 'inset(50%)',
+      height: 1,
+      overflow: 'hidden',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      whiteSpace: 'nowrap',
+      width: 1,
+    });
     const handleExitClicked =  () => {
       itemId = null;
       onClose();
@@ -45,11 +62,11 @@ const FoodItemModal = ({open,onClose,itemId}) => {
         description: productDescription,
         productTypeId: productType,
         allergensIds: productAllergensSelected,
-        priceLevel: 
-          {
-            name: productPriceName,
-            price: parseInt(productPriceValue),
-          }        
+        imageId: imageId,
+        priceLevel: {
+          name: productPriceName,
+          price: parseInt(productPriceValue),
+        },
       };
       try {
             if (itemId != null) {
@@ -62,6 +79,20 @@ const FoodItemModal = ({open,onClose,itemId}) => {
        console.error("Chyba při vkládání produktu:", error);
      }
 }
+
+const handleImageUploaded = async (e) => {
+  const formData = new FormData();
+  formData.append("formFile", e.target.files[0]);
+
+  try {
+    const res = await uploadImage(formData);
+    setImageId(res);
+    // Handle the response (e.g., update state or display a success message)
+  } catch (ex) {
+    console.log(ex);
+    // Handle any errors
+  }
+};
 
 
     useEffect(() => {
@@ -153,6 +184,17 @@ const FoodItemModal = ({open,onClose,itemId}) => {
               onChange={handleProductPriceNameChanged}              
               margin="normal"
             />
+             <Button
+      component="label"
+      role={undefined}
+      variant="contained"
+      tabIndex={-1}
+      startIcon={<CloudUploadIcon/>}
+      onChange={handleImageUploaded}
+    >
+      Upload file
+      <VisuallyHiddenInput type="file" />
+    </Button>
             <div>
 
             <Button variant="contained" color="success" onClick={handleSaveClicked}>

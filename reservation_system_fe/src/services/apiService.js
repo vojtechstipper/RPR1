@@ -74,7 +74,22 @@ const deleteProduct = async ( productId) => {
   }
 };
 
-
+const uploadImage = async (image) => {
+  try {
+    const response = await api.post(`/product/image`,image);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+const getImage = async (imageId) => {
+  try {
+    const response = await api.get(`/`,imageId);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const getAllergensDropdown = async () => {
   try {
@@ -144,7 +159,9 @@ export {
   sendOrder,
   getNotStartedOrders,
   sendChangeOrderStatusRequest,
-  getOrderTimesDropdown
+  getOrderTimesDropdown,
+  uploadImage,
+  getImage,
 };
 
 // Zde můžete vytvořit další funkce pro práci s API.

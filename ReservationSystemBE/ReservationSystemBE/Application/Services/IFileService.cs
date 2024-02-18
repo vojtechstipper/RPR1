@@ -1,6 +1,4 @@
-﻿using static Azure.Core.HttpHeader;
-
-namespace ReservationSystemBE.Application.Services;
+﻿namespace ReservationSystemBE.Application.Services;
 
 public interface IFileService
 {
@@ -25,15 +23,15 @@ public class FileService : IFileService
     public async Task<string> UploadFile(IFormFile file)
     {
         string uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "Assets");
-       
-            if (file.Length > 0)
+
+        if (file.Length > 0)
+        {            
+            string filePath = Path.Combine(uploads, file.FileName);
+            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
             {
-                string filePath = Path.Combine(uploads, file.FileName);
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
+                await file.CopyToAsync(fileStream);
             }
-        return "";
+        }
+        return file.FileName;
     }
 }

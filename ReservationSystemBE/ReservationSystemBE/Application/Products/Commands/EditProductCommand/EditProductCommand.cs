@@ -15,6 +15,7 @@ public class EditProductCommand : IRequest<ProductDto>
     public string ProductTypeId { get; set; } = string.Empty;
     public List<string> AllergensIds { get; set; } = new List<string>();
     public PriceLevel PriceLevel { get; set; }
+    public string ImageId { get; set; } = string.Empty;
 }
 
 public class EditProductCommandHandler : IRequestHandler<EditProductCommand, ProductDto>
@@ -38,6 +39,7 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
             product.ProductTypeId = request.ProductTypeId;
             product.PriceLevel = new PriceLevel(request.PriceLevel.Name, request.PriceLevel.Price);
             product.Allergens = allergens;
+            product.ImageId = request.ImageId;
             _context.Update(product);
             await _context.SaveChangesAsync();
         }

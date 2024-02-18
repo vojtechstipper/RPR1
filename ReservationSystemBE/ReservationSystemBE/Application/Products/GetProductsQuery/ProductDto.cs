@@ -1,6 +1,4 @@
-﻿using ReservationSystem.Domain.Allergens;
-using ReservationSystem.Domain.Products;
-using ReservationSystemBE.Application.Allergens.Queries;
+﻿using ReservationSystemBE.Application.Allergens.Queries;
 
 namespace ReservationSystemBE.Application.Products.GetProductsQuery;
 
@@ -12,6 +10,7 @@ public class ProductDto
     public ProductTypeDto ProductType { get; set; }
     public List<AllergenDto> Allergens { get; set; } = new List<AllergenDto>();
     public PriceLevelDto PriceLevel { get; set; } 
+    public string ImageId { get; set; } 
 }
 
 public class ProductTypeDto

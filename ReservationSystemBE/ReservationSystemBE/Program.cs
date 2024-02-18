@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using ReservationSystemBE.Application.Services;
 using ReservationSystemBE.Infrastructure.MiddleWares;
 using ReservationSystemBE.Infrastructure.Persistence;
 using ReservationSystemBE.Infrastructure.SignalRHub;
@@ -34,6 +36,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
+builder.Services.AddTransient<IFileService, FileService>();
+
 
 var app = builder.Build();
 
@@ -51,5 +55,14 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();
 app.MapHub<OrderHub>("/orderHub");
+app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Assets")
+    // Or some other absolute path. 
+    )
+});
 
 app.Run();

@@ -12,7 +12,8 @@ public class AddProductCommand : IRequest<string>
     public string Description { get; set; } = string.Empty;
     public string ProductTypeId { get; set; }
     public List<string> AllergensIds { get; set; } = new List<string>();
-    public PriceLevelDto PriceLevel { get; set; } 
+    public PriceLevelDto PriceLevel { get; set; }
+    public string ImageId { get; set; }
 }
 
 public class AddProductCommandHandler : IRequestHandler<AddProductCommand, string>
@@ -33,9 +34,10 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, strin
         {
             Allergens = allergens,
             Name = request.Name,
-            Description= request.Description,
+            Description = request.Description,
             ProductType = productType,
-            PriceLevel = new PriceLevel(request.PriceLevel.Name,request.PriceLevel.Price)
+            PriceLevel = new PriceLevel(request.PriceLevel.Name, request.PriceLevel.Price),
+            ImageId = request.ImageId
         };
 
         _dbContext.Products.Add(product);

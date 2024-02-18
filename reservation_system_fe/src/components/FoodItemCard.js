@@ -86,7 +86,7 @@ const FoodItemCard = ({ foodItem }) => {
                 <CardMedia
                   component="img"
                   sx={{ width: 160, height: 100 }}
-                  image={coffee}
+                  image={`https://localhost:7038/${foodItem.imageId}`} //uložit do configu jako baseUrl
                   alt="Coffee"
                 />
                 <Box sx={{ width: 160, height : 30, marginTop :1, textAlign: "center" }} >

@@ -36,6 +36,15 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
+
+    var dbcontext = services.GetRequiredService<ReservationSystemDbContext>();
+    dbcontext.Database.Migrate();
+}
+
 app.UseEntityNotFoundExceptionMiddleware();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseSwagger();

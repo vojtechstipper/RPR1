@@ -29,25 +29,27 @@ const FoodList = () => {
 }, []);
 
   const handleAddItem = () => {
-    if (newItem.trim() !== '') {
-      if (editItemIndex !== null) {
-        // If editing, update the existing item
-        const updatedItems = [...items];
-        updatedItems[editItemIndex] = newItem;
-        setItems(updatedItems);
-        setEditItemIndex(null);
-      } else {
-        // If adding a new item, add it to the list
-        setItems([...items, newItem]);
-      }
+    // if (newItem.trim() !== '') {
+    //   if (editItemIndex !== null) {
+    //     // If editing, update the existing item
+    //     const updatedItems = [...items];
+    //     updatedItems[editItemIndex] = newItem;
+    //     setItems(updatedItems);
+    //     setEditItemIndex(null);
+    //   } else {
+    //     // If adding a new item, add it to the list
+    //     setItems([...items, newItem]);
+    //   }
 
-      // Clear the input field
-      setNewItem('');
-    }
+    //   // Clear the input field
+    //   setNewItem('');
+    // }
+
+
+    setEditModalOpen(true);
   };
 
   const handleEditItem = (index) => {
-    console.log(index);
     setEditItemIndex(index);
     setEditModalOpen(true);
   };

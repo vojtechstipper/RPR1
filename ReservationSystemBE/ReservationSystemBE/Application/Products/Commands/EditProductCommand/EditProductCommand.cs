@@ -37,10 +37,8 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
             product.Name = request.Name;
             product.ProductTypeId = request.ProductTypeId;
             product.PriceLevel = new PriceLevel(request.PriceLevel.Name, request.PriceLevel.Price);
-           // product.Allergens.Clear();
             product.Allergens = allergens;
             _context.Update(product);
-            // _context.Update(allergens);
             await _context.SaveChangesAsync();
         }
         else

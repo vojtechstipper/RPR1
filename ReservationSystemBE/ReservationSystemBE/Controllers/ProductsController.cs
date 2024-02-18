@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
+using ReservationSystemBE.Application.Products.Commands.DeleteProductCommand;
 using ReservationSystemBE.Application.Products.Commands.EditProductCommand;
 using ReservationSystemBE.Application.Products.GetGrouppedProducts;
 using ReservationSystemBE.Application.Products.GetProductQuery;
@@ -32,6 +33,14 @@ public class ProductsController : Controller
     public async Task<ActionResult<ProductDto>> EditProduct([FromBody] EditProductCommand command)
     {
         return Ok(await _mediator.Send(command));
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteProduct([FromRoute] string id)
+    {
+        return Ok(await _mediator.Send(new DeleteProductCommand(id)));
     }
 
     [HttpGet("list")]

@@ -55,6 +55,15 @@ const getAllergens = async () => {
   }
 };
 
+const deleteProduct = async ( productId) => {
+  try {
+    const response = await api.delete(`/product/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Funkce pro získání produktu podle ID
  const getProductById = async (productId) => {
   try {
@@ -128,7 +137,9 @@ export {
   getAllergens,
   getProductsList,
   getAllergensDropdown,
+  addProduct,
   editProduct,
+  deleteProduct,
   getProductTypesDropdown,
   sendOrder,
   getNotStartedOrders,

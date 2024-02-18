@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import  Textarea from '@mui/material/TextareaAutosize';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Button } from '@mui/material';
@@ -14,24 +13,25 @@ import {
   getAllergensDropdown,
   editProduct,
   getProductTypesDropdown,
+  addProduct,
 } from "../services/apiService";
 
 const FoodItemModal = ({open,onClose,itemId}) => {
-    const [textFieldValue, setTextFieldValue] = useState('');
-    const [textFieldPriceValue, setTextFieldPriceValue] = useState('');
-    const [textFieldPriceNameValue, setTextFieldPriceNameValue] = useState('');
-    const [textDescriptoion, setTextDescription] = useState('');
-    const [selectValue, setSelectValue] = useState('');
-    const [multiSelectValue, setMultiSelectValue] = useState([]);
+    const [productName, setProductName] = useState('');
+    const [productPriceValue, setProductPriceValue] = useState('');
+    const [productPriceName, setProductPriceName] = useState('');
+    const [productDescription, setProductDescription] = useState('');
+    const [productType, setProductType] = useState('');
+    const [productAllergensSelected, setProductAllergensSelected] = useState([]);
     const [product, setProduct] = useState(null);
-    const [alergeny, setAlergeny] = useState([]);
+    const [allergens, setAllergens] = useState([]);
     const [productTypes, setProductTypes] = useState([]);
-    const handleTextFieldChange = (e) => setTextFieldValue(e.target.value);
-    const handleTextFieldPriceChange = (e) => setTextFieldPriceValue(e.target.value);
-    const handleTextFieldPriceNameChange = (e) => setTextFieldPriceNameValue(e.target.value);
-    const handleSelectChange = (e) => setSelectValue(e.target.value);
-    const handleMultiSelectChange = (e) => setMultiSelectValue(e.target.value);
-    const handleTextDescriptionChanged = (e) => setTextDescription(e.target.value);
+    const handleProductNameChanged = (e) => setProductName(e.target.value);
+    const handleProductPriceValueChanged = (e) => setProductPriceValue(e.target.value);
+    const handleProductPriceNameChanged = (e) => setProductPriceName(e.target.value);
+    const handleProdutTypeChanged = (e) => setProductType(e.target.value);
+    const handleAllergensChanged = (e) => setProductAllergensSelected(e.target.value);
+    const handleProductDescriptionChanged = (e) => setProductDescription(e.target.value);
 
     const handleExitClicked =  () => {
       itemId = null;
@@ -39,44 +39,47 @@ const FoodItemModal = ({open,onClose,itemId}) => {
     }
 
     const handleSaveClicked = async () => {
-      console.log("clicked");
       const jsonData = {
         id: itemId,
-        name: textFieldValue,
-        productTypeId: selectValue,
-        allergensIds: multiSelectValue,
-        priceLevels: [
+        name: productName,
+        description: productDescription,
+        productTypeId: productType,
+        allergensIds: productAllergensSelected,
+        priceLevel: 
           {
-            name: textFieldPriceNameValue,
-            price: parseInt(textFieldPriceValue),
-          },
-        ],
+            name: productPriceName,
+            price: parseInt(productPriceValue),
+          }        
       };
-      try{
-        const response = await editProduct(jsonData);
-      }
-      catch(error)
-      {
-        console.error("Chyba při editaci produktu:", error);
-      }
-    }
+      try {
+            if (itemId != null) {
+              await editProduct(jsonData);
+            } else {
+              await addProduct(jsonData);
+            }
+          }
+     catch (error) {
+       console.error("Chyba při vkládání produktu:", error);
+     }
+}
 
 
     useEffect(() => {
       async function fetchProduct() {     
-        if (itemId != null) {         
+        const responseAllergensDropdown = await getAllergensDropdown();
+        setAllergens(responseAllergensDropdown);
+        const responseProductTypesDropdown = await getProductTypesDropdown();
+        setProductTypes(responseProductTypesDropdown);
+        if (itemId != null) {
           try {
             const response = await getProductById(itemId);
             setProduct(response);
-            const responseAllergensDropdown = await getAllergensDropdown();
-            setAlergeny(responseAllergensDropdown);
-            const responseProductTypesDropdown = await getProductTypesDropdown();
-            setProductTypes(responseProductTypesDropdown);
-            setTextDescription(response.description);
-            setTextFieldValue(response.name);
-            setSelectValue(response.productTypeId);
-            setTextFieldPriceNameValue(response.priceLevel.name)
-            setTextFieldPriceValue(response.priceLevel.price)
+            setProductDescription(response.description);
+            setProductName(response.name);
+            setProductType(response.productTypeId);
+            setProductPriceName(response.priceLevel.name);
+            setProductPriceValue(response.priceLevel.price);
+            setProductAllergensSelected(response.allergensIds);
           } catch (error) {
             console.error("Chyba při načítání produktu:", error);
           }
@@ -104,19 +107,19 @@ const FoodItemModal = ({open,onClose,itemId}) => {
           >
             <TextField
               label="Název"
-              value={textFieldValue}
-              onChange={handleTextFieldChange}
+              value={productName}
+              onChange={handleProductNameChanged}
               fullWidth
               margin="normal"
             />
-            <Textarea fullwidth minRows={3} value={textDescriptoion} onChange={handleTextDescriptionChanged}></Textarea>
+            <Textarea fullwidth minRows={3} value={productDescription} onChange={handleProductDescriptionChanged}></Textarea>
             <FormControl fullWidth margin="normal">
-              <InputLabel id="select-label">Select Dropdown</InputLabel>
+              <InputLabel id="select-label">Druh produktu</InputLabel>
               <Select
                 labelId="select-label"
                 id="select"
-                value={selectValue}
-                onChange={handleSelectChange}
+                value={productType}
+                onChange={handleProdutTypeChanged}
               >
                 {productTypes.map((item) => (
                   <MenuItem value={item.id}>{item.name}</MenuItem>
@@ -129,14 +132,10 @@ const FoodItemModal = ({open,onClose,itemId}) => {
                 labelId="multi-select-label"
                 id="multi-select"
                 multiple
-                value={multiSelectValue}
-                onChange={handleMultiSelectChange}
-                input={<Input />}
-               
-                //selected.join(", ")
-              
+                value={productAllergensSelected}
+                onChange={handleAllergensChanged}              
               >
-                {alergeny.map((item) => (
+                {allergens.map((item) => (
                   <MenuItem value={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
@@ -144,16 +143,14 @@ const FoodItemModal = ({open,onClose,itemId}) => {
             <TextField
               label="Cena"
               type="number"
-              value={textFieldPriceValue}
-              onChange={handleTextFieldPriceChange}
-              
+              value={productPriceValue}
+              onChange={handleProductPriceValueChanged}              
               margin="normal"
             />
               <TextField
               label="Název ceny"
-              value={textFieldPriceNameValue}
-              onChange={handleTextFieldPriceNameChange}
-              
+              value={productPriceName}
+              onChange={handleProductPriceNameChanged}              
               margin="normal"
             />
             <div>

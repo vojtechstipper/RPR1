@@ -1,5 +1,6 @@
 ﻿using ReservationSystem.Domain.Allergens;
 using ReservationSystem.Shared.Entity;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ReservationSystem.Domain.Products;
 
@@ -11,4 +12,5 @@ public class Product : Entity
     public string ProductTypeId { get; set; }
     public List<Allergen> Allergens { get; set; } = new List<Allergen>();
     public PriceLevel PriceLevel { get; set; }
+    public string ImageId { get; set; } = string.Empty;
 }

@@ -10,6 +10,10 @@ import AdminStatsPage from "./pages/AdminStatsPage";
 import AdminEditProductPage from "./pages/AdminEditProductPage";
 import AdminEditUserPage from "./pages/AdminEditUserPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage.js";
+import AdminLoginPage from "./pages/AdminLoginPage.js";
+import UserLoginPage from "./pages/UserLoginPage.js";
+import UserRegisterPage from "./pages/UserRegisterPage.js";
+import UserPasswordResetPage from "./pages/UserPasswordResetPage.js";
 
 function App() {
   return (
@@ -24,6 +28,12 @@ function App() {
         <Route path="admin/edit/products" element={<AdminEditProductPage />} />
         <Route path="admin/edit/users" element={<AdminEditUserPage />} />
         <Route path="shoppingcart" element={<ShoppingCartPage />} />
+        <Route path="admin/login" element={<AdminLoginPage />} />
+        <Route path="/login" element={<UserLoginPage />} />
+        <Route path="/register" element={<UserRegisterPage />} />
+        <Route path="/forgotPassword" element={<UserPasswordResetPage />} />
+
+
       </Routes>
     </BrowserRouter>
   );

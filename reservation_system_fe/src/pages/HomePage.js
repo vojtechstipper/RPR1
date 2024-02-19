@@ -5,6 +5,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useNavigate } from 'react-router-dom';
 import Footer from "../components/Footer";
+import Coverphoto from "../static/img/coverphoto.jpg";
 
 
 function HomePage() {
@@ -62,7 +63,7 @@ function HomePage() {
                     }}>
                         <CardMedia
                             component="img"
-                            image="https://scontent-prg1-1.xx.fbcdn.net/v/t39.30808-6/369508160_122111374238003536_4799389075648270822_n.jpg?stp=cp6_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=783fdb&_nc_ohc=Dh9im525BksAX_OkLaJ&_nc_ht=scontent-prg1-1.xx&oh=00_AfCMiyr2qWRW0Hash3CVbSD7BEHgibSuDUnbUs8GQEPFNQ&oe=65AD4A59"
+                            image={Coverphoto}
                             alt="City Campus Coffee"
                             sx={{ height: 'auto', width: '100%' }}
                         />

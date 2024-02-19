@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import logo from "../static/img/logoCCC.jpeg";
 import { useNavigate } from 'react-router-dom';
 
-const UserPasswordResetPage = () => {
+const PasswordResetPage = () => {
   const [email, setEmail] = useState('');
 
   const handleEmailChange = (event) => {
@@ -107,4 +107,4 @@ const UserPasswordResetPage = () => {
   );
 };
 
-export default UserPasswordResetPage;
+export default PasswordResetPage;

@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import logo from "../static/img/logoCCC.jpeg";
 
-const UserRegisterPage = () => {
+const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -141,4 +141,4 @@ const UserRegisterPage = () => {
   );
 };
 
-export default UserRegisterPage;
+export default RegisterPage;

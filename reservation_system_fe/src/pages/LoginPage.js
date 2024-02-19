@@ -9,7 +9,7 @@ import logo from "../static/img/logoCCC.jpeg";
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 
-const UserLoginPage = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -132,4 +132,4 @@ const UserLoginPage = () => {
   );
 };
 
-export default UserLoginPage;
+export default LoginPage;

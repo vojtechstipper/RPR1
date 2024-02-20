@@ -33,6 +33,10 @@ export default function ButtonAppBar() {
     navigate("/shoppingcart");
   };
 
+  const navigateLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <Box
       sx={{
@@ -103,9 +107,9 @@ export default function ButtonAppBar() {
           </Button>
         </Grid>
         <Grid>
-          <IconButton aria-label="person" color="inherit" size="large">
-            <PersonOutlineIcon fontSize="medium-large" />
-          </IconButton>
+        <IconButton aria-label="person" color="inherit" size="large" onClick={navigateLogin}>
+          <PersonOutlineIcon fontSize="medium-large" />
+        </IconButton>
           <IconButton
             aria-label="person"
             color="inherit"

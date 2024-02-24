@@ -1,74 +1,74 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import { Container } from '@mui/material';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import React from "react";
+import { Grid, Typography, Link, Box, Container } from "@mui/material";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from "@mui/icons-material/Facebook";
 
 function Footer() {
   return (
- 
-      <Container maxWidth={false} sx={{marginTop:"50px",  maxWidth: "2000px",
-      minWidth: "700px",
-      width: "80%", borderRadius: "12px" }}>
-        <Grid container spacing={2} alignItems="flex-start" justifyContent="space-between">
-        <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-            <Typography variant="h6" fontWeight="bold">Kontaktní údaje</Typography>
-            <Typography>Informace o provozovateli: (text bude dodán)</Typography>
-            <Typography>Adresa: Moravská Ostrava 3397, Ostrava 702 00</Typography>
-            <Typography>Telefonní číslo: 737 513 759</Typography>
-            <Typography>E-mailová adresa: lanzaya@email.cz</Typography>
-        </Box>
+    <Container component="footer" maxWidth="xl" sx={{ mt: 8, py: 4 }}>
+      <Grid container spacing={4} justifyContent="center">
+        <Grid item xs={12} sm={6} md={3}>
+          <Typography variant="h6" fontWeight="bold" gutterBottom>
+            Kontaktní údaje
+          </Typography>
+          <Typography variant="body2">
+            Informace o provozovateli: (text bude dodán)
+          </Typography>
+          <Typography variant="body2">
+            Adresa: Moravská Ostrava 3397, Ostrava 702 00
+          </Typography>
+          <Typography variant="body2">Telefonní číslo: 737 513 759</Typography>
+          <Typography variant="body2">
+            E-mailová adresa: lanzaya@email.cz
+          </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-            <Typography variant="h6" fontWeight="bold">Otevírací doba</Typography>
-            <Typography>Pondělí: 9 - 17</Typography>
-            <Typography>Úterý: 8 - 17</Typography>
-            <Typography>Středa: 8 - 17</Typography>
-            <Typography>Čtvrtek: 8 - 17</Typography>
-            <Typography>Pátek: 9 - 17</Typography>
-            <Typography>Sobota - Neděle: dle akcí</Typography>
-        </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-              <Typography variant="h6" gutterBottom fontWeight="bold">Sociální sítě</Typography>
-              <Link href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none', color:'black' }}>
-                <InstagramIcon sx={{ mr: 1 }} />
-                Instagram
-              </Link>
-              <Link href="https://www.facebook.com/profile.php?id=61550106100216" target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none', color:'black' }}>
-                <FacebookIcon sx={{ mr: 1 }} />
-                Facebook
-              </Link>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-            <Typography variant="h6" fontWeight="bold">Mapa</Typography>
-            <Box
-              component="iframe"
-              sx={{
-                width: 1, 
-                maxWidth: '300px', 
-                height: 150, 
-              }}
-              title="map"
-              src="https://maps.google.com/maps?q=City%20Campus&t=&z=15&ie=UTF8&iwloc=&output=embed"
-              frameBorder="0"
-              allowFullScreen
-              loading="lazy"
-            />
-        </Box>
-          </Grid>
-        
+
+        <Grid item xs={12} sm={6} md={3}>
+          <Typography variant="h6" fontWeight="bold" gutterBottom>
+            Otevírací doba
+          </Typography>
+          <Typography variant="body2">Pondělí: 9 - 17</Typography>
+          <Typography variant="body2">Úterý: 8 - 17</Typography>
+          <Typography variant="body2">Středa: 8 - 17</Typography>
+          <Typography variant="body2">Čtvrtek: 8 - 17</Typography>
+          <Typography variant="body2">Pátek: 9 - 17</Typography>
+          <Typography variant="body2">Sobota - Neděle: dle akcí</Typography>
         </Grid>
-      </Container>
-   
+
+        <Grid item xs={12} sm={6} md={3}>
+          <Typography variant="h6" fontWeight="bold" gutterBottom>
+            Sociální sítě
+          </Typography>
+          <Link
+            href="#"
+            target="_blank"
+            sx={{ display: "flex", alignItems: "center", mb: 1 }}
+          >
+            <InstagramIcon sx={{ mr: 1 }} /> Instagram
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            sx={{ display: "flex", alignItems: "center", mb: 1 }}
+          >
+            <FacebookIcon sx={{ mr: 1 }} /> Facebook
+          </Link>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={3}>
+          <Typography variant="h6" fontWeight="bold" gutterBottom>
+            Mapa
+          </Typography>
+          <Box
+            component="iframe"
+            sx={{ width: "100%", height: 200, border: 0 }}
+            loading="lazy"
+            allowFullScreen
+            src="https://maps.google.com/maps?q=City%20Campus&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          />
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 

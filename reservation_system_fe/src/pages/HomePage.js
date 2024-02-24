@@ -117,7 +117,7 @@ function HomePage() {
           </Box>
         </Grid>
       </Grid>
-    {/*   <Footer /> */}
+      <Footer />
     </Box>
   );
 }

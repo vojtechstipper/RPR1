@@ -78,7 +78,7 @@ export default function ResponsiveAppBar() {
                 display: { xs: "flex", sm: "flex" },
                 "& .MuiAvatar-root": {
                   width: 48,
-                  height: 48 ,
+                  height: 48,
                   transition: "width 0.3s ease, height 0.3s ease",
                 },
               }}
@@ -93,8 +93,8 @@ export default function ResponsiveAppBar() {
               display: { sm: "flex" },
               justifyContent: "center",
               "& .MuiButton-root": {
-                mx: 1, 
-                fontSize: "1.2rem", // Upravuje velikost písma pro lepší čitelnost
+                mx: 1,
+                fontSize: "1.2rem",
               },
             }}
           >

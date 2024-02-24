@@ -5,13 +5,28 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ShoppingCartProvider } from "./components/ShoppingCartContext";
 
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Roboto, Arial, sans-serif",
+  },
+});
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ShoppingCartProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </ShoppingCartProvider>
+  <ThemeProvider theme={theme}>
+    <ShoppingCartProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ShoppingCartProvider>
+  </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

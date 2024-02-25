@@ -1,10 +1,21 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using ReservationSystem.Domain.Allergens;
 using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Allergens.Commands;
 
 public record AddAllergenCommand(string Name, string Description, int Code) : IRequest<string>;
+
+public class AddAllergenCommandValidator : AbstractValidator<AddAllergenCommand>
+{
+    public AddAllergenCommandValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty();
+        RuleFor(x => x.Description).NotEmpty();
+        RuleFor(x => x.Code).GreaterThan(0);
+    }
+}
 
 public class AddAllergenCommandHandler : IRequestHandler<AddAllergenCommand, string>
 {

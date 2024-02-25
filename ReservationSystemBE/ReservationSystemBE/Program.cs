@@ -1,5 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 using ReservationSystemBE.Application.Services;
 using ReservationSystemBE.Infrastructure.MiddleWares;
 using ReservationSystemBE.Infrastructure.Persistence;
@@ -36,6 +39,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<AddProductCommandValidator>(ServiceLifetime.Transient);
 builder.Services.AddTransient<IFileService, FileService>();
 
 

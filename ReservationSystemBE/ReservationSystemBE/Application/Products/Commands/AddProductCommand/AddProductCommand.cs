@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
@@ -13,7 +14,20 @@ public class AddProductCommand : IRequest<string>
     public string ProductTypeId { get; set; }
     public List<string> AllergensIds { get; set; } = new List<string>();
     public PriceLevelDto PriceLevel { get; set; }
-    public string ImageId { get; set; }
+    public string ImageId { get; set; } = string.Empty;
+}
+
+public class AddProductCommandValidator : AbstractValidator<AddProductCommand>
+{
+    public AddProductCommandValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty();
+        RuleFor(x => x.Description).NotEmpty();
+        RuleFor(x => x.ProductTypeId).NotNull();
+        RuleFor(x => x.PriceLevel).NotNull();
+        RuleFor(x => x.PriceLevel.Name).NotNull().NotEmpty();
+        RuleFor(x => x.PriceLevel.Price).GreaterThan(0);
+    }
 }
 
 public class AddProductCommandHandler : IRequestHandler<AddProductCommand, string>

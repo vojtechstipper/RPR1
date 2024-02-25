@@ -5,9 +5,7 @@ using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Allergens.Queries;
 
-public class GetAllergensDropDownQuery : IRequest<List<AllergenDropDownDto>>
-{
-}
+public record GetAllergensDropDownQuery : IRequest<List<AllergenDropDownDto>>;
 
 public class GetAllergensDropDownQueryHandler : IRequestHandler<GetAllergensDropDownQuery, List<AllergenDropDownDto>>
 {

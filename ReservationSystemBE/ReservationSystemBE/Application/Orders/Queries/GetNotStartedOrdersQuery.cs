@@ -6,9 +6,7 @@ using ReservationSystemBE.Infrastructure.SignalRHub;
 
 namespace ReservationSystemBE.Application.Orders.Queries;
 
-public class GetNotStartedOrdersQuery : IRequest<List<OrderMessage>>
-{
-}
+public record GetNotStartedOrdersQuery : IRequest<List<OrderMessage>>;
 
 public class GetNotStartedOrdersQueryHandler : IRequestHandler<GetNotStartedOrdersQuery, List<OrderMessage>>
 {

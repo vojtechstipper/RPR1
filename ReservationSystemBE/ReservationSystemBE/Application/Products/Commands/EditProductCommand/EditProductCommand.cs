@@ -46,8 +46,13 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
 
     public async Task<ProductDto> Handle(EditProductCommand request, CancellationToken cancellationToken)
     {
-        var product = _context.Products.Include(x => x.Allergens).FirstOrDefault(x => x.Id == request.Id);
-        var allergens = _context.Allergens.Where(x => request.AllergensIds.Contains(x.Id)).ToList();
+        var product = await _context.Products.Include(x => x.Allergens).FirstOrDefaultAsync(x => x.Id == request.Id);
+        var allergens = await _context.Allergens.Where(x => request.AllergensIds.Contains(x.Id)).ToListAsync();
+        var productType = await _context.ProductTypes.FirstOrDefaultAsync(x => x.Id == request.ProductTypeId);
+        if (productType is null)
+        {
+            throw new ValidationException($"Entity not found with Id: {request.ProductTypeId}", "EntityNotFound");
+        }
         if (product is not null)
         {
             product.Name = request.Name;

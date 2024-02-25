@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Products;
 using ReservationSystemBE.Application.Products.GetProductsQuery;
 using ReservationSystemBE.Infrastructure.Persistence;
+using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
 
 namespace ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 
@@ -43,6 +44,11 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, strin
     {
         var allergens = await _dbContext.Allergens.Where(x => request.AllergensIds.Contains(x.Id)).ToListAsync(cancellationToken);
         var productType = await _dbContext.ProductTypes.FirstOrDefaultAsync(x => x.Id == request.ProductTypeId);
+
+        if (productType is null)
+        {
+            throw new ValidationException($"Entity not found with Id: {request.ProductTypeId}", "EntityNotFound");
+        }
 
         var product = new Product()
         {

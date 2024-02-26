@@ -6,6 +6,7 @@ import { deleteProduct, getProductsList } from '../services/apiService';
 import FoodItemModal from './FoodItemModal';
 
 import Box from '@mui/material/Box';
+import { toast } from 'react-toastify';
 
 const FoodList = () => {
   const [items, setItems] = useState([]);

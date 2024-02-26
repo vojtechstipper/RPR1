@@ -2,6 +2,8 @@ import React from 'react';
 import AdminSideBar from "../components/AdminSidebar";
 import FoodList from "../components/AdminFoodList";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function AdminEditProductPage() {
     return (

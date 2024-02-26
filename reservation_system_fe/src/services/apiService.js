@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import api from './api';
 // Funkce pro získání seznamu produktů
  const getProducts = async () => {
@@ -39,6 +40,7 @@ const getAllergens = async () => {
  const addProduct = async (productData) => {
   try {
     const response = await api.post('/product', productData);
+    toastNotify(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -49,6 +51,7 @@ const getAllergens = async () => {
  const editProduct = async ( productData) => {
   try {
     const response = await api.put(`/product/edit`, productData);
+    toastNotify(response);
     return response.data;
   } catch (error) {
     throw error;
@@ -58,6 +61,7 @@ const getAllergens = async () => {
 const deleteProduct = async ( productId) => {
   try {
     const response = await api.delete(`/product/${productId}`);
+    toastNotify(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -77,6 +81,7 @@ const deleteProduct = async ( productId) => {
 const uploadImage = async (image) => {
   try {
     const response = await api.post(`/product/image`,image);
+    toastNotify(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -131,6 +136,7 @@ const getOrderTimesDropdown = async () => {
 const sendOrder = async (orderData) => {
   try {
     const response = await api.post("/order", orderData);
+    toastNotify(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -164,4 +170,10 @@ export {
   getImage,
 };
 
+
+  function toastNotify(response) {
+    if (response.status == 200) toast.success("Success !");
+    else if ((response.status >= 400 && response.status<500)) toast.error("Fail");
+    else if (response.status == 500) toast.error("Neočekávaná chyba serveru");
+  }
 // Zde můžete vytvořit další funkce pro práci s API.

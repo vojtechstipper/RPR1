@@ -6,7 +6,6 @@ import { deleteProduct, getProductsList } from '../services/apiService';
 import FoodItemModal from './FoodItemModal';
 
 import Box from '@mui/material/Box';
-import { toast } from 'react-toastify';
 
 const FoodList = () => {
   const [items, setItems] = useState([]);
@@ -30,6 +29,8 @@ const FoodList = () => {
 }, []);
 
   const handleAddItem = () => {
+    setEditItemIndex(null)
+    console.log(editItemIndex);
     setEditModalOpen(true);
   };
 
@@ -48,9 +49,6 @@ const FoodList = () => {
 
   const handleDeleteItem = async (index) => {
     await deleteProduct(index);
-    // const updatedItems = [...items];
-    // updatedItems.splice(index, 1);
-    // setItems(updatedItems);
   };
 
   return (    

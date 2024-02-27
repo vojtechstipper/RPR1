@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { Button } from "@mui/material";
+import { Button, CardMedia, Container, Grid } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   getProductById,
@@ -119,6 +119,15 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
           console.error("Chyba při načítání produktu:", error);
         }
       }
+      else{
+        setProduct(null);
+        setProductDescription("");
+        setProductName("");
+        setProductType("");
+        setProductPriceName("");
+        setProductPriceValue("");
+        setProductAllergensSelected([]);
+      }
     }
 
     fetchProduct();
@@ -183,6 +192,7 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
           </Select>
         </FormControl>
         <TextField
+          fullWidth
           required
           label="Cena"
           type="number"
@@ -191,12 +201,23 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
           margin="normal"
         />
         <TextField
+          fullWidth
           required
           label="Název ceny"
           value={productPriceName}
           onChange={handleProductPriceNameChanged}
           margin="normal"
         />
+        <Grid container spacing={12} marginBottom={1}>
+        <Grid item  xs={6}>
+        <CardMedia
+          component="img"
+          sx={{ width: 160, height: 100 }}
+          image={`https://localhost:7038/${product?.imageId ?? ""}`} //uložit do configu jako baseUrl
+          alt="Coffee"
+        />
+        </Grid>
+         <Grid item xs={6}>
         <Button
           component="label"
           role={undefined}
@@ -208,18 +229,29 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
           Upload file
           <VisuallyHiddenInput type="file" />
         </Button>
-        <div>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={handleSaveClicked}
-          >
-            Potvrdit
-          </Button>
-          <Button variant="contained" color="error" onClick={handleExitClicked}>
-            Zrušit
-          </Button>
-        </div>
+         </Grid>
+        </Grid>
+        <Grid container spacing={12} >
+          <Grid item xs>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleExitClicked}
+            >
+              Zrušit
+            </Button>
+          </Grid>
+          <Grid item xs></Grid>
+          <Grid item xs>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleSaveClicked}
+            >
+              Potvrdit
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Modal>
   );

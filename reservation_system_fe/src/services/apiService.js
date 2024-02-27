@@ -40,7 +40,7 @@ const getAllergens = async () => {
  const addProduct = async (productData) => {
   try {
     const response = await api.post('/product', productData);
-    toastNotify(response)
+    toastNotify(response, "Produkt přidán!")
     return response.data;
   } catch (error) {
     throw error;
@@ -49,11 +49,12 @@ const getAllergens = async () => {
 
 // Funkce pro editaci produktu
  const editProduct = async ( productData) => {
-  try {
-    const response = await api.put(`/product/edit`, productData);
-    toastNotify(response);
+   try {
+     const response = await api.put(`/product/edit`, productData);
+    toastNotify(response, "Produkt upraven!");
     return response.data;
   } catch (error) {
+    toastNotify(error.response);
     throw error;
   }
 };
@@ -61,7 +62,7 @@ const getAllergens = async () => {
 const deleteProduct = async ( productId) => {
   try {
     const response = await api.delete(`/product/${productId}`);
-    toastNotify(response)
+    toastNotify(response, "Produkt smazán!")
     return response.data;
   } catch (error) {
     throw error;
@@ -81,7 +82,7 @@ const deleteProduct = async ( productId) => {
 const uploadImage = async (image) => {
   try {
     const response = await api.post(`/product/image`,image);
-    toastNotify(response)
+    toastNotify(response,"Obrázek nahrán!")
     return response.data;
   } catch (error) {
     throw error;
@@ -136,7 +137,7 @@ const getOrderTimesDropdown = async () => {
 const sendOrder = async (orderData) => {
   try {
     const response = await api.post("/order", orderData);
-    toastNotify(response)
+    toastNotify(response, "Objednávka odeslána!");
     return response.data;
   } catch (error) {
     throw error;
@@ -171,9 +172,11 @@ export {
 };
 
 
-  function toastNotify(response) {
-    if (response.status == 200) toast.success("Success !");
-    else if ((response.status >= 400 && response.status<500)) toast.error("Fail");
-    else if (response.status == 500) toast.error("Neočekávaná chyba serveru");
+  function toastNotify(response, successMessage) {
+    if (response.status === 200) toast.success(successMessage);
+    else if (response.status === 400 ) {
+        console.log(response.data.errors);
+        toast.error(`Chyba validace`);
+    }
+    else if (response.status === 500) toast.error("Neočekávaná chyba serveru");
   }
-// Zde můžete vytvořit další funkce pro práci s API.

@@ -4,9 +4,7 @@ using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Allergens.Queries;
 
-public class GetAllergensQuery : IRequest<List<AllergenDto>>
-{
-}
+public record GetAllergensQuery : IRequest<List<AllergenDto>>;
 
 public class GetAllergensQueryHandler : IRequestHandler<GetAllergensQuery, List<AllergenDto>>
 {

@@ -4,7 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ShoppingCartProvider } from "./components/ShoppingCartContext";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -18,12 +19,14 @@ const theme = createTheme({
   },
 });
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
     <ShoppingCartProvider>
       <React.StrictMode>
         <App />
+        <ToastContainer/>
       </React.StrictMode>
     </ShoppingCartProvider>
   </ThemeProvider>

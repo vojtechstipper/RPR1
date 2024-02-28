@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Orders;
 using ReservationSystemBE.Infrastructure.Persistence;
 using ReservationSystemBE.Infrastructure.SignalRHub;
+using static ReservationSystemBE.Application.Orders.Commands.CreateOrderCommand;
 
 namespace ReservationSystemBE.Application.Orders.Commands;
 
@@ -17,6 +19,25 @@ public class CreateOrderCommand : IRequest<Unit>
     {
         public int Count { get; set; }
         public string ProductId { get; set; }
+    }
+}
+
+public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
+{
+    public CreateOrderCommandValidator()
+    {
+        RuleFor(x => x.Items).NotEmpty();
+        RuleForEach(x => x.Items).SetValidator(new OrderItemValidator());
+        RuleFor(x => x.OrderTime).NotNull();
+    }
+
+    private class OrderItemValidator : AbstractValidator<OrderItemsDto>
+    {
+        public OrderItemValidator()
+        {
+            RuleFor(x => x.ProductId).NotNull().NotEmpty();
+            RuleFor(x => x.Count).GreaterThan(0);
+        }
     }
 }
 
@@ -48,7 +69,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             OrderItems = orderItems,
             DateCreated = DateTime.Now,
             DateOrdered = request.OrderTime,
-            OrderIdentifikator = "20240205"+ GenerateRandomNumberString(random, 3),
+            OrderIdentifikator = "20240205" + GenerateRandomNumberString(random, 3),
             Status = OrderStatus.NotStarted,
             Note = request.Note,
         };

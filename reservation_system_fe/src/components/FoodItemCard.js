@@ -1,16 +1,12 @@
+import React from "react";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import coffee from "../static/img/coffee.jpg";
 import Button from '@mui/material/Button';
-
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { Paper } from "@mui/material";
-
-import Tooltip from "@mui/material/Tooltip";
+import { Paper, Tooltip } from "@mui/material";
 import { useShoppingCart } from "./ShoppingCartContext";
 
 const FoodItemCard = ({ foodItem }) => {
@@ -27,74 +23,57 @@ const FoodItemCard = ({ foodItem }) => {
   };
 
   return (
-    <Paper
-      elevation={5}
-      sx={{
-        width: "auto",
-        marginTop: "30px",
-        marginRight: "5em",
-        marginBottom: "30px",
-      }}
-    >
-      <Card
-        sx={{
-          display: "flex",
-          boxShadow: 14,
-          width: 500,
-          backgroundColor: "#f1efef",
-          padding: 2,
-        }}
-      >
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <CardContent sx={{ flex: "1 0 auto" }}>
-            <Grid container>
-              <Grid item xs={8} width={300}>
-                <Typography
-                  style={{ fontWeight: "bold" }}
-                  fontSize={20}
-                  variant="h4"
-                >
-                  {foodItem.name}
+    <Paper elevation={5} sx={{ maxWidth: '100%', mb: 2, backgroundColor: "#f1efef", mx: { xs: 0.5, sm: 2 } }}>
+      <Card sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'row' },
+        alignItems: 'center',
+        minHeight: { xs: 360, sm: 280, md: 320 },
+        minWidth: { xs: 280, sm: 280, md: 300 },
+      }}>
+        <CardMedia
+          component="img"
+          sx={{
+            width: '100%', // Zajistí, že obrázek se přizpůsobí šířce kontejneru
+            maxHeight: { xs: 150, sm: 220, md: 220 }, // Maximální výška obrázku
+            objectFit: 'cover', // Zajistí, že obrázek pokryje celou plochu bez zkreslení
+          }}
+          image={foodItem.imageId ? `https://localhost:7038/${foodItem.imageId}` : "https://via.placeholder.com/220"}
+          alt={foodItem.name}
+        />
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          flex: 1,
+          p: { xs: 1, sm: 2 },
+        }}>
+          <CardContent sx={{ flex: '1 0 auto', overflow: 'auto' }}>
+            <Typography gutterBottom variant="h5" component="div">
+              {foodItem.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {foodItem.description}
+            </Typography>
+            <Typography variant="body1" color="text.primary">
+              Cena: CZK {foodItem.priceLevel.price}
+            </Typography>
+            {hasAllergens && (
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                <Typography variant="body2" color="text.secondary">
+                  Alergeny: {foodItem.allergens.map((al) => al.code).join(", ")}
                 </Typography>
-                <Typography
-                  style={{ fontWeight: "bold" }}
-                  variant="h6.heading"
-                  color="red"
-                >
-                  CZK {foodItem.priceLevel.price}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {foodItem.description}
-                </Typography>
-                {hasAllergens && (
-                  <Typography
-                    style={{ fontWeight: "bold", display: "flex" }}
-                    variant="subtitle2"
-                  >
-                    Alergeny:{" "}
-                    {foodItem.allergens.map((al) => al.code).join(", ")}
-                    <Tooltip
-                      style={{ marginLeft: 5 }}
-                      title={foodItem.allergens.map((al) => al.name).join(", ")}
-                    >
-                      <InfoOutlinedIcon />
-                    </Tooltip>
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={4}>
-                <CardMedia
-                  component="img"
-                  sx={{ width: 160, height: 100 }}
-                  image={`https://localhost:7038/${foodItem.imageId}`} //uložit do configu jako baseUrl
-                  alt="Coffee"
-                />
-                <Box sx={{ width: 160, height : 30, marginTop :1, textAlign: "center" }} >
-                  <Button onClick={handleAddToCart}  variant="contained" color="success">Přidat do košíku</Button>
-                </Box>
-              </Grid>
-            </Grid>
+                <Tooltip title={foodItem.allergens.map((al) => al.name).join(", ")}>
+                  <InfoOutlinedIcon sx={{ ml: 0.5 }} />
+                </Tooltip>
+              </Box>
+            )}
           </CardContent>
+          <Box sx={{ p: 1 }}>
+            <Button onClick={handleAddToCart} variant="contained" color="primary" fullWidth>
+              Přidat do košíku
+            </Button>
+          </Box>
         </Box>
       </Card>
     </Paper>

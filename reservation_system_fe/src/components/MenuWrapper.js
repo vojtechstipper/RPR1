@@ -1,93 +1,81 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import {AppBar, Button, IconButton, InputBase, styled, Toolbar} from '@mui/material';
+import { AppBar, Button, IconButton, InputBase, Paper, Toolbar, useTheme, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const TransparentAppBar = styled(AppBar)(({theme}) => ({
-    backgroundColor: 'transparent',
-    boxShadow: 'none',
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+const CustomAppBar = styled(AppBar)(({ theme }) => ({
+    backgroundColor: theme.palette.grey[200], // Šedé pozadí pro AppBar
+    color: theme.palette.text.primary, // Barva textu
 }));
 
-const MenuWrapper = ({children, handleSearchTermChange, searchTermVal}) => {
+const MenuWrapper = ({ children, handleSearchTermChange, searchTermVal }) => {
+    const theme = useTheme();
+
     return (
-      <Box
-        sx={{
-          backgroundColor: "#d3d3d3",
-          padding: "40px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          maxWidth: "2000px",
-          minWidth: "700px",
-          margin: "auto",
-          width: "75%",
-          borderRadius: "12px",
-        }}
-      >
-        <Box sx={{ flexGrow: 1, width: "100%" }}>
-          <TransparentAppBar position="static">
-            <Toolbar
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-              }}
-            >
-         <Box sx={{ flex: "1 1 auto" }}>
-                {children.map((item) => (
-                  <Button
-                    sx={{
-                      fontWeight: "bold",
-                      color: "black",
-                      marginBottom: "8px",
-                    }} onClick={() => {
-                      handleSearchTermChange(item.key)
-                    }}
-                  >
-                    {item.key}
-
-                  </Button>
-                ))}
-              </Box>
-        
-         
-                <InputBase
-                  id="input-with-icon-adornment"
-                  elevation={3}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    borderRadius: "4px",
-                    backgroundColor: "white",
-                    ml: 1,
-                    paddingLeft:"5px"
-                  }}
-                  endAdornment={
-                    <IconButton type="button" aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                  }
-                  placeholder="Hledat položku"
-                  value={searchTermVal}
-                  onChange={(e) => handleSearchTermChange(e.target.value)}
-                />
-
-       
-             
-            </Toolbar>
-          </TransparentAppBar>
-        </Box>
         <Box
-          sx={{
-            paddingLeft: "40px",
-            width:"100%"
-          }}
+            sx={{
+                backgroundColor: theme.palette.background.default,
+                padding: theme.spacing(5),
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                maxWidth: "100%",
+                minWidth: "300px",
+                margin: "auto",
+                width: "75%",
+                borderRadius: theme.shape.borderRadius,
+            }}
         >
-          {children}
+            <Paper elevation={3} sx={{ flexGrow: 1, width: "100%", marginBottom: theme.spacing(3), borderRadius: theme.shape.borderRadius, backgroundColor: theme.palette.grey[100] }}>
+                <CustomAppBar position="static" elevation={0}>
+                    <Toolbar
+                        sx={{
+                            justifyContent: "space-between",
+                            flexWrap: "wrap",
+                        }}
+                    >
+                        <Box sx={{ flex: "1 1 auto", display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}>
+                            {children.map((item, index) => (
+                                <Button
+                                    key={index}
+                                    sx={{
+                                        fontWeight: "bold",
+                                        color: theme.palette.text.primary,
+                                        marginBottom: theme.spacing(1),
+                                        marginRight: theme.spacing(1),
+                                    }}
+                                    onClick={() => handleSearchTermChange(item.key)}
+                                >
+                                    {item.key}
+                                </Button>
+                            ))}
+                        </Box>
+                        <InputBase
+                            sx={{
+                                backgroundColor: "white",
+                                padding: "0 10px",
+                                borderRadius: theme.shape.borderRadius,
+                                display: "flex",
+                                alignItems: "center",
+                                width: { xs: "100%", sm: "auto" },
+                                marginTop: { xs: theme.spacing(1), sm: "0" },
+                            }}
+                            endAdornment={
+                                <IconButton type="submit" aria-label="search">
+                                    <SearchIcon />
+                                </IconButton>
+                            }
+                            placeholder="Hledat položku"
+                            value={searchTermVal}
+                            onChange={(e) => handleSearchTermChange(e.target.value)}
+                        />
+                    </Toolbar>
+                </CustomAppBar>
+            </Paper>
+            <Box sx={{ width: "100%", backgroundColor: theme.palette.grey[200], padding: theme.spacing(2), borderRadius: theme.shape.borderRadius }}>
+                {children}
+            </Box>
         </Box>
-      </Box>
     );
 };
 

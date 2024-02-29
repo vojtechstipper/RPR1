@@ -4,7 +4,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import coffee from "../static/img/coffee.jpg";
 import Button from '@mui/material/Button';
 
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -85,12 +84,25 @@ const FoodItemCard = ({ foodItem }) => {
               <Grid item xs={4}>
                 <CardMedia
                   component="img"
-                  sx={{ width: 160, height: 100 }}
+                  sx={{ width: 160, height: 100, borderRadius: 1 }}
                   image={`https://localhost:7038/${foodItem.imageId}`} //uložit do configu jako baseUrl
                   alt="Coffee"
                 />
-                <Box sx={{ width: 160, height : 30, marginTop :1, textAlign: "center" }} >
-                  <Button onClick={handleAddToCart}  variant="contained" color="success">Přidat do košíku</Button>
+                <Box
+                  sx={{
+                    width: 160,
+                    height: 30,
+                    marginTop: 1,
+                    textAlign: "center",
+                  }}
+                >
+                  <Button
+                    onClick={handleAddToCart}
+                    variant="contained"
+                    color="success"
+                  >
+                    Přidat do košíku
+                  </Button>
                 </Box>
               </Grid>
             </Grid>

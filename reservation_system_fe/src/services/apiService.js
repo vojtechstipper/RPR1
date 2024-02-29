@@ -65,6 +65,7 @@ const deleteProduct = async ( productId) => {
     toastNotify(response, "Produkt smazán!")
     return response.data;
   } catch (error) {
+    toastNotify(error.response);
     throw error;
   }
 };
@@ -85,6 +86,7 @@ const uploadImage = async (image) => {
     toastNotify(response,"Obrázek nahrán!")
     return response.data;
   } catch (error) {
+    toastNotify(error.response);
     throw error;
   }
 };
@@ -140,6 +142,7 @@ const sendOrder = async (orderData) => {
     toastNotify(response, "Objednávka odeslána!");
     return response.data;
   } catch (error) {
+    toastNotify(error.response);
     throw error;
   }
 };
@@ -175,7 +178,6 @@ export {
   function toastNotify(response, successMessage) {
     if (response.status === 200) toast.success(successMessage);
     else if (response.status === 400 ) {
-        console.log(response.data.errors);
         toast.error(`Chyba validace`);
     }
     else if (response.status === 500) toast.error("Neočekávaná chyba serveru");

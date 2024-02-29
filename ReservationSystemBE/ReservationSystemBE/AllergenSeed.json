@@ -6,44 +6,69 @@
       "Code": 1
     },
     {
-      "Name": "Mléko",
-      "Description": "Produkty obsahující mléko nebo laktózu, které mohou způsobit alergické reakce u některých lidí.",
-      "Code": 2
-    },
-    {
-      "Name": "Ořechy",
-      "Description": "Ořechy nebo arašídy, které mohou vyvolat alergie u náchylných jedinců.",
-      "Code": 3
-    },
-    {
       "Name": "Korýši",
       "Description": "Mořské plody jako krevety, krab a langusty, známé pro způsobování alergií.",
-      "Code": 4
-    },
-    {
-      "Name": "Sójové boby",
-      "Description": "Produkty obsahující sóju, které mohou způsobit alergické reakce u některých lidí.",
-      "Code": 5
-    },
-    {
-      "Name": "Ryby",
-      "Description": "Určité druhy ryb, které mohou být alergenní pro některé jedince.",
-      "Code": 6
+      "Code": 2
     },
     {
       "Name": "Vajíčka",
       "Description": "Produkty obsahující vajíčka, která mohou způsobit alergie u některých lidí.",
+      "Code": 3
+    },
+    {
+      "Name": "Ryby",
+      "Description": "Určité druhy ryb, které mohou být alergenní pro některé jedince.",
+      "Code": 4
+    },
+    {
+      "Name": "Arašídy",
+      "Description": "Produkty obsahující arašídy, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 5
+    },
+    {
+      "Name": "Sójové boby",
+      "Description": "Produkty obsahující sóju, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 6
+    },
+    {
+      "Name": "Mléko",
+      "Description": "Produkty obsahující mléko nebo laktózu, které mohou způsobit alergické reakce u některých lidí.",
       "Code": 7
+    },
+    {
+      "Name": "Skořapové plody",
+      "Description": "Produkty obsahující různé druhy ořechů, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 8
+    },
+    {
+      "Name": "Celer",
+      "Description": "Produkty obsahující celer a výrobky z něj, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 9
+    },
+    {
+      "Name": "Hořčice",
+      "Description": "Produkty obsahující hořčici, která mohou způsobit alergické reakce u některých lidí.",
+      "Code": 10
     },
     {
       "Name": "Sezam",
       "Description": "Semena nebo produkty obsahující sezam, známé pro vyvolávání alergií.",
-      "Code": 8
+      "Code": 11
     },
     {
       "Name": "Síranové sloučeniny",
       "Description": "Sloučeniny používané jako konzervanty v různých potravinách a nápojích, vyvolávající reakce u některých jedinců.",
-      "Code": 9
+      "Code": 12
+    },
+    {
+      "Name": "Vlčí bob",
+      "Description": "Produkty obsahující vlčí bob (lupinu) a výrobky z něj, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 13
+    },
+    {
+      "Name": "Měkkýši",
+      "Description": "Produkty obsahující měkkýše a jejich výrobky, které mohou způsobit alergické reakce u některých lidí.",
+      "Code": 14
     }
   ]
 }

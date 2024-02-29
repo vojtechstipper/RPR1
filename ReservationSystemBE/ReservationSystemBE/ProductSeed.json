@@ -65,14 +65,6 @@
             "Name": "300ml",
             "Price": 85.0
           }
-        },
-        {
-          "Description": "Rozšiřující volba: rostlinné mléko.",
-          "Name": "+ rostlinné mléko",
-          "PriceLevel": {
-            "Name": "Standardní",
-            "Price": 5.0
-          }
         }
       ],
       "ProductType": "Káva"
@@ -102,9 +94,25 @@
             "Name": "Od 49",
             "Price": 49.0
           }
+        },
+        {
+          "Description": "Různé druhy pečených čajů od 59.",
+          "Name": "Pečený čaj – více druhů",
+          "PriceLevel": {
+            "Name": "Od 59",
+            "Price": 59.0
+          }
+        },
+        {
+          "Description": "Mléčná horká čokoláda - 31%/49%",
+          "Name": "Horká čokoláda - mléčná",
+          "PriceLevel": {
+            "Name": "Od 55",
+            "Price": 55.0
+          }
         }
       ],
-      "ProductType": "Čaje"
+      "ProductType": "Teplé nápoje"
     },
     {
       "Products": [
@@ -131,50 +139,18 @@
             "Name": "0,5l",
             "Price": 45.0
           }
-        },
-        {
-          "Description": "Osvěžující prosecco ve sklenici o objemu 0,1l.",
-          "Name": "Rozlévané prosecco",
-          "PriceLevel": {
-            "Name": "0,1l",
-            "Price": 39.0
-          }
-        },
-        {
-          "Description": "Džus s příchutí jahody, pomeranče nebo jablka ve sklenici o objemu 0,1l.",
-          "Name": "Rozlévaný džus – jahoda/pomeranč/jablko",
-          "PriceLevel": {
-            "Name": "0,1l",
-            "Price": 10.0
-          }
         }
       ],
-      "ProductType": "Čepované/Rozlévané nápoje"
+      "ProductType": "Čepované nápoje"
     },
     {
       "Products": [
         {
-          "Description": "Cider s příchutí třešní od F. H. Prager v plechovce o objemu 0,33l.",
-          "Name": "F. H. Prager Cider – višeň",
-          "PriceLevel": {
-            "Name": "0,33l",
-            "Price": 59.0
-          }
-        },
-        {
-          "Description": "Čistá neperlivá voda od značky Rajec ve velké láhvi o objemu 0,75l.",
-          "Name": "Rajec neperlivá voda",
+          "Description": "Čistá perlivá či neperlivá voda od značky Rajec ve velké láhvi o objemu 0,75l.",
+          "Name": "Rajec perlivá/neperlivá voda",
           "PriceLevel": {
             "Name": "0,75l",
             "Price": 35.0
-          }
-        },
-        {
-          "Description": "Nápoj s příchutí jahody od Magnesia RED v lahvi o objemu 1,5l.",
-          "Name": "Magnesia RED – jahoda",
-          "PriceLevel": {
-            "Name": "1,5l",
-            "Price": 40.0
           }
         },
         {
@@ -195,23 +171,15 @@
         },
         {
           "Description": "Lehké pivo Birell v plechovce o objemu 0,5l.",
-          "Name": "Birell",
+          "Name": "Birell ochucený - více druhů",
           "PriceLevel": {
             "Name": "0,5l",
             "Price": 40.0
           }
         },
         {
-          "Description": "Osvěžující Targa s příchutí pomeranče v lahvi o objemu 0,33l.",
+          "Description": "Osvěžující Targa s příchutí pomeranče v plechovce o objemu 0,33l.",
           "Name": "Targa orange",
-          "PriceLevel": {
-            "Name": "0,33l",
-            "Price": 40.0
-          }
-        },
-        {
-          "Description": "Targa tonic pro milovníky hořkých nápojů v plechovce o objemu 0,33l.",
-          "Name": "Targa tonic",
           "PriceLevel": {
             "Name": "0,33l",
             "Price": 40.0
@@ -226,19 +194,19 @@
           }
         },
         {
+          "Description": "Různé druhy energických nápojů Red Bull v plechovce o objemu 0,25l.",
+          "Name": "Red Bull – více druhů",
+          "PriceLevel": {
+            "Name": "0,25l",
+            "Price": 45.0
+          }
+        },
+        {
           "Description": "Osvěžující čaj My Tea s příchutí citrónu nebo broskve ve lahvi o objemu 0,5l.",
           "Name": "My Tea – citrón/broskev",
           "PriceLevel": {
             "Name": "0,5l",
-            "Price": 55.0
-          }
-        },
-        {
-          "Description": "Čaj Nativa Tea s příchutí citrónu v lahvi o objemu 0,5l.",
-          "Name": "Nativa Tea – citrón",
-          "PriceLevel": {
-            "Name": "0,5l",
-            "Price": 55.0
+            "Price": 50.0
           }
         },
         {
@@ -272,53 +240,55 @@
             "Name": "200ml",
             "Price": 25.0
           }
+        },
+        {
+          "Description": "Dětský nápoj Happy day od Rauch v balení o objemu 200ml s různými příchutěmi.",
+          "Name": "Happy day – více druhů",
+          "PriceLevel": {
+            "Name": "200ml",
+            "Price": 35.0
+          }
         }
       ],
-      "ProductType": "Balené nápoje"
+      "ProductType": "Nealkoholické nápoje"
     },
     {
       "Products": [
         {
           "AllergenCodes": [
             1,
-            2,
             3,
-            5,
-            6,
-            8,
-            9
+            7,
+            10,
+            11,
+            12
           ],
-          "Description": "Zapečené toasty plněné šunkou, sýrem, a dochucené lahodnou omáčkou podávané se salátem.",
-          "Name": "Zapečené toasty",
+          "Description": "Zapečené toasty plněné šunkou, sýrem, slaninou podávané se salátem a omáčkou.",
+          "Name": "Zapečené toasty 1",
           "PriceLevel": {
             "Name": "Standardní",
-            "Price": 95.0
+            "Price": 99.0
           }
         },
         {
           "AllergenCodes": [
             1,
-            2,
             3,
-            5,
-            6,
-            8,
-            9
+            7,
+            10,
+            11,
+            12
           ],
-          "Description": "Opečený toast s mozzarellou, rajčetem a bazalkovým pestem pro milovníky italské kuchyně.",
-          "Name": "Obložený toast",
+          "Description": "Zapečené toasty plněné eidamem, cheddarem podávané se salátem a omáčkou.",
+          "Name": "Zapečené toasty 2",
           "PriceLevel": {
             "Name": "Standardní",
-            "Price": 60.0
+            "Price": 99.0
           }
         },
         {
           "AllergenCodes": [
-            1,
-            2,
-            3,
-            6,
-            11
+            1
           ],
           "Description": "Tradiční párek v rohlíku s lahodnou omáčkou, skvělá volba pro rychlé občerstvení.",
           "Name": "Párek v rohlíku",
@@ -326,41 +296,85 @@
             "Name": "Standardní",
             "Price": 35.0
           }
-        }
-      ],
-      "ProductType": "Občerstvení"
-    },
-    {
-      "Products": [
+        },
+        {
+          "Description": "Lahodná polévkaa dle denní nabídky podávaná s opečeným chlebem",
+          "Name": "Polévka dle denní nabídky",
+          "PriceLevel": {
+            "Name": "Standardní",
+            "Price": 59.0
+          }
+        },
         {
           "AllergenCodes": [
-            2,
-            3,
-            6
+            1,
+            7,
+            8
           ],
-          "Description": "Osvežující smoothie s banánem, vanilkovým proteinem a kokosovým mlékem.",
-          "Name": "Vanilka",
+          "Description": "Naše mrkvové overnight oats je lahodná a vyvážená směs vloček, čerstvé mrkve, banánu, proteinu a \t\t\tvlašských ořechů.",
+          "Name": "Mrkvový overnight oats",
           "PriceLevel": {
-            "Name": "0,3l",
+            "Name": "Standardní",
+            "Price": 35.0
+          }
+        },
+        {
+          "AllergenCodes": [
+            1,
+            7
+          ],
+          "Description": "Náš chia puding kombinuje výživná chia semínka namočená v mléce (včetně bezlaktózové varianty) s \t\t\tčerstvým ovocným vývarem.",
+          "Name": "Chia puding",
+          "PriceLevel": {
+            "Name": "Standardní",
+            "Price": 49.0
+          }
+        },
+        {
+          "AllergenCodes": [
+            1,
+            7
+          ],
+          "Description": "Náš chia puding kombinuje výživná chia semínka namočená v mléce (včetně bezlaktózové varianty) s \t\t\tčerstvým ovocným vývarem.",
+          "Name": "Tiramisu overnight oats",
+          "PriceLevel": {
+            "Name": "Standardní",
             "Price": 55.0
           }
         },
         {
           "AllergenCodes": [
             1,
-            2,
-            3,
-            8
+            7
           ],
-          "Description": "Hustý smoothie s banánem, arašídovým máslem, čokoládovým brownie proteinem a ovesným mlékem.",
-          "Name": "Brownie",
+          "Description": "Naše proteinová kaše obsahuje vločky, protein, chia semínka, vanilku a mléko.",
+          "Name": "Proteinová kaše",
           "PriceLevel": {
-            "Name": "0,3l",
-            "Price": 55.0
+            "Name": "Standardní",
+            "Price": 69.0
+          }
+        },
+        {
+          "Description": "Naše domácí pomazánka na čerstvém opečeném chlebu.",
+          "Name": "Pomazánka na chlebu - dle denní nabídky",
+          "PriceLevel": {
+            "Name": "Standardní",
+            "Price": 89.0
+          }
+        },
+        {
+          "AllergenCodes": [
+            7
+          ],
+          "Description": "Náš lehký obědový salát obsahuje čerstvou zeleninu s lahodnou mozzarellou a jemně sušeným \t\t\t\tprosciuttem.",
+          "Name": "Lehký obědový salát",
+          "PriceLevel": {
+            "Name": "Standardní",
+            "Price": 109.0
           }
         }
       ],
-      "ProductType": "Smoothie"
+      "ProductType": "Něco k snědku"
     },
     {
       "Products": [
@@ -410,29 +424,6 @@
         {
           "AllergenCodes": [
             1,
-            2,
-            3,
-            6,
-            8
-          ],
-          "Description": "Proteinové tyčinky s vysokým obsahem bílkovin pro posílení energie po tréninku.",
-          "Name": "Proteinové tyčinky",
-          "PriceLevel": {
-            "Name": "Od 45",
-            "Price": 45.0
-          }
-        },
-        {
-          "Description": "Osvěžující nanuky pro sladký zážitek v horkých dnech.",
-          "Name": "Nanuky",
-          "PriceLevel": {
-            "Name": "Od 20",
-            "Price": 20.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
             6
           ],
           "Description": "Klasický pendrek ve více druzích.",
@@ -443,151 +434,44 @@
           }
         },
         {
-          "Description": "Energetická šťáva UNIsport pro rychlé doplnění tekutin a energie při sportu.",
-          "Name": "1 dávka UNIsport šťáva",
+          "AllergenCodes": [
+            1,
+            2,
+            3
+          ],
+          "Description": "Oplatka s lískooříškovou náplní obvodově máčená v kakaové polevě",
+          "Name": "Opavia - Tatranky",
           "PriceLevel": {
             "Name": "Standardní",
-            "Price": 7.0
+            "Price": 25.0
           }
         },
         {
           "AllergenCodes": [
             1,
-            6,
-            8
+            3
           ],
-          "Description": "Lahodná Marlenka, oblíbená pochoutka ve 60g balení.",
-          "Name": "Marlenka (60g)",
+          "Description": "Big Corny je tou pravou cereální tyčinkou, která spolehlivě zažene hlad a potěší chuťové pohárky.",
+          "Name": "Big Corny - více druhů",
           "PriceLevel": {
-            "Name": "60g",
-            "Price": 39.0
+            "Name": "Standardní",
+            "Price": 35.0
+          }
+        },
+        {
+          "AllergenCodes": [
+            1,
+            3
+          ],
+          "Description": "Lahodný proteinový krém mezi dvěma křupavými cereálními plátky.",
+          "Name": "Corny Protein Caramel",
+          "PriceLevel": {
+            "Name": "Standardní",
+            "Price": 40.0
           }
         }
       ],
       "ProductType": "Doplňkový prodej"
-    },
-    {
-      "Products": [
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7,
-            8
-          ],
-          "Description": "Vychutnejte si malý croissant plněný pistáciemi od rodinné pekárny Croissant House.",
-          "Name": "Pistácie",
-          "PriceLevel": {
-            "Name": "malý",
-            "Price": 59.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Oslavte chuť malého croissantu plněného čokoládou a malinami z pekárny Croissant House.",
-          "Name": "Čoko-malina",
-          "PriceLevel": {
-            "Name": "malý",
-            "Price": 59.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Užijte si malý croissant plněný bílou čokoládou a malinami, připravený s láskou v rodinné pekárně Croissant House.",
-          "Name": "Bílá čoko-malina",
-          "PriceLevel": {
-            "Name": "malý",
-            "Price": 59.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Ochutnejte náš malý croissant plněný oblíbenými sušenkami Oreo, vytvořený s pečlivostí v pekárně Croissant House.",
-          "Name": "Oreo",
-          "PriceLevel": {
-            "Name": "malý",
-            "Price": 59.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Okuste malý croissant plněný slaným karamelem z tradiční pekárny Croissant House.",
-          "Name": "Slaný karamel",
-          "PriceLevel": {
-            "Name": "malý",
-            "Price": 59.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Nenechte si ujít malý croissant plněný oblíbeným Kinder Bueno z rodinné pekárny Croissant House.",
-          "Name": "Kinder Bueno",
-          "PriceLevel": {
-            "Name": "malý",
-            "Price": 59.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Ochutnejte velké rolls plněné slaninou a vajíčky z rodinné pekárny Croissant House, kde pečujeme o každý detail.",
-          "Name": "Rolls Slanina Vejce",
-          "PriceLevel": {
-            "Name": "velký",
-            "Price": 90.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Zažijte chuť velkého croissantu s 95% hovězí šunky z kýty se sýrem a whisky dresingem z pekárny Croissant House, kde pečujeme o autentický chuťový zážitek.",
-          "Name": "Dřevorubecký",
-          "PriceLevel": {
-            "Name": "velký",
-            "Price": 90.0
-          }
-        },
-        {
-          "AllergenCodes": [
-            1,
-            3,
-            7
-          ],
-          "Description": "Užijte si velký croissant plněný mascarpone a jahodami z malé rodinné pekárny Croissant House, kde každý croissant je uměleckým dílem pro vaše chuťové pohárky.",
-          "Name": "Mascarpone-jahoda",
-          "PriceLevel": {
-            "Name": "velký",
-            "Price": 90.0
-          }
-        }
-      ],
-      "ProductType": "Speciality"
     }
   ]
 }

@@ -3,15 +3,12 @@ import { getProductsGroupped } from "../services/apiService";
 import FoodItemCard from "./FoodItemCard";
 import MenuWrapper from "./MenuWrapper";
 import Grid from "@mui/material/Grid";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
+import { Typography } from "@mui/material";
 
 function ProductList() {
   const [productTypesWithProducts, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
+  const [categories, setCategories] = useState([]); // Pro uložení všech kategorií
 
   const handleSearchTermChange = (term) => {
     setSearchTerm(term);
@@ -23,6 +20,7 @@ function ProductList() {
       try {
         const response = await getProductsGroupped();
         setProducts(response);
+        setCategories(response);
       } catch (error) {
         console.error("Chyba při načítání produktů:", error);
       }
@@ -43,30 +41,37 @@ function ProductList() {
       products: filteredProducts,
       showProductType:
         filteredProducts.length > 0 ||
-        product.productType.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        product.productType.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()),
     };
   });
 
-  const getGridSize = () => {
-    if (isLargeScreen) return 4; // 3 kartičky vedle sebe na velkých obrazovkách
-    if (isMediumScreen) return 6; // 2 kartičky vedle sebe na středních obrazovkách
-    return 12; // 1 kartička na malých obrazovkách
-  };
-
   return (
-    <MenuWrapper handleSearchTermChange={handleSearchTermChange}>
-      {filteredProducts.map((productType) => (
-        <div key={productType.productType.name}>
-          {productType.showProductType && <h1>{productType.productType.name}</h1>}
-          <Grid container spacing={2}>
-            {productType.products.map((item) => (
-              <Grid item xs={12} sm={6} md={getGridSize()} key={item.id}>
-                <FoodItemCard foodItem={item} />
+    <MenuWrapper
+      categories={categories}
+      handleSearchTermChange={handleSearchTermChange}
+    >
+      {filteredProducts.map(
+        (productType) =>
+          productType.showProductType && (
+            <div key={productType.productType.name}>
+              {productType.showProductType && (
+                <Typography variant="h4" mb={5}>
+                  {productType.productType.name}
+                </Typography>
+              )}
+
+              <Grid container spacing={1}>
+                {productType.products.map((item) => (
+                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3} key={item.id}>
+                    <FoodItemCard foodItem={item} />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-        </div>
-      ))}
+            </div>
+          )
+      )}
     </MenuWrapper>
   );
 }

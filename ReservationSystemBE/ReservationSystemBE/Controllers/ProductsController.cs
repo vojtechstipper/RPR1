@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 using ReservationSystemBE.Application.Products.Commands.DeleteProductCommand;
@@ -12,6 +13,7 @@ namespace ReservationSystemBE.Controllers;
 
 [ApiController]
 [Route("/product")]
+[Authorize]
 public class ProductsController : Controller
 {
     private readonly IMediator _mediator;
@@ -22,6 +24,7 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ProductDto>> AddProduct([FromBody] AddProductCommand command)
     {
@@ -29,6 +32,7 @@ public class ProductsController : Controller
     }
 
     [HttpPut("edit")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductDto>> EditProduct([FromBody] EditProductCommand command)
@@ -37,6 +41,7 @@ public class ProductsController : Controller
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteProduct([FromRoute] string id)
@@ -45,6 +50,7 @@ public class ProductsController : Controller
     }
 
     [HttpGet("list")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<ProductDto>>> GetProducts()
     {
@@ -52,6 +58,7 @@ public class ProductsController : Controller
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ProductEditDto>> GetProduct([FromRoute] string id)
     {
@@ -59,6 +66,7 @@ public class ProductsController : Controller
     }
 
     [HttpGet("groupped")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<ProductTypeWithProductsDto>>> GetProductsGrouppedByProductType()
     {
@@ -66,6 +74,7 @@ public class ProductsController : Controller
     }
 
     [HttpPost("image")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<string>> UploadImageForProduct(IFormFile formFile)
     {

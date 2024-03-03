@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ReservationSystem.Domain.Users;
 using ReservationSystemBE.Application.Services;
 
 namespace ReservationSystemBE.Application.Test;
@@ -16,6 +17,7 @@ public class GetTokenCommandHandler : IRequestHandler<GetTokenCommand, string>
 
     public Task<string> Handle(GetTokenCommand request, CancellationToken cancellationToken)
     {
-        return _authService.GenerateToken();
+        var user = new User();
+        return _authService.GenerateToken(user);
     }
 }

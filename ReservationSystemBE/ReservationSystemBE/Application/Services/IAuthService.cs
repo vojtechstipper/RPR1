@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using ReservationSystem.Domain.Users;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -7,7 +8,7 @@ namespace ReservationSystemBE.Application.Services;
 
 public interface IAuthService
 {
-    Task<string> GenerateToken();
+    Task<string> GenerateToken(User user);
 }
 
 public class AuthService : IAuthService
@@ -19,18 +20,20 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public Task<string> GenerateToken()
+    public Task<string> GenerateToken(User user)
     {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-        List<Claim> claims = new List<Claim>();
-        claims.Add(new Claim(ClaimTypes.Role, "User"));
+        List<Claim> claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Role, user.Role.ToString())
+        };
 
         var tokeOptions = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
-            claims: claims, //přidat podle usera
+            claims: claims,
             expires: DateTime.Now.AddMinutes(20),
             signingCredentials: signinCredentials
         );

@@ -46,6 +46,7 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<AddProductCommandValidator>(ServiceLifetime.Transient);
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddAuthentication(options =>
 {

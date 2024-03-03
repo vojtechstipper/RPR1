@@ -1,9 +1,19 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using ReservationSystemBE.Application.Services;
 
 namespace ReservationSystemBE.Application.Users.Commands.LoginUserCommand;
 
 public record LoginUserCommand(string UserName, string Password) : IRequest<string>;
+
+public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
+{
+    public LoginUserCommandValidator()
+    {
+        RuleFor(x => x.UserName).EmailAddress().NotEmpty();
+        RuleFor(x => x.Password).NotEmpty();
+    }
+}
 
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, string>
 {

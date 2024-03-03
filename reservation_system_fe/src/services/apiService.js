@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import api from './api';
+import Cookies from 'js-cookie';
 // Funkce pro získání seznamu produktů
 var adminToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc5OTM3ODQ0OSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAzOCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMzgifQ.iP39Yh-m7SymWNN9MxLhm8Csc9YtoO0K-mQHakKTdS0";
 var userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzk5MzgzOTg4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDM4IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAzOCJ9.A46CFudTInLjyz6diYCDcLdB8pjV6rVMyjZSnDJbLIw";
@@ -34,7 +35,7 @@ const getAllergens = async () => {
  const getProductsList = async () => {
   try {
     const response = await api.get("/product/list", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
     });
     return response.data;
   } catch (error) {
@@ -68,7 +69,7 @@ const getAllergens = async () => {
 const deleteProduct = async ( productId) => {
   try {
     const response = await api.delete(`/product/${productId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
     });
     toastNotify(response, "Produkt smazán!")
     return response.data;
@@ -82,7 +83,7 @@ const deleteProduct = async ( productId) => {
  const getProductById = async (productId) => {
   try {
     const response = await api.get(`/product/${productId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
     });
     return response.data;
   } catch (error) {
@@ -112,7 +113,7 @@ const getImage = async (imageId) => {
 const getAllergensDropdown = async () => {
   try {
     const response = await api.get(`/allergen/dropdown`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
     });
     return response.data;
   } catch (error) {
@@ -124,7 +125,7 @@ const getAllergensDropdown = async () => {
 const getProductTypesDropdown = async () => {
   try {
     const response = await api.get(`/productstypes/dropdown`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
     });
     return response.data;
   } catch (error) {
@@ -169,6 +170,16 @@ const sendChangeOrderStatusRequest = async (orderStatus) => {
     throw error;
   }
 };
+
+const loginUserRequest = async (userData) => {
+  try {
+    const response = await api.post("/auth/login", userData);
+    toastNotify(response, "Uživatel přihlášen!");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export {
   getProductsGroupped,
   getProductById,
@@ -186,6 +197,7 @@ export {
   getOrderTimesDropdown,
   uploadImage,
   getImage,
+  loginUserRequest
 };
 
 

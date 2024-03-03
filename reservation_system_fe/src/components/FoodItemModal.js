@@ -81,6 +81,8 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
     } catch (error) {
       console.error("Chyba při vkládání produktu:", error);
     }
+    itemId=null;
+    onClose();
   };
 
   const handleImageUploaded = async (e) => {
@@ -89,9 +91,11 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
 
     try {
       const res = await uploadImage(formData);
-      if (res != null) toast.success("Obrázek uložen!");
-      else toast.error("Obrázek se nepodařilo nahrát");
-      setImageId(res);
+      if (res != null) 
+      {
+        setImageId(res);
+
+      }
       // Handle the response (e.g., update state or display a success message)
     } catch (ex) {
       console.log(ex);
@@ -214,7 +218,7 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
           component="img"
           sx={{ width: 160, height: 100 }}
           image={`https://localhost:7038/${product?.imageId ?? ""}`} //uložit do configu jako baseUrl
-          alt="Coffee"
+          alt="Foto produktu"
         />
         </Grid>
          <Grid item xs={6}>

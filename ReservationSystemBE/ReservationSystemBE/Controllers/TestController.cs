@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ReservationSystemBE.Application.Allergens.Queries;
 using ReservationSystemBE.Application.Test;
 using ReservationSystemBE.Infrastructure.Persistence;
 using System.Text.Json;
@@ -29,5 +30,12 @@ public class TestController : Controller
     public async Task<ActionResult> SeedAllergens()
     {
         return Ok(await _mediator.Send(new SeedAllergensCommand()));
+    }
+
+    [HttpGet("token")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> GetToken()
+    {
+        return Ok(await _mediator.Send(new GetTokenCommand()));
     }
 }

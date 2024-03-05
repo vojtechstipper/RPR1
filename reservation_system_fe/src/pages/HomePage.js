@@ -59,7 +59,14 @@ function HomePage() {
             <Button
               variant="contained"
               onClick={goToMenu}
-              sx={{ textTransform: "none" }}
+              sx={{
+                textTransform: "none",
+                color: 'black',
+                backgroundColor: '#f1efef',
+                '&:hover': {
+                  backgroundColor: '#f1efef',
+                }
+              }}
             >
               Přejít na nabídku
             </Button>
@@ -93,7 +100,7 @@ function HomePage() {
             href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D"
             target="_blank"
           >
-            <InstagramIcon fontSize="large" />
+            <InstagramIcon fontSize="large" sx={{ color: 'black' }} />
           </IconButton>
           <IconButton
             component="a"
@@ -101,7 +108,7 @@ function HomePage() {
             target="_blank"
             sx={{ ml: 2 }}
           >
-            <FacebookIcon fontSize="large" />
+            <FacebookIcon fontSize="large" sx={{ color: 'black' }} />
           </IconButton>
         </Grid>
       </Grid>

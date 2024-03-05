@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
 import { Link } from 'react-router-dom';
 import logo from "../static/img/logoCCC.jpeg";
 import { useNavigate } from 'react-router-dom';
@@ -43,16 +44,23 @@ const LoginPage = () => {
         background: 'white'
       }}
     >
-        <IconButton
+      <IconButton
         sx={{
           position: 'absolute',
-          top: '6px',
-          left: '6px',
-          '&:hover': { bgcolor: 'transparent' }, 
+          top: '0px',
+          left: '24px',
+          '&:hover': { bgcolor: '#f1efef' },
+          '& .MuiAvatar-root': {
+            width: 48,
+            height: 48,
+            transition: "width 0.3s ease, height 0.3s ease",
+          },
         }}
         onClick={navigateHome}
+        color="inherit"
+        aria-label="company logo"
       >
-        <img src={logo} alt="Logo" style={{ height: '40px' }} />
+        <Avatar src={logo} sx={{ width: 48, height: 48 }} />
       </IconButton>
       <Paper elevation={3} sx={{ 
         padding: '64px', 
@@ -103,15 +111,15 @@ const LoginPage = () => {
               style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'},
             }}
           />
-          <Link to="/forgotPassword" style={{ color: 'white', textDecoration: 'none',textAlign: "right" }}>
+          <Link to="/forgotPassword" style={{ color: 'white', textDecoration: 'none',textAlign: "right", textDecorationLine: 'underline'   }}>
             Zapomenuté heslo
           </Link>
           <Button 
             variant="contained" 
             sx={{ 
-              bgcolor: 'green',
+              bgcolor: 'red',
               '&:hover': {
-                bgcolor: 'darkgreen',
+                bgcolor: '#8b0000',
               },
               color: 'white',
               padding: '10px',
@@ -123,7 +131,7 @@ const LoginPage = () => {
           >
             přihlásit se
           </Button>
-          <Link to="/register" style={{ color: 'white', textDecoration: 'none',textAlign: "center" }}>
+          <Link to="/register" style={{ color: 'white', textDecoration: 'none',textAlign: "center", textDecorationLine: 'underline'  }}>
             Jsem tu nový
           </Link>
         </Box>

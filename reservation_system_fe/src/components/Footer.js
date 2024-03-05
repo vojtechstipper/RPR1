@@ -40,16 +40,16 @@ function Footer() {
             Sociální sítě
           </Typography>
           <Link
-            href="#"
+            href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D"
             target="_blank"
-            sx={{ display: "flex", alignItems: "center", mb: 1 }}
+            sx={{ display: "flex", alignItems: "center", mb: 1, color: 'black' }}
           >
             <InstagramIcon sx={{ mr: 1 }} /> Instagram
           </Link>
           <Link
-            href="#"
+            href="https://www.facebook.com/profile.php?id=61550106100216"
             target="_blank"
-            sx={{ display: "flex", alignItems: "center", mb: 1 }}
+            sx={{ display: "flex", alignItems: "center", mb: 1, color: 'black' }}
           >
             <FacebookIcon sx={{ mr: 1 }} /> Facebook
           </Link>

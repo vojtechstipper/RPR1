@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import logo from "../../static/img/logoCCC.jpeg";
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
-import { loginUserRequest } from '../services/apiService';
+import { loginUserRequest } from '../../services/apiService';
 import Cookies from 'js-cookie';
 
 const LoginPage = () => {

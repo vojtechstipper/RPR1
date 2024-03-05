@@ -3,12 +3,11 @@ import { styled } from "@mui/material/styles";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Textarea from "@mui/material/TextareaAutosize";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { Button, CardMedia, Container, Grid } from "@mui/material";
+import { Button, CardMedia, Grid } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   getProductById,
@@ -18,8 +17,6 @@ import {
   addProduct,
   uploadImage,
 } from "../../../services/apiService";
-} from "../services/apiService";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const FoodItemModal = ({ open, onClose, itemId }) => {

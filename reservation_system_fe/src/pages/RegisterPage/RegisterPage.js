@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import logo from "../../static/img/logoCCC.jpeg";
+import Avatar from "@mui/material";
 
 const RegisterPage = () => {
   const [name, setName] = useState('');

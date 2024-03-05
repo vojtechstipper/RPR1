@@ -1,6 +1,5 @@
 ﻿import React, {useState} from 'react';
 import Typography from "@mui/material/Typography";
-import AdminSideBar from "../../components/AdminSidebar";
 
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
@@ -20,6 +19,7 @@ import UserTableToolbar from './table_related/user-table-toolbar';
 import Scrollbar from "../../components/global/scrollbar";
 import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
 import Stack from "@mui/material/Stack";
+import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 
 
 function AdminEditUserPage() {
@@ -68,7 +68,7 @@ function AdminEditUserPage() {
 
     return (
         <div style={{ display:"flex", alignContent:"center", width:"100%", margin:"auto"}}>
-            <AdminSideBar />
+            <AdminSideBar/>
         <Container>
             <Stack direction="row" alignItems="center" gap={1} width="100%">
                 <Typography marginLeft={50} variant="h4">Správa uživatelů</Typography>

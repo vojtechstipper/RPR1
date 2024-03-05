@@ -13,12 +13,9 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import Grid from "@mui/material/Grid";
 import logo from "../../../static/img/logoCCC.jpeg";
-import { Avatar } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useNavigate } from "react-router-dom";
-import logo from "../static/img/logoCCC.jpeg";
 
 export default function ResponsiveAppBar() {
   const navigate = useNavigate();

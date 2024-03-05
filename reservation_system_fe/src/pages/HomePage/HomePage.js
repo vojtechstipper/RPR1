@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from "../../components/layout/MainLayout/Footer";
+import Navbar from "../../components/layout/MainLayout/Navbar";
 import {
   Box,
   Typography,
@@ -15,7 +15,7 @@ import {
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { useNavigate } from "react-router-dom";
-import Coverphoto from "../static/img/coverphoto.jpg";
+import Coverphoto from "../../static/img/coverphoto.jpg";
 
 function HomePage() {
   let navigate = useNavigate();
@@ -28,7 +28,6 @@ function HomePage() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Navbar />
       <Grid
         container
         spacing={2}
@@ -90,29 +89,8 @@ function HomePage() {
             />
           </Paper>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sx={{ display: "flex", justifyContent: "center", mt: 4 }}
-        >
-          <IconButton
-            component="a"
-            href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D"
-            target="_blank"
-          >
-            <InstagramIcon fontSize="large" sx={{ color: 'black' }} />
-          </IconButton>
-          <IconButton
-            component="a"
-            href="https://www.facebook.com/profile.php?id=61550106100216"
-            target="_blank"
-            sx={{ ml: 2 }}
-          >
-            <FacebookIcon fontSize="large" sx={{ color: 'black' }} />
-          </IconButton>
-        </Grid>
+      
       </Grid>
-      <Footer />
     </Box>
   );
 }

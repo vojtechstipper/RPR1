@@ -37,17 +37,6 @@ function Footer() {
           <Typography variant="body2">Pátek: 9 - 17</Typography>
           <Typography variant="body2">Sobota - Neděle: dle akcí</Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
-            <Typography variant="h6" fontWeight="bold">Otevírací doba</Typography>
-            <Typography>Pondělí: 9 - 17</Typography>
-            <Typography>Úterý: 8 - 17</Typography>
-            <Typography>Středa: 8 - 17</Typography>
-            <Typography>Čtvrtek: 8 - 17</Typography>
-            <Typography>Pátek: 9 - 17</Typography>
-            <Typography>Sobota - Neděle: dle akcí</Typography>
-        </Box>
-          </Grid>
           <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
               <Typography variant="h6" gutterBottom fontWeight="bold">Sociální sítě</Typography>

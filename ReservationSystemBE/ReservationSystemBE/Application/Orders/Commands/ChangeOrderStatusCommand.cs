@@ -1,15 +1,24 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Orders;
-using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
+using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
 
 namespace ReservationSystemBE.Application.Orders.Commands;
 
 public class ChangeOrderStatusCommand : IRequest<OrderStatusChangedDto>
 {
-    public string OrderId { get; set; } = string.Empty;
+    public string OrderId { get; set; }
     public OrderAcceptanceStatus Status { get; set; } = OrderAcceptanceStatus.None;
+}
+
+public class ChangeOrderStatusCommandValidator : AbstractValidator<ChangeOrderStatusCommand>
+{
+    public ChangeOrderStatusCommandValidator()
+    {
+        RuleFor(x => x.OrderId).NotEmpty();
+    }
 }
 
 public class OrderStatusChangedDto

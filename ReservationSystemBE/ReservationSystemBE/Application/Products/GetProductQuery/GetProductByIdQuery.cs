@@ -32,8 +32,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
         if (product is null)
             throw new ValidationException($"Product with Id: {request.Id} was not found", ExceptionCodes.EntityNotFound);
 
-        var productDto = _mapper.Map<ProductEditDto>(product);
-        return productDto;
+        return _mapper.Map<ProductEditDto>(product);
     }
 }
 

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import logo from "../../static/img/logoCCC.jpeg";
 import { useNavigate } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
 
 const PasswordResetPage = () => {
   const [email, setEmail] = useState('');
@@ -40,13 +41,20 @@ const PasswordResetPage = () => {
       <IconButton
         sx={{
           position: 'absolute',
-          top: '6px',
-          left: '6px',
-          '&:hover': { bgcolor: 'transparent' },
+          top: '0px',
+          left: '24px',
+          '&:hover': { bgcolor: '#f1efef' },
+          '& .MuiAvatar-root': {
+            width: 48,
+            height: 48,
+            transition: "width 0.3s ease, height 0.3s ease",
+          },
         }}
         onClick={navigateHome}
+        color="inherit"
+        aria-label="company logo"
       >
-        <img src={logo} alt="Logo" style={{ height: '40px' }} />
+        <Avatar src={logo} sx={{ width: 48, height: 48 }} />
       </IconButton>
       <Paper elevation={3} sx={{ 
         padding: '64px', 
@@ -87,9 +95,9 @@ const PasswordResetPage = () => {
           <Button 
             variant="contained" 
             sx={{ 
-              bgcolor: 'green',
+              bgcolor: 'red',
               '&:hover': {
-                bgcolor: 'darkgreen',
+                bgcolor: '#8b0000',
               },
               color: 'white',
               padding: '10px',

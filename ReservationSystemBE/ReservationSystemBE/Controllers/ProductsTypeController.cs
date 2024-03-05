@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.ProductTypes.Commands;
 using ReservationSystemBE.Application.ProductTypes.Queries.GetPriceTypesDropDown;
@@ -7,6 +8,7 @@ namespace ReservationSystemBE.Controllers;
 
 [ApiController]
 [Route("/productstypes")]
+[Authorize]
 public class ProductsTypeController : Controller
 {
     private readonly IMediator _mediator;
@@ -17,6 +19,7 @@ public class ProductsTypeController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<string>> AddProductType([FromBody] AddProductTypeCommand command)
     {
@@ -24,6 +27,7 @@ public class ProductsTypeController : Controller
     }
 
     [HttpGet("dropdown")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<ProductTypeDto>>> GetPriceTypesDropdown()
     {

@@ -29,6 +29,8 @@ const FoodList = () => {
 }, []);
 
   const handleAddItem = () => {
+    setEditItemIndex(null)
+    console.log(editItemIndex);
     setEditModalOpen(true);
   };
 
@@ -47,9 +49,6 @@ const FoodList = () => {
 
   const handleDeleteItem = async (index) => {
     await deleteProduct(index);
-    // const updatedItems = [...items];
-    // updatedItems.splice(index, 1);
-    // setItems(updatedItems);
   };
 
   return (    

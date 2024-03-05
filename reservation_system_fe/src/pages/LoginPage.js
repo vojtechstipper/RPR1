@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import logo from "../static/img/logoCCC.jpeg";
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
+import { loginUserRequest } from '../services/apiService';
+import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -21,9 +23,17 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Zde implementujte logiku pro přihlášení
+
+    const userData = {
+      userName: email,
+      password: password
+    };
+    const response = await loginUserRequest(userData);
+    console.log(response);
+    Cookies.set("token", response, { expires: 7, secure: true });
+    navigate("/");
   };
 
   const navigate = useNavigate();
@@ -103,7 +113,7 @@ const LoginPage = () => {
               style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'},
             }}
           />
-          <Link to="/forgotPassword" style={{ color: 'white', textDecoration: 'none',textAlign: "right" }}>
+          <Link to="/forgotPassword" style={{ color: 'white', textDecoration: 'underline',textAlign: "right" }}>
             Zapomenuté heslo
           </Link>
           <Button 
@@ -123,7 +133,7 @@ const LoginPage = () => {
           >
             přihlásit se
           </Button>
-          <Link to="/register" style={{ color: 'white', textDecoration: 'none',textAlign: "center" }}>
+          <Link to="/register" style={{ color: 'white', textDecoration: 'underline',textAlign: "center" }}>
             Jsem tu nový
           </Link>
         </Box>

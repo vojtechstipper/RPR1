@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.Orders.Commands;
 using ReservationSystemBE.Application.Orders.Queries;
@@ -8,6 +9,7 @@ namespace ReservationSystemBE.Controllers;
 
 [ApiController]
 [Route("/order")]
+[Authorize]
 public class OrdersController : Controller
 {
     private readonly IMediator _mediator;
@@ -17,8 +19,8 @@ public class OrdersController : Controller
         _mediator = mediator;
     }
 
-    //TODO potřeba zajistit ověření pomocí tokenu na přihlášeného uživatele
     [HttpPost]
+    [Authorize(Roles = "Customer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand command)
     {
@@ -26,6 +28,7 @@ public class OrdersController : Controller
     }
 
     [HttpGet("not-started")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<OrderMessage>>> GetNotStartedOrders()
     {
@@ -33,14 +36,15 @@ public class OrdersController : Controller
     } 
     
     [HttpGet("order-times")]
+    [Authorize(Roles = "Customer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<OrderTimesDropdownDto>>> GetOrderTimes()
     {
         return Ok(await _mediator.Send(new GetTimesForOrderQuery()));
     }
 
-    //TODO ověření zda se jedná o admina
     [HttpPost("accept")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> CreateOrder([FromBody] ChangeOrderStatusCommand command)
     {

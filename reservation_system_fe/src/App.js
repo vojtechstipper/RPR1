@@ -8,7 +8,7 @@ import AllergensPage from "./pages/AllergensPage.js";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminStatsPage from "./pages/AdminStatsPage";
 import AdminEditProductPage from "./pages/AdminEditProductPage";
-import AdminEditUserPage from "./pages/AdminEditUserPage";
+import AdminEditUserPage from "./pages/AdminEditUserPage/AdminEditUserPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import RegisterPage from "./pages/RegisterPage.js";

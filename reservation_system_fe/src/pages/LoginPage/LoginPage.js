@@ -39,10 +39,6 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const navigateHome = () => {
-    navigate("/");
-  };
-
   return (
     <Box
       sx={{
@@ -54,24 +50,6 @@ const LoginPage = () => {
         background: 'white'
       }}
     >
-      <IconButton
-        sx={{
-          position: 'absolute',
-          top: '0px',
-          left: '24px',
-          '&:hover': { bgcolor: '#f1efef' },
-          '& .MuiAvatar-root': {
-            width: 48,
-            height: 48,
-            transition: "width 0.3s ease, height 0.3s ease",
-          },
-        }}
-        onClick={navigateHome}
-        color="inherit"
-        aria-label="company logo"
-      >
-        <Avatar src={logo} sx={{ width: 48, height: 48 }} />
-      </IconButton>
       <Paper elevation={3} sx={{ 
         padding: '64px', 
         width: '100%', 

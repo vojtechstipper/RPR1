@@ -24,7 +24,6 @@ function ShoppingCartPage() {
 
   return (
     <div>
-      <Navbar />
       <Box
         sx={{
           backgroundColor: "#d3d3d3",
@@ -77,8 +76,6 @@ function ShoppingCartPage() {
       >
         <OrderButton orderTime={orderTime} orderNote={orderNote} />
       </Box>
-
-      <Footer />
     </div>
   );
 };

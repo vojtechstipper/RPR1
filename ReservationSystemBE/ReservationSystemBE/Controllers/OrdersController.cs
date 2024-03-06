@@ -20,7 +20,7 @@ public class OrdersController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "User")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand command)
     {
@@ -36,7 +36,7 @@ public class OrdersController : Controller
     } 
     
     [HttpGet("order-times")]
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "User")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<OrderTimesDropdownDto>>> GetOrderTimes()
     {

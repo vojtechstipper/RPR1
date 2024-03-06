@@ -144,7 +144,9 @@ const getNotStartedOrders = async () => {
 
 const getOrderTimesDropdown = async () => {
   try {
-    const response = await api.get(`/order/order-times`);
+    const response = await api.get(`/order/order-times`, {
+      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+    });
     return response.data;
   } catch (error) {
     throw error;

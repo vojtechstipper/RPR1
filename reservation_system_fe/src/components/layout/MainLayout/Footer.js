@@ -4,9 +4,9 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
 function Footer() {
-  const instagramLink = process.env.INSTAGRAM;
-  const facebookLink = process.env.FACEBOOK;
-  const googleMapsLink = process.env.GOOGLE_MAPS;
+  const instagramLink = process.env.REACT_APP_INSTAGRAM;
+  const facebookLink = process.env.REACT_APP_FACEBOOK;
+  const googleMapsLink = process.env.REACT_APP_GOOGLE_MAPS;
   return (
     <Container component="footer" maxWidth="xl" sx={{ mt: 8, py: 4 }}>
       <Grid container spacing={4} justifyContent="center">
@@ -40,7 +40,7 @@ function Footer() {
           <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ textAlign: 'left', maxWidth: '100%' }}>
               <Typography variant="h6" gutterBottom fontWeight="bold">Sociální sítě</Typography>
-              <Link href={{instagramLink}} target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none', color:'black' }}>
+              <Link href={instagramLink} target="_blank" rel="noopener noreferrer" sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, textDecoration: 'none', color:'black' }}>
                 <InstagramIcon sx={{ mr: 1 }} />
                 Instagram
               </Link>

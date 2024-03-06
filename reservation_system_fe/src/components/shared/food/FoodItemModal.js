@@ -158,14 +158,16 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
           fullWidth
           margin="normal"
         />
-        <TextField
-          multiline
-          fullWidth
-          label="Popis"
-          rows={3}
-          value={productDescription}
-          onChange={handleProductDescriptionChanged}
-        ></TextField>
+        <FormControl fullWidth margin="normal">
+          <TextField
+            multiline
+            fullWidth
+            label="Popis"
+            rows={3}
+            value={productDescription}
+            onChange={handleProductDescriptionChanged}
+          ></TextField>
+        </FormControl>
         <FormControl fullWidth margin="normal">
           <InputLabel id="select-label">Druh produktu</InputLabel>
           <Select
@@ -211,29 +213,29 @@ const FoodItemModal = ({ open, onClose, itemId }) => {
           margin="normal"
         />
         <Grid container spacing={12} marginBottom={1}>
-        <Grid item  xs={6}>
-        <CardMedia
-          component="img"
-          sx={{ width: 160, height: 100 }}
-          image={`https://localhost:7038/${product?.imageId ?? ""}`} //uložit do configu jako baseUrl
-          alt="Foto produktu"
-        />
+          <Grid item xs={6}>
+            <CardMedia
+              component="img"
+              sx={{ width: 160, height: 100 }}
+              image={`https://localhost:7038/${product?.imageId ?? ""}`} //uložit do configu jako baseUrl
+              alt="Foto produktu"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+              onChange={handleImageUploaded}
+            >
+              Upload file
+              <VisuallyHiddenInput type="file" />
+            </Button>
+          </Grid>
         </Grid>
-         <Grid item xs={6}>
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<CloudUploadIcon />}
-          onChange={handleImageUploaded}
-        >
-          Upload file
-          <VisuallyHiddenInput type="file" />
-        </Button>
-         </Grid>
-        </Grid>
-        <Grid container spacing={12} >
+        <Grid container spacing={1}>
           <Grid item xs>
             <Button
               variant="contained"

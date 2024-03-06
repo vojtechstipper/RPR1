@@ -9,9 +9,10 @@ import Coverphoto from "../static/img/coverphoto.jpg";
 
 
 function HomePage() {
-
     let navigate = useNavigate();
-    
+    const facebookLink = process.env.REACT_APP_FACEBOOK;
+    const instagramLink = process.env.REACT_APP_INSTAGRAM;
+
     const goToMenu = () => {
         navigate('/menu');
     };
@@ -75,10 +76,10 @@ function HomePage() {
                         borderRadius: '10px',
                         padding: '10px'
                         }}>
-                        <IconButton component="a" href="https://www.instagram.com/citycampuscoffee/?igshid=NGVhN2U2NjQ0Yg%3D%3D" target="_blank" sx={{ color: 'black' }}>
+                        <IconButton component="a" href={instagramLink} target="_blank" sx={{ color: 'black' }}>
                             <InstagramIcon fontSize="large" />
                         </IconButton>
-                        <IconButton component="a" href="https://www.facebook.com/profile.php?id=61550106100216" target="_blank" sx={{ color: 'black', mt: '0px' }}>
+                        <IconButton component="a" href={facebookLink} target="_blank" sx={{ color: 'black', mt: '0px' }}>
                             <FacebookIcon fontSize="large" />
                         </IconButton>
                     </Box>

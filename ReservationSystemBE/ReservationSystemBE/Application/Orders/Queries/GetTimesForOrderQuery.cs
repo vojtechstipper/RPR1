@@ -14,8 +14,7 @@ public class GetTimesForOrderQueryHandler : IRequestHandler<GetTimesForOrderQuer
     public Task<List<OrderTimesDropdownDto>> Handle(GetTimesForOrderQuery request, CancellationToken cancellationToken)
     {
         DateTime timeNow = DateTime.Now;
-        DateTime endTime = DateTime.Today;
-        List<DateTime> times = GetTimes(timeNow.AddMinutes(20), endTime.AddHours(18), 10);
+        List<DateTime> times = GetTimes(timeNow.AddMinutes(20), timeNow.AddHours(2), 10);
 
         return Task.FromResult(times.Select(x => new OrderTimesDropdownDto() { Time = x }).ToList());
     }

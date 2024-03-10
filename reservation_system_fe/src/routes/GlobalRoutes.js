@@ -5,6 +5,7 @@ import AllergensPage from "../pages/AllergensPage/AllergensPage.js";
 import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage.js";
 import GlobalLayout from "../components/layout/MainLayout/GlobalLayout.jsx";
 import LoginPage from "../pages/LoginPage/LoginPage.js";
+import RegisterPage from "../pages/RegisterPage/RegisterPage.js";
 
 
 const GlobalRoutes = {
@@ -34,6 +35,10 @@ const GlobalRoutes = {
         {
             path: 'login',
             element: <LoginPage/>
+        },
+        {
+            path: 'register',
+            element: <RegisterPage/>
         }
     ]
 }

@@ -102,7 +102,7 @@ const LoginPage = () => {
           <Link to="/forgotPassword" style={{ color: 'white', textDecoration: 'none',textAlign: "right", textDecorationLine: 'underline'   }}>
             Zapomenuté heslo
           </Link>
-          <Button 
+          <Button
             variant="contained" 
             sx={{ 
               bgcolor: 'red',

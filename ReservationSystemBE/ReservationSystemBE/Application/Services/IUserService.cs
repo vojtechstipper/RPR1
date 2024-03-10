@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Users;
 using ReservationSystemBE.Infrastructure.Persistence;
+using BCR = BCrypt.Net.BCrypt;
 
 namespace ReservationSystemBE.Application.Services;
 
 public interface IUserService
 {
     Task<User> ValidateAndGetUser(string userEmail, string password);
-    Task CreateUser();
+    Task<User> CreateUser(string email, string name, string surname, string password);
 }
 
 public class UserService : IUserService
@@ -19,15 +20,19 @@ public class UserService : IUserService
         _context = context;
     }
 
-    public Task CreateUser()
+    public async Task<User> CreateUser(string email, string name, string surname, string password)
     {
-        throw new NotImplementedException();
+        string securedPassword = BCR.HashPassword(password, 4);
+        var user = new User(name, surname, email.ToLower(), securedPassword, UserRole.User);
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return user;
     }
 
     public async Task<User> ValidateAndGetUser(string userEmail, string password)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == userEmail);
-        if (user != null && user.Password == password)
+        if (user != null && BCR.Verify(password, user.Password))
         {
             return user;
         }

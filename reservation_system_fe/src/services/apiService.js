@@ -182,6 +182,16 @@ const loginUserRequest = async (userData) => {
     throw error;
   }
 };
+
+const registerUserRequest = async (userData) => {
+  try {
+    const response = await api.post("/users", userData);
+    toastNotify(response, "Zaregistrován!");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export {
   getProductsGroupped,
   getProductById,
@@ -199,7 +209,8 @@ export {
   getOrderTimesDropdown,
   uploadImage,
   getImage,
-  loginUserRequest
+  loginUserRequest,
+  registerUserRequest
 };
 
 

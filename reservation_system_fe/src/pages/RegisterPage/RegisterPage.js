@@ -6,14 +6,20 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
-import logo from "../../static/img/logoCCC.jpeg";
+import { registerUserRequest } from '../../services/apiService';
+import Cookies from 'js-cookie';
 const RegisterPage = () => {
   const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordAgain, setPasswordAgain] = useState('');
 
   const handleNameChange = (event) => {
     setName(event.target.value);
+  };
+  const handleSurnameChange = (event) => {
+    setSurname(event.target.value);
   };
 
   const handleEmailChange = (event) => {
@@ -24,9 +30,22 @@ const RegisterPage = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handlePasswordAgainChange = (event) => {
+    setPasswordAgain(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    //TODO potřeba ověřit zda je vše vyplněné před tím než se odešle request
     event.preventDefault();
-    // Zde implementujte logiku pro registraci
+    const userData = {
+      name: name,
+      surname: surname,
+      email: email,
+      password: password
+    };
+    const response = await registerUserRequest(userData);
+    Cookies.set("token", response, { expires: 7, secure: true });
+    navigate("/");
   };
 
   const navigate = useNavigate();
@@ -101,6 +120,16 @@ const RegisterPage = () => {
             }}
           />
           <TextField
+            placeholder="Příjmení *"
+            variant="outlined"
+            value={surname}
+            onChange={handleSurnameChange}
+            required
+            InputProps={{
+              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'  },
+            }}
+          />
+          <TextField
             placeholder="E-mail *"
             variant="outlined"
             value={email}
@@ -116,6 +145,17 @@ const RegisterPage = () => {
             variant="outlined"
             value={password}
             onChange={handlePasswordChange}
+            required
+            InputProps={{
+              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'},
+            }}
+          />
+            <TextField
+            placeholder="Heslo znovu*"
+            type="password"
+            variant="outlined"
+            value={passwordAgain}
+            onChange={handlePasswordAgainChange}
             required
             InputProps={{
               style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'},

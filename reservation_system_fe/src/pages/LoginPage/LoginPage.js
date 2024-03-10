@@ -32,7 +32,6 @@ const LoginPage = () => {
       password: password
     };
     const response = await loginUserRequest(userData);
-    console.log(response);
     Cookies.set("token", response, { expires: 7, secure: true });
     navigate("/");
   };

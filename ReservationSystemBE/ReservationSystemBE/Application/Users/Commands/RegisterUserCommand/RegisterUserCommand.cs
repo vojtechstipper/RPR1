@@ -30,11 +30,13 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, s
 {
     private readonly ReservationSystemDbContext _context;
     private readonly IUserService _userService;
+    private readonly IAuthService _authService;
 
-    public RegisterUserCommandHandler(ReservationSystemDbContext context, IUserService userService)
+    public RegisterUserCommandHandler(ReservationSystemDbContext context, IUserService userService, IAuthService authService)
     {
         _context = context;
         _userService = userService;
+        _authService = authService;
     }
 
     public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -46,7 +48,9 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, s
 
         var newUser = await _userService.CreateUser(request.Email, request.Name, request.Surname, request.Password);
         if (newUser == null) throw new ValidationException($"User could not be created", "FailedCreatinUser");
-        return newUser.Id;
+
+        
+        return await _authService.GenerateToken(newUser);
     }
 
     private Task<bool> ValidateExistingUserByMail(string email) =>

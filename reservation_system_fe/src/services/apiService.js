@@ -1,10 +1,10 @@
-import { toast } from 'react-toastify';
-import api from './api';
-import Cookies from 'js-cookie';
+import { toast } from "react-toastify";
+import api from "./api";
+import Cookies from "js-cookie";
 
- const getProducts = async () => {
+const getProducts = async () => {
   try {
-    const response = await api.get('/product/list');
+    const response = await api.get("/product/list");
     return response.data;
   } catch (error) {
     throw error;
@@ -13,25 +13,25 @@ import Cookies from 'js-cookie';
 
 const getAllergens = async () => {
   try {
-    const response = await api.get('/allergen/list');
+    const response = await api.get("/allergen/list");
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
- const getProductsGroupped = async () => {
+const getProductsGroupped = async () => {
   try {
-    const response = await api.get('/product/groupped');
+    const response = await api.get("/product/groupped");
     return response.data;
   } catch (error) {
     throw error;
   }
 };
- const getProductsList = async () => {
+const getProductsList = async () => {
   try {
     const response = await api.get("/product/list", {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
@@ -40,12 +40,12 @@ const getAllergens = async () => {
 };
 
 // Funkce pro přidání produktu
- const addProduct = async (productData) => {
+const addProduct = async (productData) => {
   try {
-    const response = await api.post('/product', productData,  {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+    const response = await api.post("/product", productData, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    toastNotify(response, "Produkt přidán!")
+    toastNotify(response, "Produkt přidán!");
     return response.data;
   } catch (error) {
     throw error;
@@ -53,10 +53,10 @@ const getAllergens = async () => {
 };
 
 // Funkce pro editaci produktu
- const editProduct = async ( productData) => {
-   try {
-     const response = await api.put(`/product/edit`, productData,  {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+const editProduct = async (productData) => {
+  try {
+    const response = await api.put(`/product/edit`, productData, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     toastNotify(response, "Produkt upraven!");
     return response.data;
@@ -66,12 +66,12 @@ const getAllergens = async () => {
   }
 };
 
-const deleteProduct = async ( productId) => {
+const deleteProduct = async (productId) => {
   try {
     const response = await api.delete(`/product/${productId}`, {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    toastNotify(response, "Produkt smazán!")
+    toastNotify(response, "Produkt smazán!");
     return response.data;
   } catch (error) {
     toastNotify(error.response);
@@ -80,10 +80,10 @@ const deleteProduct = async ( productId) => {
 };
 
 // Funkce pro získání produktu podle ID
- const getProductById = async (productId) => {
+const getProductById = async (productId) => {
   try {
     const response = await api.get(`/product/${productId}`, {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
@@ -93,10 +93,10 @@ const deleteProduct = async ( productId) => {
 
 const uploadImage = async (image) => {
   try {
-    const response = await api.post(`/product/image`,image, {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+    const response = await api.post(`/product/image`, image, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    toastNotify(response,"Obrázek nahrán!")
+    toastNotify(response, "Obrázek nahrán!");
     return response.data;
   } catch (error) {
     toastNotify(error.response);
@@ -105,7 +105,7 @@ const uploadImage = async (image) => {
 };
 const getImage = async (imageId) => {
   try {
-    const response = await api.get(`/`,imageId);
+    const response = await api.get(`/`, imageId);
     return response.data;
   } catch (error) {
     throw error;
@@ -115,7 +115,7 @@ const getImage = async (imageId) => {
 const getAllergensDropdown = async () => {
   try {
     const response = await api.get(`/allergen/dropdown`, {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
@@ -123,11 +123,10 @@ const getAllergensDropdown = async () => {
   }
 };
 
-
 const getProductTypesDropdown = async () => {
   try {
     const response = await api.get(`/productstypes/dropdown`, {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
@@ -147,7 +146,7 @@ const getNotStartedOrders = async () => {
 const getOrderTimesDropdown = async () => {
   try {
     const response = await api.get(`/order/order-times`, {
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
@@ -212,14 +211,12 @@ export {
   uploadImage,
   getImage,
   loginUserRequest,
-  registerUserRequest
+  registerUserRequest,
 };
 
-
-  function toastNotify(response, successMessage) {
-    if (response.status === 200) toast.success(successMessage);
-    else if (response.status === 400 ) {
-        toast.error(`Chyba validace`);
-    }
-    else if (response.status === 500) toast.error("Neočekávaná chyba serveru");
-  }
+function toastNotify(response, successMessage) {
+  if (response.status === 200) toast.success(successMessage);
+  else if (response.status === 400) {
+    toast.error(`Chyba validace`);
+  } else if (response.status === 500) toast.error("Neočekávaná chyba serveru");
+}

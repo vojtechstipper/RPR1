@@ -21,7 +21,7 @@ const CustomAppBar = styled(AppBar)(({ theme }) => ({
 
 const ActiveButton = styled(Button)(({ theme, active }) => ({
   fontWeight: "bold",
-  color: active ? theme.palette.primary.main : theme.palette.text.primary, // Zvýraznění aktivního tlačítka
+  color: active ? theme.palette.primary.main : theme.palette.text.primary,
 }));
 
 const MenuWrapper = ({
@@ -55,15 +55,27 @@ const MenuWrapper = ({
         <CustomAppBar position="static" elevation={3}>
           <Toolbar
             sx={{
+              flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
               flexWrap: "wrap",
+              gap: { xs: "10px", sm: "0px" },
+              pb: 1,
+              pt: 1,
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                width: "100%",
+                gap: 1,
+              }}
+            >
               {categories.map((item, index) => (
                 <ActiveButton
                   key={index}
-                  active={searchTermVal === item.productType.name} // Přidání podmínky pro aktivní tlačítko
+                  sx={{ mb: { xs: 1, sm: 0 }, mr: 1, fontSize: "1rem" }}
+                  active={searchTermVal === item.productType.name}
                   onClick={(event) =>
                     handleButtonClick(item.productType.name, event)
                   }
@@ -77,7 +89,9 @@ const MenuWrapper = ({
                 backgroundColor: "white",
                 padding: "0 10px",
                 borderRadius: 10,
-                width: { xs: "100%", sm: "300px" }, // Zvětšení vyhledávacího pole
+                width: "100%",
+                mt: { xs: 2, sm: 2, md: 2, xl: 2 },
+                fontSize: "1rem",
               }}
               endAdornment={
                 <IconButton type="submit" aria-label="search">

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {getProductsGroupped} from '../../../services/apiService';
-import FoodItemCard from './FoodItemCard';
-import MenuWrapper from './MenuWrapper';
+import React, { useEffect, useState } from "react";
+import { getProductsGroupped } from "../../../services/apiService";
+import FoodItemCard from "./FoodItemCard";
+import MenuWrapper from "./MenuWrapper";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 
@@ -57,7 +57,7 @@ function ProductList() {
           productType.showProductType && (
             <div key={productType.productType.name}>
               {productType.showProductType && (
-                <Typography variant="h4" mb={5}>
+                <Typography variant="h4" mb={8}>
                   {productType.productType.name}
                 </Typography>
               )}

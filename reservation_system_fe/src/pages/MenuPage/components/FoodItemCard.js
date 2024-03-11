@@ -4,8 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import coffee from "../../../static/img/coffee.jpg";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Paper } from "@mui/material";
@@ -31,7 +30,8 @@ const FoodItemCard = ({ foodItem }) => {
       elevation={5}
       sx={{
         maxWidth: "100%",
-        mb: 2,
+        maxHeight: "100%",
+        mb: 5,
         backgroundColor: "#f1efef",
         mx: { xs: 0.5, sm: 2 },
         transition: "0.3s",
@@ -44,20 +44,24 @@ const FoodItemCard = ({ foodItem }) => {
     >
       <Card
         sx={{
-          alignItems: "center",
+          alignItems: "left",
+          maxHeight: "600px",
+          height: { xs: "550px", xl: "600px" },
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <CardMedia
           component="img"
           sx={{
             width: "100%", // Zajistí, že obrázek se přizpůsobí šířce kontejneru
-            maxHeight: { xs: 200, sm: 220, md: 220 }, // Maximální výška obrázku
-            objectFit: "cover", // Zajistí, že obrázek pokryje celou plochu bez zkreslení
+            height: 220,
+            objectFit: "cover", // nebo contain?, Zajistí, že obrázek pokryje celou plochu bez zkreslení
           }}
           image={
             foodItem.imageId
               ? `https://localhost:7038/${foodItem.imageId}`
-              : "https://via.placeholder.com/220"
+              : "https://via.placeholder.com/300"
           }
           alt={foodItem.name}
         />

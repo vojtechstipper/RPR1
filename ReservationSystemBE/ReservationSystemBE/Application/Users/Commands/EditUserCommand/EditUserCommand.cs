@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ReservationSystem.Domain.Users;
 using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
 using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
@@ -13,6 +14,9 @@ public class EditUserCommand : IRequest<string>
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Email { get; set; }
+    public bool IsVerified { get; set; }
+    public bool IsStudent { get; set; }
+    public UserRole Role { get; set; }
 }
 
 public class EditUserCommandValidator : AbstractValidator<EditUserCommand>
@@ -45,6 +49,9 @@ public class EditUserCommandHandler : IRequestHandler<EditUserCommand, string>
         user.Email=request.Email;
         user.FirstName = request.Name;
         user.SecondName = request.Surname;
+        user.IsVerified = request.IsVerified;
+        user.Role = request.Role;
+        user.IsStudent = request.IsStudent;
 
         _context.Update(user);
         await _context.SaveChangesAsync();

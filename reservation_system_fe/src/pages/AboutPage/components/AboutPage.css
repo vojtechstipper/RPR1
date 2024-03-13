@@ -1,0 +1,11 @@
+.image-gallery-slide .image-gallery-image.image-gallery-image {
+    border-radius: 8px;
+  }
+
+.image-gallery-icon {
+  visibility: hidden;
+ }
+  
+.image-gallery:hover .image-gallery-icon {
+   visibility: visible;
+ }

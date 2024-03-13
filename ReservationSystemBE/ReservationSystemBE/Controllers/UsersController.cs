@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystem.Shared.DTO;
+using ReservationSystemBE.Application.Users.Commands.EditUserCommand;
 using ReservationSystemBE.Application.Users.Commands.RegisterUserCommand;
 using ReservationSystemBE.Application.Users.Queries;
 
@@ -33,5 +34,13 @@ public class UsersController : Controller
     public async Task<ActionResult<PaginatedResult<UserDto>>> GetUsers([FromQuery] PaginatedUsersQuery query)
     {
         return Ok(await _mediator.Send(query));
+    }
+
+    [HttpPut("edit")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<PaginatedResult<UserDto>>> EditUser([FromBody] EditUserCommand command)
+    {
+        return Ok(await _mediator.Send(command));
     }
 }

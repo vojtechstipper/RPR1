@@ -136,7 +136,9 @@ const getProductTypesDropdown = async () => {
 
 const getNotStartedOrders = async () => {
   try {
-    const response = await api.get(`/order/not-started`);
+    const response = await api.get(`/order/not-started`, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -156,7 +158,9 @@ const getOrderTimesDropdown = async () => {
 
 const sendOrder = async (orderData) => {
   try {
-    const response = await api.post("/order", orderData);
+    const response = await api.post("/order", orderData, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
     toastNotify(response, "Objednávka odeslána!");
     return response.data;
   } catch (error) {
@@ -167,7 +171,9 @@ const sendOrder = async (orderData) => {
 
 const sendChangeOrderStatusRequest = async (orderStatus) => {
   try {
-    const response = await api.post("/order/accept", orderStatus);
+    const response = await api.post("/order/accept", orderStatus, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
     return response.data;
   } catch (error) {
     throw error;

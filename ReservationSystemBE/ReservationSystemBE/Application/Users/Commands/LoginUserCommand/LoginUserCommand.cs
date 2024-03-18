@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using ReservationSystemBE.Application.Services;
+using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
 
 namespace ReservationSystemBE.Application.Users.Commands.LoginUserCommand;
 
@@ -37,7 +38,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, string>
                 return token;
             }
         }
-        catch (Exception ex) { throw ex; }
+        catch (Exception ex) { throw new ValidationException("Bad Password or user","BadLogin"); }
         return "";
     }
 }

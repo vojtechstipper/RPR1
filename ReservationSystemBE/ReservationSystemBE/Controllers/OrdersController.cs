@@ -50,4 +50,12 @@ public class OrdersController : Controller
     {
         return Ok(await _mediator.Send(command));
     }
+
+    [HttpPut("change-step")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> ChangeOrderStep([FromBody] ChangeOrderStepCommand command)
+    {
+        return Ok(await _mediator.Send(command));
+    }
 }

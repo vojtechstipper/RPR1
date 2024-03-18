@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,8 +9,11 @@ import {
   Avatar,
   Grid,
   Button,
+  Divider,
   ListItemButton,
+  Typography,
 } from "@mui/material";
+import Cookies from "js-cookie";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import logo from "../../../static/img/logoCCC.jpeg";
@@ -20,6 +23,28 @@ import { useNavigate } from "react-router-dom";
 export default function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const userName = "Petr";
+
+  useEffect(() => {
+    const handleAuthChange = () => {
+      const token = Cookies.get("token");
+      setIsAuthenticated(!!token);
+    };
+
+    window.addEventListener("authChanged", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("authChanged", handleAuthChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    setIsAuthenticated(false);
+    navigate("/login");
+    window.dispatchEvent(new Event("authChanged"));
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -45,20 +70,40 @@ export default function ResponsiveAppBar() {
             primary={item.name}
             primaryTypographyProps={{ fontSize: "1.1rem" }}
           />
+          <Divider sx={{ borderBottomWidth: 2 }} />
         </ListItemButton>
       ))}
+      <Divider sx={{ borderBottomWidth: 2 }} />
       <ListItemButton onClick={handleNavigate("/shoppingcart")}>
         <ListItemText
           primary="Košík"
           primaryTypographyProps={{ fontSize: "1.1rem" }}
         />
       </ListItemButton>
-      <ListItemButton onClick={handleNavigate("/login")}>
-        <ListItemText
-          primary="Přihlásit se"
-          primaryTypographyProps={{ fontSize: "1.1rem" }}
-        />
-      </ListItemButton>
+      {!isAuthenticated ? (
+        <ListItemButton onClick={handleNavigate("/login")}>
+          <ListItemText
+            primary="Přihlásit se"
+            primaryTypographyProps={{ fontSize: "1.1rem" }}
+          />
+        </ListItemButton>
+      ) : (
+        <>
+          <ListItemButton>
+            <ListItemText
+              primary={"Profil:"}
+              primaryTypographyProps={{ fontSize: "1.1rem" }}
+            />
+            <Typography variant="h6">{userName}</Typography>
+          </ListItemButton>
+          <ListItemButton onClick={handleLogout}>
+            <ListItemText
+              primary="Odhlásit se"
+              primaryTypographyProps={{ fontSize: "1.1rem" }}
+            />
+          </ListItemButton>
+        </>
+      )}
     </List>
   );
 
@@ -120,13 +165,37 @@ export default function ResponsiveAppBar() {
             >
               <ShoppingCartOutlinedIcon />
             </IconButton>
-            <IconButton
-              color="inherit"
-              onClick={handleNavigate("/login")}
-              sx={{ display: { xs: "none", sm: "block" } }}
-            >
-              <PersonOutlineIcon />
-            </IconButton>
+            {!isAuthenticated ? (
+              <IconButton
+                color="inherit"
+                onClick={handleNavigate("/login")}
+                sx={{ display: { xs: "none", sm: "block" } }}
+              >
+                <PersonOutlineIcon />
+              </IconButton>
+            ) : (
+              <>
+                <IconButton
+                  color="inherit"
+                  onClick={handleNavigate("/profilePage")}
+                  sx={{ display: { xs: "none", sm: "block" } }}
+                >
+                  <PersonOutlineIcon />
+                </IconButton>
+                <Typography
+                  sx={{ display: { xs: "none", sm: "block" }, marginRight: 2 }}
+                >
+                  {userName}
+                </Typography>
+                <Button
+                  onClick={handleLogout}
+                  sx={{ display: { xs: "none", sm: "block" }, color: "black" }}
+                >
+                  Odhlásit
+                </Button>
+              </>
+            )}
+
             <IconButton
               color="inherit"
               aria-label="open drawer"

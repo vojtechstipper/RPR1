@@ -55,9 +55,6 @@ function AdminHomePage() {
       <div style={{ display: "flex" }}>
         <AdminSideBar />
         <div>
-          <Typography>ADMIN HOME PAGE</Typography>
-        </div>
-        <div>
           {messages.map((message, index) => (
             <AdminOrderCard data={message}></AdminOrderCard>
           ))}

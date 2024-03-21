@@ -1,4 +1,5 @@
-﻿using ReservationSystem.Shared.Entity;
+﻿using ReservationSystem.Domain.Orders;
+using ReservationSystem.Shared.Entity;
 
 namespace ReservationSystem.Domain.Users;
 
@@ -24,6 +25,7 @@ public class User : Entity
     public bool IsVerified { get; set; }
     public bool IsStudent { get; set; } = false;
     public UserRole Role { get; set; }
+    public IEnumerable<Order> Orders { get; set; }
 
 }
 

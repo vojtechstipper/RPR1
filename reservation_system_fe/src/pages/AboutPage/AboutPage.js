@@ -1,16 +1,8 @@
 import React from 'react';
 import { Container, Typography, Grid,} from '@mui/material';
-import ImageGallery from 'react-image-gallery';
 import Coverphoto from '../../static/img/coverphoto.jpg';
-import 'react-image-gallery/styles/css/image-gallery.css';
 import './components/AboutPage.css';
 
-// Import your images
-//import Photo1 from '../../static/img/photo1.jpg';
-//import Photo2 from '../../static/img/photo2.jpg';
-//import Photo3 from '../../static/img/photo3.jpg';
-
-import 'react-image-gallery/styles/css/image-gallery.css';
 
 const AboutUs = () => {
     const aboutPageText = process.env.REACT_APP_ABOUTPAGE.replace(/\\n/g, '\n');
@@ -46,7 +38,7 @@ const AboutUs = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
-            <ImageGallery items={images} autoPlay={true} showPlayButton={false} slideInterval={5000} infinite={true} showThumbnails={false} />
+            {/* <ImageGallery items={images} autoPlay={true} showPlayButton={false} slideInterval={5000} infinite={true} showThumbnails={false} /> */}
         </Grid>
       </Grid>
     </Container>

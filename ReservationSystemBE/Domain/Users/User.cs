@@ -24,6 +24,7 @@ public class User : Entity
     public string Password { get; set; }
     public bool IsVerified { get; set; }
     public bool IsStudent { get; set; } = false;
+    public bool Active { get; set; } = true;
     public UserRole Role { get; set; }
     public IEnumerable<Order> Orders { get; set; }
 

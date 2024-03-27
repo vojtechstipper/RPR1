@@ -9,6 +9,7 @@ namespace ReservationSystemBE.Application.Orders.Commands;
 public class ChangeOrderStepCommand : IRequest<Unit>
 {
     public string OrderId { get; set; }
+    public OrderStatus Status { get; set; }
 
 }
 
@@ -28,14 +29,54 @@ public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepComm
         {
             throw new ValidationException($"Entity not found with Id: {request.OrderId}", "EntityNotFound");
         }
-        if ((int)order.Status == (int)OrderStatus.Finished) throw new ValidationException($"Cannot move order step with Id: {request.OrderId} because it is already finished", "OrderAlreadyFinished");
-        if ((int)order.Status == (int)OrderStatus.Canceled) throw new ValidationException($"Cannot move order step with Id: {request.OrderId} because it is already cancelled", "OrderCancelled");
 
-        order.Status = (OrderStatus)((int)order.Status + 1);
+        ValidateStepChange(request.Status, order.Status);
+
+        order.Status = request.Status;
 
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();
         return Unit.Value;
+    }
+
+    private void ValidateStepChange(OrderStatus nextStatus, OrderStatus currentStatus)
+    {
+        var allowedStatusForNotStarted = new OrderStatus[] { OrderStatus.Canceled, OrderStatus.InPreparation };
+        var allowedStatusForInPreparation = new OrderStatus[] { OrderStatus.Canceled, OrderStatus.Prepared };
+        var allowedStatusForPrepared = new OrderStatus[] { OrderStatus.Canceled, OrderStatus.Finished };
+        var allowedStatusForFinished = new OrderStatus[] { OrderStatus.Canceled };
+
+        switch (currentStatus)
+        {
+            case OrderStatus.NotStarted:
+                if (!allowedStatusForNotStarted.Contains(nextStatus))
+                {
+                    throw new ValidationException($"Cannot move from step: {currentStatus} to {nextStatus}", "OrderStatusChangeNotAllowed");
+                }
+                break;
+            case OrderStatus.InPreparation:
+                if (!allowedStatusForInPreparation.Contains(nextStatus))
+                {
+                    throw new ValidationException($"Cannot move from step: {currentStatus} to {nextStatus}", "OrderStatusChangeNotAllowed");
+                }
+                break;
+            case OrderStatus.Prepared:
+                if (!allowedStatusForPrepared.Contains(nextStatus))
+                {
+                    throw new ValidationException($"Cannot move from step: {currentStatus} to {nextStatus}", "OrderStatusChangeNotAllowed");
+                }
+                break;
+            case OrderStatus.Finished:
+                if (!allowedStatusForFinished.Contains(nextStatus))
+                {
+                    throw new ValidationException($"Cannot move from step: {currentStatus} to {nextStatus}", "OrderStatusChangeNotAllowed");
+                }
+                break;
+            case OrderStatus.Canceled:
+                throw new ValidationException($"Order is already Cancelled", "BadOrderStatus");
+            default:
+                throw new ValidationException($"Not Defined step {currentStatus}", "OrderStatusChangeNotAllowed");
+        }
     }
 
     private Task<Order?> ValidateAndGetOrder(string orderId)

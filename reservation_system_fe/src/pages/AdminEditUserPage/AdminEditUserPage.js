@@ -109,7 +109,7 @@ function AdminEditUserPage() {
                                         { id: 'role', label: 'Role' },
                                         { id: 'isVerified', label: 'Ověřeno', align: 'center' },
                                         { id: 'isStudent', label: 'Student', align: 'center' },
-                                        { id: 'status', label: 'Status' },
+                                        { id: 'active', label: 'Status' },
                                         { id: '' },
                                     ]}
                                 />
@@ -123,7 +123,7 @@ function AdminEditUserPage() {
                                                 firstName={row.firstName}
                                                 secondName={row.secondName}
                                                 role={row.role}
-                                                status={row.status}
+                                                active={row.active}
                                                 email={row.email}
                                                 isVerified={row.isVerified}
                                                 isStudent={row.isStudent}

@@ -22,7 +22,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
     const [userRole, setUserRole] = useState("");
     const [userIsVerified, setUserIsVerified] = useState(null);
     const [userIsStudent, setUserIsStudent] = useState(null);
-    //const [userStatus, setUserStatus] = useState("");
+    //const [userStatus, setUserStatus] = useState(null);
     const [user, setUser] = useState(null);
 
     const handleUserNameChanged = (e) => setUserName(e.target.value);
@@ -43,7 +43,8 @@ const EditUserModal = ({ open, onClose, itemId }) => {
             email: userEmail,
             isVerified: userIsVerified,
             isStudent: userIsStudent,
-            role: userRole
+            role: userRole,
+            //active: userStatus
         };
         try {
             if (itemId != null) {
@@ -71,6 +72,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                     setUserIsVerified(response.isVerified);
                     setUserIsStudent(response.isStudent);
                     setUserRole(response.role);
+                    //setUserStatus(response.status);
                     console.log(response);
                 } catch (error) {
                     console.error("Chyba při načítání uživatelů:", error);
@@ -84,6 +86,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                 setUserIsVerified(null);
                 setUserIsStudent(null);
                 setUserRole("");
+                //setUserStatus(null);
             }
         }
 
@@ -215,31 +218,31 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid item>
+                    {/*<Grid item>
                         <FormControl>
                             <FormLabel id="demo-row-radio-buttons-group-label4">Status</FormLabel>
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label4"
                                 name="row-radio-buttons-group4"
-                                //value={userStatus}
+                                value={userStatus}
                             >
                                 <FormControlLabel
-                                    value="Aktivní"
+                                    value={true}
                                     control={<Radio />}
                                     label="Aktivní"
-                                    //onChange={(e) => setUserStatus(e.target.value)}
+                                    onChange={() => setUserStatus(!userStatus)}
                                 />
                                 <FormControlLabel
-                                    value="Neaktivní"
+                                    value={false}
                                     control={<Radio />}
                                     label="Neaktivní"
-                                    //onChange={(e) => setUserStatus(e.target.value)}
+                                    onChange={() => setUserStatus(!userStatus)}
                                 />
 
                             </RadioGroup>
                         </FormControl>
-                    </Grid>
+                    </Grid>*/}
                     <Grid container spacing={1}>
                         <Grid item xs>
                             <Button

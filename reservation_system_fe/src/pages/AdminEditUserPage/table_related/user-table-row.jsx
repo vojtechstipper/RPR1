@@ -25,7 +25,7 @@ export default function UserTableRow({
                                          role,
                                          isVerified,
                                          isStudent,
-                                         status,
+                                         active,
                                          handleClick,
                                          setItemId
                                      }) {
@@ -48,8 +48,16 @@ export default function UserTableRow({
 
     const handleDeleteItem = () => {
         handleCloseMenu()
+        //console.log(active);
+        deleteUser(id)
+            .then(response => {console.log(response.data)})
+            .catch((error) => {
+                if(error.response.status === 404){
+                    console.log("Uživatel nenalezen")
+                }
+            });
         console.log("Deleting user with id: " + id);
-        //deleteUser(id);
+        //console.log(active);
     };
 
     return (
@@ -65,15 +73,13 @@ export default function UserTableRow({
 
                 <TableCell>{email}</TableCell>
 
-                <TableCell>{role}</TableCell>
+                <TableCell >{role}</TableCell>
 
                 <TableCell align="center">{isVerified ? 'Ano' : 'Ne'}</TableCell>
 
                 <TableCell align="center">{isStudent ? 'Ano' : 'Ne'}</TableCell>
 
-                <TableCell>
-                    {status}
-                </TableCell>
+                <TableCell >{active ? 'Aktivní' : 'Neaktivní'}</TableCell>
 
                 <TableCell align="right">
                     <IconButton onClick={handleOpenMenu}>

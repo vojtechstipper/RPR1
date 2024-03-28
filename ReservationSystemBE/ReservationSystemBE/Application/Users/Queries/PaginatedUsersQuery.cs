@@ -32,6 +32,7 @@ public class UserDto
     public bool IsVerified { get; set; }
     public bool IsStudent { get; set; }
     public UserRole Role { get; set; }
+    public bool Active { get; set; }
 }
 
 public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, PaginatedResult<UserDto>>

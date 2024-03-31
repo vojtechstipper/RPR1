@@ -44,7 +44,7 @@ const RegisterPage = () => {
       password: password
     };
     const response = await registerUserRequest(userData);
-    Cookies.set("token", response, { expires: 7, secure: true });
+    Cookies.set("token", response.token, { expires: 7, secure: true });
     navigate("/");
   };
 

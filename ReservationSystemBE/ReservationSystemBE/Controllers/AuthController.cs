@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ReservationSystemBE.Application.Allergens.Queries;
 using ReservationSystemBE.Application.Test;
 using ReservationSystemBE.Application.Users.Commands.LoginUserCommand;
 using ReservationSystemBE.Application.Users.Commands.RegisterUserCommand;
@@ -29,14 +28,14 @@ public class AuthController : Controller
 
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> LoginUser(LoginUserCommand command)
+    public async Task<ActionResult<LoginResponse>> LoginUser(LoginUserCommand command)
     {
         return Ok(await _mediator.Send(command));
     }
 
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> RegisterUser()
+    public async Task<ActionResult<LoginResponse>> RegisterUser()
     {
         return Ok(await _mediator.Send(new RegisterUserCommand()));
     }

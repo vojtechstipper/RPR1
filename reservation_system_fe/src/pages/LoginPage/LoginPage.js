@@ -29,7 +29,7 @@ const LoginPage = () => {
       password: password,
     };
     const response = await loginUserRequest(userData);
-    Cookies.set("token", response, { expires: 7, secure: true });
+    Cookies.set("token", response.token, { expires: 7, secure: true });
     navigate("/");
     window.dispatchEvent(new Event('authChanged'));
   };

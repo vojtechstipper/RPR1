@@ -10,7 +10,7 @@ using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.Valida
 
 namespace ReservationSystemBE.Application.Orders.Commands;
 
-public class CreateOrderCommand : IRequest<Unit>
+public class CreateOrderCommand : IRequest<string>
 {
     public List<OrderItemsDto> Items { get; set; }
     public DateTime OrderTime { get; set; }
@@ -44,7 +44,7 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     }
 }
 
-public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Unit>
+public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, string>
 {
     private readonly ReservationSystemDbContext _reservationSystemDbContext;
     private readonly IHubContext<OrderHub> _hub;
@@ -55,7 +55,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
         _hub = hub;
     }
 
-    public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         var products = await _reservationSystemDbContext.Products.Where(x => request.Items.Select(x => x.ProductId).ToList().Contains(x.Id)).ToListAsync();
         List<OrderItem> orderItems = new List<OrderItem>();
@@ -98,7 +98,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             OrderNote = order.Note
         });
 
-        return Unit.Value;
+        return order.Id;
     }
     static string GenerateRandomNumberString(Random random, int length)
     {

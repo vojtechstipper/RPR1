@@ -24,7 +24,7 @@ public class OrdersController : Controller
     [HttpPost]
     [Authorize(Roles = "User")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand command)
+    public async Task<ActionResult<string>> CreateOrder([FromBody] CreateOrderCommand command)
     {
         var authorizationheader = HttpContext.Request.Headers["Authorization"];
         string accessToken = string.Empty;

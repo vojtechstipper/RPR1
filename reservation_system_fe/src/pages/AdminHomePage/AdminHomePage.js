@@ -7,6 +7,9 @@ import { Button } from '@mui/material';
 import moment from 'moment/moment';
 import AdminOrderCard from '../../components/shared/admin/AdminOrderCard';
 import { getNotStartedOrders } from '../../services/apiService';
+import OrdersBoard from '../../containers/OrdersBoard';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 
 function AdminHomePage() {
@@ -54,11 +57,14 @@ function AdminHomePage() {
     return (
       <div style={{ display: "flex" }}>
         <AdminSideBar />
-        <div>
+        {/* <div>
           {messages.map((message, index) => (
             <AdminOrderCard data={message}></AdminOrderCard>
           ))}
-        </div>
+        </div> */}
+        <DndProvider backend={HTML5Backend}>
+          <OrdersBoard cards={messages}></OrdersBoard>
+        </DndProvider>
       </div>
     );
 }

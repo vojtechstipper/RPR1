@@ -20,7 +20,7 @@ public class DeactivateUserByIdCommandHandler : IRequestHandler<DeactivateUserBy
 
     public async Task<Unit> Handle(DeactivateUserByIdCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FirstOrDefaultAsync();
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
         if (user == null)
             throw new ValidationException($"User with Id: {request.Id} was not found", ExceptionCodes.EntityNotFound);
 

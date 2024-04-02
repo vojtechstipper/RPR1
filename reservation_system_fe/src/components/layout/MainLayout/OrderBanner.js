@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchUnavailableIntervals } from "../../../services/apiService";
 
 const OrderBanner = () => {
-
   const [isOrderAvailable, setIsOrderAvailable] = useState(true);
-  const [isFixed, setIsFixed] = useState(false);
   const [unavailableIntervals, setUnavailableIntervals] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,39 +47,11 @@ const OrderBanner = () => {
     return () => clearInterval(interval);
   }, [unavailableIntervals]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const shouldBeFixed = window.pageYOffset > 0;
-      if (shouldBeFixed !== isFixed) {
-        setIsFixed(shouldBeFixed);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isFixed]);
-
-  if (loading) {
-    return <div></div>;
-  }
-
-  const bannerStyle = isFixed
-    ? { position: 'fixed', top: 0, width: '100%', zIndex: 1000 }
-    : { width: '100%' };
-
   return (
     <div>
       {!isOrderAvailable && (
-        <div style={{ 
-          backgroundColor: 'red', 
-          color: 'white', 
-          padding: '10px', 
-          textAlign: 'center',
-          width: '100%',
-          left: 0,
-          ...bannerStyle
-        }}>
-          Není možné objednávat mimo otevírací dobu.
+        <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', textAlign: 'center' }}>
+          Nyní není možné vytvářet obejdnávky. Přijďte prosím později.
         </div>
       )}
     </div>

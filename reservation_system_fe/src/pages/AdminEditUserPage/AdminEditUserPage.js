@@ -1,4 +1,4 @@
-﻿import React, {useState, useEffect} from 'react';
+﻿import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
@@ -14,14 +14,15 @@ import Scrollbar from "../../components/global/scrollbar";
 import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
 import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 import EditUserModal from './components/EditUserModal';
-import { getUsers } from '../../services/apiService';
+import {getUsers} from '../../services/apiService';
 
 function AdminEditUserPage() {
     const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState(['name', 'email']);
     const [filterName, setFilterName] = useState('');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [itemId, setItemId] = useState(null)
@@ -42,12 +43,16 @@ function AdminEditUserPage() {
 
 
     const handleChangePage = (event, newPage) => {
+        console.log("page " + newPage)
         setPage(newPage);
+        refreshUsers();
     };
 
     const handleChangeRowsPerPage = (event) => {
         setPage(0);
+        console.log("pocet radku na strane " + event.target.value)
         setRowsPerPage(parseInt(event.target.value, 10));
+        refreshUsers();
     };
 
     const handleFilterByName = (event) => {
@@ -70,12 +75,19 @@ function AdminEditUserPage() {
 
     async function fetchUsers() {
         try {
-            const response = await getUsers();
-            setUsers(response.data);
-            console.log(response.data)
+            return await getUsers(page + 1, rowsPerPage);
         } catch (error) {
             console.error('Chyba při načítání uživatelů:', error);
         }
+    }
+
+    const refreshUsers = () => {
+        fetchUsers().then(r => {
+            setUsers(r.data);
+            setTotalCount(r.totalCount);
+            setPage(r.currentPage)
+            console.log(r.totalCount)
+        });
     }
 
     useEffect(() => {
@@ -147,7 +159,7 @@ function AdminEditUserPage() {
                         labelRowsPerPage={"Počet řádků na straně"}
                         page={page}
                         component="div"
-                        count={users.length}
+                        count={totalCount}
                         rowsPerPage={rowsPerPage}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}

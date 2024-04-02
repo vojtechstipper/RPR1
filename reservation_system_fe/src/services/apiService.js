@@ -200,11 +200,16 @@ const registerUserRequest = async (userData) => {
   }
 };
 
-const getUsers = async () => {
+const getUsers = async (Page , Count ) => {
   try {
     const response = await api.get(`/users`, {
+      params: {
+        Page: Page,
+        Count: Count
+      },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
+    console.log(response)
     return response.data;
   } catch (error) {
     throw error;

@@ -15,6 +15,8 @@ public class OrdersConfiguration : IEntityTypeConfiguration<Order>
             .WithOne(x => x.Order)
             .HasForeignKey(x => x.OrderId);
 
-        
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.Orders)
+            .HasForeignKey(x => x.UserId);
     }
 }

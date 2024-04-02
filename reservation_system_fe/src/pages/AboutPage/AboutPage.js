@@ -1,13 +1,48 @@
 import React from 'react';
-import Typography from "@mui/material/Typography";
+import { Container, Typography, Grid,} from '@mui/material';
+import Coverphoto from '../../static/img/coverphoto.jpg';
+import './components/AboutPage.css';
 
 
-function AboutPage() {
-    return (
-        <div>
-            <Typography>About</Typography>
-        </ div>
-    )
-}
+const AboutUs = () => {
+    const aboutPageText = process.env.REACT_APP_ABOUTPAGE.replace(/\\n/g, '\n');
+  const images = [
+    {
+      original: Coverphoto,
+      thumbnail: Coverphoto,
+    },
+    {
+      original: Coverphoto,
+      thumbnail: Coverphoto,
+    },
+    {
+      original: Coverphoto,
+      thumbnail: Coverphoto,
+    },
+  ];
 
-export default AboutPage;
+  return (
+    <Container maxWidth="xl">
+      <Grid container spacing={3} alignItems="center" sx={{ padding: '20px',}}>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h3" component="h2" gutterBottom textAlign="left">
+            O nás
+          </Typography>
+          <Typography variant="body1" paragraph>
+            {aboutPageText.split('\n').map((paragraph, index) => (
+                <React.Fragment key={index}>
+                {paragraph}
+                <br />
+                </React.Fragment>
+            ))}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={6}>
+            {/* <ImageGallery items={images} autoPlay={true} showPlayButton={false} slideInterval={5000} infinite={true} showThumbnails={false} /> */}
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
+
+export default AboutUs;

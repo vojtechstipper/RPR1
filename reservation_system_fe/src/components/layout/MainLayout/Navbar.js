@@ -24,14 +24,22 @@ export default function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const userName = "Petr";
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     const handleAuthChange = () => {
       const token = Cookies.get("token");
       setIsAuthenticated(!!token);
+      const storedUserInfo = localStorage.getItem("userInfo");
+      if (storedUserInfo) {
+        const userInfo = JSON.parse(storedUserInfo);
+        setUserName(userInfo.firstName);
+      } else {
+        setUserName("");
+      }
     };
 
+    handleAuthChange();
     window.addEventListener("authChanged", handleAuthChange);
 
     return () => {
@@ -94,7 +102,7 @@ export default function ResponsiveAppBar() {
               primary={"Profil:"}
               primaryTypographyProps={{ fontSize: "1.1rem" }}
             />
-            <Typography variant="h6">{userName}</Typography>
+            {userName && <Typography variant="h6">{userName}</Typography>}
           </ListItemButton>
           <ListItemButton onClick={handleLogout}>
             <ListItemText
@@ -177,7 +185,7 @@ export default function ResponsiveAppBar() {
               <>
                 <IconButton
                   color="inherit"
-                  onClick={handleNavigate("/profilePage")}
+                  onClick={handleNavigate("/userinfo")}
                   sx={{ display: { xs: "none", sm: "block" } }}
                 >
                   <PersonOutlineIcon />
@@ -185,7 +193,7 @@ export default function ResponsiveAppBar() {
                 <Typography
                   sx={{ display: { xs: "none", sm: "block" }, marginRight: 2 }}
                 >
-                  {userName}
+                  {userName && userName}
                 </Typography>
                 <Button
                   onClick={handleLogout}

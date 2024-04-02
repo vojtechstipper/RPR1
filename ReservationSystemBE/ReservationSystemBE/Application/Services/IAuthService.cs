@@ -27,7 +27,7 @@ public class AuthService : IAuthService
 
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Role, user.Role.ToString())
+            new Claim(ClaimTypes.Role, user.Role.ToString()),new Claim(ClaimTypes.Email, user.Email),
         };
 
         var tokeOptions = new JwtSecurityToken(

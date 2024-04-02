@@ -1,9 +1,11 @@
-﻿using ReservationSystem.Shared.Entity;
+﻿using ReservationSystem.Domain.Users;
+using ReservationSystem.Shared.Entity;
 
 namespace ReservationSystem.Domain.Orders;
 
 public class Order : Entity
 {
+    public User User { get; set; }
     public string UserId { get; set; }
     /// <summary>
     /// Kdy byla objednávka uskutečněna

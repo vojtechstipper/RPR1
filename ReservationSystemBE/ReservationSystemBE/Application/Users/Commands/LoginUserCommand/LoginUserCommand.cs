@@ -1,10 +1,19 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using ReservationSystemBE.Application.Services;
+using ReservationSystemBE.Application.Users.Queries;
+using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
 
 namespace ReservationSystemBE.Application.Users.Commands.LoginUserCommand;
 
-public record LoginUserCommand(string UserName, string Password) : IRequest<string>;
+public record LoginUserCommand(string UserName, string Password) : IRequest<LoginResponse>;
+
+public class LoginResponse
+{
+    public string Token { get; set; }
+    public UserDto UserInfo { get; set; }
+}
 
 public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
 {
@@ -15,18 +24,20 @@ public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
     }
 }
 
-public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, string>
+public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginResponse>
 {
     private readonly IAuthService _authService;
     private readonly IUserService _userService;
+    private readonly IMapper _mapper;
 
-    public LoginUserCommandHandler(IAuthService authService, IUserService userService)
+    public LoginUserCommandHandler(IAuthService authService, IUserService userService, IMapper mapper)
     {
         _authService = authService;
         _userService = userService;
+        _mapper = mapper;
     }
 
-    public async Task<string> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<LoginResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -34,10 +45,14 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, string>
             if (user != null)
             {
                 var token = await _authService.GenerateToken(user);
-                return token;
+                return new LoginResponse()
+                {
+                    UserInfo = _mapper.Map<UserDto>(user),
+                    Token = token
+                };
             }
         }
-        catch (Exception ex) { throw ex; }
-        return "";
+        catch (Exception ex) { throw new ValidationException("Bad Password or user", "BadLogin"); }
+        return new LoginResponse();
     }
 }

@@ -6,14 +6,17 @@ using ReservationSystem.Domain.Orders;
 using ReservationSystemBE.Infrastructure.Persistence;
 using ReservationSystemBE.Infrastructure.SignalRHub;
 using static ReservationSystemBE.Application.Orders.Commands.CreateOrderCommand;
+using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
 
 namespace ReservationSystemBE.Application.Orders.Commands;
 
-public class CreateOrderCommand : IRequest<Unit>
+public class CreateOrderCommand : IRequest<string>
 {
     public List<OrderItemsDto> Items { get; set; }
     public DateTime OrderTime { get; set; }
     public string Note { get; set; } = string.Empty;
+
+    internal string UserEmail { get; set; }
 
     public class OrderItemsDto
     {
@@ -41,7 +44,7 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     }
 }
 
-public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Unit>
+public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, string>
 {
     private readonly ReservationSystemDbContext _reservationSystemDbContext;
     private readonly IHubContext<OrderHub> _hub;
@@ -52,7 +55,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
         _hub = hub;
     }
 
-    public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         var products = await _reservationSystemDbContext.Products.Where(x => request.Items.Select(x => x.ProductId).ToList().Contains(x.Id)).ToListAsync();
         List<OrderItem> orderItems = new List<OrderItem>();
@@ -60,16 +63,17 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
         {
             orderItems.Add(new OrderItem() { Product = products.First(x => x.Id == item.ProductId), Count = item.Count });
         }
-
+        var user = await _reservationSystemDbContext.Users.FirstOrDefaultAsync(x => x.Email == request.UserEmail);
+        if (user == null) { throw new ValidationException($"User with mail: {request.UserEmail} was not found", "UserNotFound"); }
         Random random = new Random();
 
         Order order = new()
         {
-            UserId = "tempUserId",
+            UserId = user.Id,
             OrderItems = orderItems,
             DateCreated = DateTime.Now,
             DateOrdered = request.OrderTime,
-            OrderIdentifikator = "20240205" + GenerateRandomNumberString(random, 3),
+            OrderIdentifikator = $"{DateTime.Now.Year}{DateTime.Now.Month}{DateTime.Now.Day}" + GenerateRandomNumberString(random, 3),
             Status = OrderStatus.NotStarted,
             Note = request.Note,
         };
@@ -86,15 +90,15 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Uni
             Id = order.Id,
             OrderItems = orderItemsForMessage,
             OrderIdentifikator = order.OrderIdentifikator,
-            UserName = "Petr Novák",
-            UserEmail = "petr.novak@gmail.com",
+            UserName = $"{user.FirstName} {user.SecondName}",
+            UserEmail = user.Email,
             OrderedAt = order.DateCreated,
             OrderedFor = order.DateOrdered,
             OrderStatus = order.Status,
             OrderNote = order.Note
         });
 
-        return Unit.Value;
+        return order.Id;
     }
     static string GenerateRandomNumberString(Random random, int length)
     {

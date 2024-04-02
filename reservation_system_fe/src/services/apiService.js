@@ -280,3 +280,14 @@ function toastNotify(response, successMessage) {
   } else if (response.status === 500) toast.error("Neočekávaná chyba serveru");
 }
 
+const unavailableIntervals = [
+  { start: "10:00", end: "14:00" },
+];
+
+export const fetchUnavailableIntervals = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(unavailableIntervals);
+    }, 1000);
+  });
+};

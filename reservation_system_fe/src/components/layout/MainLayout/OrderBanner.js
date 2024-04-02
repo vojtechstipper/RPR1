@@ -51,7 +51,7 @@ const OrderBanner = () => {
     <div>
       {!isOrderAvailable && (
         <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', textAlign: 'center' }}>
-          Nyní není možné vytvářet obejdnávky. Přijďte prosím později.
+          Nyní není možné vytvářet objednávky. Přijďte prosím později.
         </div>
       )}
     </div>

@@ -22,7 +22,7 @@ public class GetNotStartedOrdersQueryHandler : IRequestHandler<GetNotStartedOrde
         var orders = await _reservationSystemDbContext.Orders
             .Include(x => x.OrderItems)
             .ThenInclude(x => x.Product)
-            .Where(x => x.Status == OrderStatus.NotStarted)
+            .Where(x => x.Status != OrderStatus.Finished && x.Status != OrderStatus.Canceled)
             .Select(x => new OrderMessage()
             {
                 Id = x.Id,

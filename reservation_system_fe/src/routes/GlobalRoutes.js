@@ -6,6 +6,7 @@ import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage.js";
 import GlobalLayout from "../components/layout/MainLayout/GlobalLayout.jsx";
 import LoginPage from "../pages/LoginPage/LoginPage.js";
 import RegisterPage from "../pages/RegisterPage/RegisterPage.js";
+import UserInfoPage from "../pages/UserInfoPage/UserInfoPage.js";
 
 
 const GlobalRoutes = {
@@ -39,6 +40,10 @@ const GlobalRoutes = {
         {
             path: 'register',
             element: <RegisterPage/>
+        },
+        {
+            path: 'userinfo',
+            element: <UserInfoPage/>
         }
     ]
 }

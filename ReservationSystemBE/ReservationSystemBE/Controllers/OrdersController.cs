@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using ReservationSystemBE.Application.Orders.Commands;
 using ReservationSystemBE.Application.Orders.Queries;
 using ReservationSystemBE.Infrastructure.SignalRHub;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace ReservationSystemBE.Controllers;
 
@@ -22,8 +24,18 @@ public class OrdersController : Controller
     [HttpPost]
     [Authorize(Roles = "User")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand command)
+    public async Task<ActionResult<string>> CreateOrder([FromBody] CreateOrderCommand command)
     {
+        var authorizationheader = HttpContext.Request.Headers["Authorization"];
+        string accessToken = string.Empty;
+        if (authorizationheader.ToString().StartsWith("Bearer"))
+        {
+            accessToken = authorizationheader.ToString().Substring("Bearer ".Length).Trim();
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.ReadJwtToken(accessToken);
+            var mail = jwt.Claims.First(claim => claim.Type == ClaimTypes.Email).Value;
+            command.UserEmail = mail;
+        }
         return Ok(await _mediator.Send(command));
     }
 
@@ -33,8 +45,8 @@ public class OrdersController : Controller
     public async Task<ActionResult<List<OrderMessage>>> GetNotStartedOrders()
     {
         return Ok(await _mediator.Send(new GetNotStartedOrdersQuery()));
-    } 
-    
+    }
+
     [HttpGet("order-times")]
     [Authorize(Roles = "User")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -47,6 +59,14 @@ public class OrdersController : Controller
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> CreateOrder([FromBody] ChangeOrderStatusCommand command)
+    {
+        return Ok(await _mediator.Send(command));
+    }
+
+    [HttpPut("change-step")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> ChangeOrderStep([FromBody] ChangeOrderStepCommand command)
     {
         return Ok(await _mediator.Send(command));
     }

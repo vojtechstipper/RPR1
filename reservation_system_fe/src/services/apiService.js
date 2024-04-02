@@ -136,7 +136,9 @@ const getProductTypesDropdown = async () => {
 
 const getNotStartedOrders = async () => {
   try {
-    const response = await api.get(`/order/not-started`);
+    const response = await api.get(`/order/not-started`, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -156,7 +158,9 @@ const getOrderTimesDropdown = async () => {
 
 const sendOrder = async (orderData) => {
   try {
-    const response = await api.post("/order", orderData);
+    const response = await api.post("/order", orderData, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
     toastNotify(response, "Objednávka odeslána!");
     return response.data;
   } catch (error) {
@@ -167,7 +171,9 @@ const sendOrder = async (orderData) => {
 
 const sendChangeOrderStatusRequest = async (orderStatus) => {
   try {
-    const response = await api.post("/order/accept", orderStatus);
+    const response = await api.post("/order/accept", orderStatus, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -193,6 +199,55 @@ const registerUserRequest = async (userData) => {
     throw error;
   }
 };
+
+const getUsers = async () => {
+  try {
+    const response = await api.get(`/users`, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getUserById = async (userId) => {
+  try {
+    const response = await api.get(`/users/${userId}`, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const editUser = async (userData) => {
+  try {
+    const response = await api.put(`/users/edit`, userData, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    toastNotify(response, "Uživatel upraven!");
+    return response.data;
+  } catch (error) {
+    toastNotify(error.response);
+    throw error;
+  }
+};
+
+const deleteUser = async (userId) => {
+  try {
+    const response = await api.delete(`/users/${userId}`, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    toastNotify(response, "Uživatel smazán!");
+    return response.data;
+  } catch (error) {
+    toastNotify(error.response);
+    throw error;
+  }
+};
+
 export {
   getProductsGroupped,
   getProductById,
@@ -212,6 +267,10 @@ export {
   getImage,
   loginUserRequest,
   registerUserRequest,
+  getUsers,
+  getUserById,
+  editUser,
+  deleteUser
 };
 
 function toastNotify(response, successMessage) {
@@ -220,3 +279,15 @@ function toastNotify(response, successMessage) {
     toast.error(`Chyba validace`);
   } else if (response.status === 500) toast.error("Neočekávaná chyba serveru");
 }
+
+const unavailableIntervals = [
+  { start: "10:00", end: "14:00" },
+];
+
+export const fetchUnavailableIntervals = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(unavailableIntervals);
+    }, 1000);
+  });
+};

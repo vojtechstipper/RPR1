@@ -11,6 +11,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import CssBaseline from '@mui/material/CssBaseline';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 

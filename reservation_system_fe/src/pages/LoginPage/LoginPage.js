@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import { Link } from 'react-router-dom';
-import logo from "../../static/img/logoCCC.jpeg";
-import { useNavigate } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton';
-import { loginUserRequest } from '../../services/apiService';
-import Cookies from 'js-cookie';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { loginUserRequest } from "../../services/apiService";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -29,11 +26,26 @@ const LoginPage = () => {
 
     const userData = {
       userName: email,
-      password: password
+      password: password,
     };
-    const response = await loginUserRequest(userData);
-    Cookies.set("token", response, { expires: 7, secure: true });
-    navigate("/");
+
+    try {
+      const response = await loginUserRequest(userData);
+      if (response.token && response.userInfo) {
+        Cookies.set("token", response.token, {expires: 7});
+
+        // save user info
+        localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
+
+        navigate("/");
+
+        window.dispatchEvent(new Event("authChanged"));
+      } else {
+        console.error("Missing token or user information in the response.");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   const navigate = useNavigate();
@@ -41,40 +53,43 @@ const LoginPage = () => {
   return (
     <Box
       sx={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        background: 'white'
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        background: "white",
       }}
     >
-      <Paper elevation={3} sx={{ 
-        padding: '64px', 
-        width: '100%', 
-        maxWidth: '400px', 
-        bgcolor: '#16191b', 
-        color: 'white', 
-        borderRadius: '12px', 
-      }}>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: "64px",
+          width: "100%",
+          maxWidth: "400px",
+          bgcolor: "#16191b",
+          color: "white",
+          borderRadius: "12px",
+        }}
+      >
         <Box
           component="form"
-          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           onSubmit={handleSubmit}
           noValidate
           autoComplete="off"
         >
           <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          sx={{
-            textAlign: 'center',
-            fontWeight: 'bold'
-          }}
-        >
-          PŘIHLÁŠENÍ
-        </Typography>
+            variant="h4"
+            component="h1"
+            gutterBottom
+            sx={{
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            PŘIHLÁŠENÍ
+          </Typography>
           <TextField
             label=""
             placeholder="E-mail *"
@@ -83,7 +98,11 @@ const LoginPage = () => {
             onChange={handleEmailChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'  },
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
           <TextField
@@ -95,30 +114,50 @@ const LoginPage = () => {
             onChange={handlePasswordChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'},
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
-          <Link to="/forgotPassword" style={{ color: 'white', textDecoration: 'none',textAlign: "right", textDecorationLine: 'underline'   }}>
+          <Link
+            to="/forgotPassword"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              textAlign: "right",
+              textDecorationLine: "underline",
+            }}
+          >
             Zapomenuté heslo
           </Link>
           <Button
-            variant="contained" 
-            sx={{ 
-              bgcolor: 'red',
-              '&:hover': {
-                bgcolor: '#8b0000',
+            variant="contained"
+            sx={{
+              bgcolor: "red",
+              "&:hover": {
+                bgcolor: "#8b0000",
               },
-              color: 'white',
-              padding: '10px',
-              marginTop: '10px',
-              fontSize: '1rem',
-              borderRadius: '6px',
-            }} 
+              color: "white",
+              padding: "10px",
+              marginTop: "10px",
+              fontSize: "1rem",
+              borderRadius: "6px",
+            }}
             type="submit"
           >
             přihlásit se
           </Button>
-          <Link to="/register" style={{ color: 'white', textDecoration: 'none',textAlign: "center", textDecorationLine: 'underline'  }}>
+          <Link
+            to="/register"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              textAlign: "center",
+              textDecorationLine: "underline",
+            }}
+          >
             Jsem tu nový
           </Link>
         </Box>

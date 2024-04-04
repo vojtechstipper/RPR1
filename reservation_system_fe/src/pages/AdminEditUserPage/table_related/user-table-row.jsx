@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,19 +12,22 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { deleteUser } from '../../../services/apiService';
 
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-                                         selected,
-                                         name,
+                                         id,
+                                         firstName,
+                                         secondName,
                                          email,
                                          role,
                                          isVerified,
                                          isStudent,
-                                         status,
+                                         active,
                                          handleClick,
+                                         setItemId
                                      }) {
     const [open, setOpen] = useState(null);
 
@@ -35,30 +39,47 @@ export default function UserTableRow({
         setOpen(null);
     };
 
-    console.log(email)
+
+    const handleEditItem = () => {
+        handleClick()
+        handleCloseMenu()
+        setItemId(id)
+    }
+
+    const handleDeleteItem = () => {
+        handleCloseMenu()
+        //console.log(active);
+        deleteUser(id)
+            .then(response => {console.log(response.data)})
+            .catch((error) => {
+                if(error.response.status === 404){
+                    console.log("Uživatel nenalezen")
+                }
+            });
+        console.log("Deleting user with id: " + id);
+        //console.log(active);
+    };
 
     return (
         <>
-            <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+            <TableRow hover tabIndex={-1}>
                 <TableCell component="th" scope="row" padding="none">
                     <Stack direction="row" alignItems="center" spacing={2} paddingLeft={2}>
                         <Typography variant="subtitle2" noWrap>
-                            {name}
+                            {firstName + " " + secondName}
                         </Typography>
                     </Stack>
                 </TableCell>
 
                 <TableCell>{email}</TableCell>
 
-                <TableCell>{role}</TableCell>
+                <TableCell >{role}</TableCell>
 
                 <TableCell align="center">{isVerified ? 'Ano' : 'Ne'}</TableCell>
 
                 <TableCell align="center">{isStudent ? 'Ano' : 'Ne'}</TableCell>
 
-                <TableCell>
-                    {status}
-                </TableCell>
+                <TableCell >{active ? 'Aktivní' : 'Neaktivní'}</TableCell>
 
                 <TableCell align="right">
                     <IconButton onClick={handleOpenMenu}>
@@ -77,14 +98,14 @@ export default function UserTableRow({
                     sx: { width: 140 },
                 }}
             >
-                <MenuItem onClick={handleCloseMenu}>
-                    <EditIcon />
+                <MenuItem onClick={() => handleEditItem()}>
+                    <EditIcon  />
                     Upravit
                 </MenuItem>
 
-                <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+                <MenuItem onClick={() => handleDeleteItem()} sx={{ color: 'error.main' }}>
                     <DeleteIcon />
-                    Smazat
+                    Deaktivovat
                 </MenuItem>
             </Popover>
         </>

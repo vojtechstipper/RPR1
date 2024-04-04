@@ -1,9 +1,9 @@
-import { Card, CardContent, Grid } from "@mui/material";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
 import AdminOrderCard from "../components/shared/admin/AdminOrderCard";
 
 const OrdersBoard = ({ cards, moveCard }) => {
-    const statuses = ['NotStarted', 'InPreparation', 'Prepared', 'Finished', 'Cancelled'];
+    const statuses = ['NotStarted', 'InPreparation', 'Prepared', 'Finished', 'Canceled'];
 
     const DraggableCard = ({ id, orderStatus, children, moveCard }) => {
         const [{ isDragging }, drag] = useDrag({
@@ -13,11 +13,13 @@ const OrdersBoard = ({ cards, moveCard }) => {
             isDragging: !!monitor.isDragging(),
           }),
         });
+
+       
       
         return (
-          <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+          <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 ,padding:10 }}>
             <Card>
-              <CardContent>{children}</CardContent>
+              {children}
             </Card>
           </div>
         );
@@ -30,8 +32,11 @@ const OrdersBoard = ({ cards, moveCard }) => {
         });
       
         return (
-          <div ref={drop}>
-            <Grid backgroundColor="blue" item xs={2}>
+          <div ref={drop} style={{border:"2px solid"}}>
+            <Typography variant="h4" >
+              {status}
+            </Typography>
+            <Grid item style={{ width: "280px" }}>
               {children}
             </Grid>
           </div>
@@ -40,7 +45,7 @@ const OrdersBoard = ({ cards, moveCard }) => {
 
 
     return(
-        <Grid  >
+        <Grid container spacing={1} >
           {statuses.map((orderStatus) => (
             <DroppableColumn key={orderStatus} status={orderStatus} moveCard={moveCard}>
               {cards

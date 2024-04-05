@@ -157,6 +157,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                                     control={<Radio />}
                                     label="User"
                                     onChange={(e) => setUserRole(e.target.value)}
+                                    style={{ marginRight: '45px' }}
                                 />
                                 <FormControlLabel
                                     value="Admin"
@@ -182,6 +183,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                                     control={<Radio />}
                                     label="Ano"
                                     onChange={() => setUserIsVerified(!userIsVerified)}
+                                    style={{ marginRight: '50px' }}
                                 />
                                 <FormControlLabel
                                     value={false}
@@ -207,6 +209,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                                     control={<Radio />}
                                     label="Ano"
                                     onChange={() => setUserIsStudent(!userIsStudent)}
+                                    style={{ marginRight: '50px' }}
                                 />
                                 <FormControlLabel
                                     value={false}
@@ -243,7 +246,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                             </RadioGroup>
                         </FormControl>
                     </Grid>*/}
-                    <Grid container spacing={1}>
+                    <Grid container spacing={1} paddingTop={3}>
                         <Grid item xs>
                             <Button
                                 variant="contained"

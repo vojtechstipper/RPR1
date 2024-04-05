@@ -1,4 +1,4 @@
-﻿import React, {useEffect, useState} from 'react';
+﻿import React, {useCallback, useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
@@ -15,6 +15,7 @@ import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
 import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 import EditUserModal from './components/EditUserModal';
 import {getUsers} from '../../services/apiService';
+import {TableCell, TableRow} from "@mui/material";
 
 function AdminEditUserPage() {
     const [page, setPage] = useState(0);
@@ -26,6 +27,10 @@ function AdminEditUserPage() {
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [itemId, setItemId] = useState(null)
+    const [dataFiltered, setDataFiltered] = useState([]);
+
+    const [isLoading, setIsLoading] = useState(true);
+
 
 
     const handleSort = (event, id) => {
@@ -43,16 +48,12 @@ function AdminEditUserPage() {
 
 
     const handleChangePage = (event, newPage) => {
-        console.log("page " + newPage)
         setPage(newPage);
-        refreshUsers();
     };
 
     const handleChangeRowsPerPage = (event) => {
         setPage(0);
-        console.log("pocet radku na strane " + event.target.value)
         setRowsPerPage(parseInt(event.target.value, 10));
-        refreshUsers();
     };
 
     const handleFilterByName = (event) => {
@@ -61,11 +62,15 @@ function AdminEditUserPage() {
         setFilterName(event.target.value);
     };
 
-    const dataFiltered = applyFilter({
-        inputData: users,
-        comparator: getComparator(order, orderBy),
-        filterName,
-    });
+    useEffect(() => {
+        const filteredData = applyFilter({
+            inputData: users,
+            comparator: getComparator(order, orderBy),
+            filterName,
+        });
+        setDataFiltered(filteredData);
+    }, [users, order, orderBy, filterName]);
+
 
     const handleClick = () => {
         setEditModalOpen(true);
@@ -73,28 +78,27 @@ function AdminEditUserPage() {
 
     const notFound = !dataFiltered.length && !!filterName;
 
+
     async function fetchUsers() {
         try {
-            return await getUsers(page + 1, rowsPerPage);
+            console.log("page " + (page + 1) + " rows " + rowsPerPage)
+            const response = await getUsers( page + 1 , rowsPerPage)
+            setUsers(response.data)
+            setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání uživatelů:', error);
+        } finally {
+            setIsLoading(false)
         }
     }
 
-    const refreshUsers = () => {
-        fetchUsers().then(r => {
-            setUsers(r.data);
-            setTotalCount(r.totalCount);
-            setPage(r.currentPage)
-            console.log(r.totalCount)
-        });
-    }
+    useEffect(() => {
+        fetchUsers();
+    }, [page, rowsPerPage]);
 
     useEffect(() => {
-
-
-        fetchUsers();
-    }, []);
+        console.log("dataFiltered:", dataFiltered);
+    }, [dataFiltered]);
 
 
     return (
@@ -126,8 +130,15 @@ function AdminEditUserPage() {
                                     ]}
                                 />
                                 <TableBody>
-                                    {dataFiltered
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={3}>
+                                                    Loading...
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : (
+                                        dataFiltered
+                                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row) => (
                                             <UserTableRow
                                                 key={row.id}
@@ -142,11 +153,11 @@ function AdminEditUserPage() {
                                                 handleClick={handleClick}
                                                 setItemId={setItemId}
                                             />
-                                        ))}
+                                        )))}
 
                                     <TableEmptyRows
                                         height={77}
-                                        emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                                        emptyRows={emptyRows(page, rowsPerPage)}
                                     />
 
                                     {notFound && <TableNoData query={filterName} />}
@@ -164,6 +175,13 @@ function AdminEditUserPage() {
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        sx={{
+                            ".MuiTablePagination-displayedRows, .MuiTablePagination-selectLabel": {
+                                "margin-top": "1em",
+                                "margin-bottom": "1em"
+                            }
+
+                        }}
                     />
 
                 </Card>

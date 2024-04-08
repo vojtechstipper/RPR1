@@ -18,7 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.Development.json",
         optional: true,
-        reloadOnChange: true);
+        reloadOnChange: true)
+    .AddEnvironmentVariables();
 
 builder.Services.AddDbContext<ReservationSystemDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));

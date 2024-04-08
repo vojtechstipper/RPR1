@@ -1,10 +1,11 @@
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Card, Grid, Typography } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
 import AdminOrderCard from "../components/shared/admin/AdminOrderCard";
+import { useEffect, useState } from "react";
 
 const OrdersBoard = ({ cards, moveCard }) => {
     const statuses = ['NotStarted', 'InPreparation', 'Prepared', 'Finished', 'Canceled'];
-
+   
     const DraggableCard = ({ id, orderStatus, children, moveCard }) => {
         const [{ isDragging }, drag] = useDrag({
           item: { id, orderStatus },

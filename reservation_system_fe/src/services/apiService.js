@@ -181,14 +181,14 @@ const sendChangeOrderStatusRequest = async (orderStatus) => {
 };
 
 const sendChangeOrderStepRequest = async (orderStatus) => {
-  try {
+  // try {
     const response = await api.put("/order/change-step", orderStatus, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
-  } catch (error) {
-    throw error;
-  }
+  // } catch (error) {
+  //   throw error;
+  // }
 };
 
 const loginUserRequest = async (userData) => {

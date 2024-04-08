@@ -7,7 +7,7 @@ import { getNotStartedOrders, sendChangeOrderStepRequest } from '../../services/
 import OrdersBoard from '../../containers/OrdersBoard';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-
+import { toast } from "react-toastify";
 
 function AdminHomePage() {
     const [connection, setConnection] = useState(null);
@@ -42,21 +42,38 @@ function AdminHomePage() {
           .then(() => {
             connection.on("ReceivedOrder", (message) => {
               console.log("obržena objednávka")
+              console.log(message)
               message.orderedAt = moment(message.orderedAt).format("HH:mm");
               message.orderedFor = moment(message.orderedFor).format("HH:mm");
               //Tady se zprávy jen přidávají do již existujícího pole zpráv
+              console.log("existující zprávy: ")
+              var prevArr=[...messages]
+              console.log(prevArr)
+              prevArr.push(message)
+              console.log("Po Přidaní zprávy:")
+              
+              //setMessages( [...messages, message]);
               setMessages((prevMessages) => [...prevMessages, message]);
+              console.log(messages)
             });
           })
           .catch((error) => console.log(error));
       }
+
     }, [connection]);
   
     const moveCard = async (orderId, status) => {
-      await sendChangeOrderStepRequest({
-        orderId: orderId,
-        status: status,
-      }).then(update(orderId, status));
+      try{
+        await sendChangeOrderStepRequest({
+          orderId: orderId,
+          status: status,
+        })
+
+        update(orderId, status)
+      }
+      catch{
+        toast.error(`Nelze přesunout do ${status}`);
+      }        
     };
 
 

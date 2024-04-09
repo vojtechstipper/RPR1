@@ -48,6 +48,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<AddProductCommandValidator>
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IEmailNotifier, EmailNotifier>();
 
 builder.Services.AddAuthentication(options =>
 {

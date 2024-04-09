@@ -191,7 +191,15 @@ export default function ResponsiveAppBar() {
                   <PersonOutlineIcon />
                 </IconButton>
                 <Typography
-                  sx={{ display: { xs: "none", sm: "block" }, marginRight: 2 }}
+                  onClick={handleNavigate("/userinfo")}
+                  sx={{
+                    display: { xs: "none", sm: "block" },
+                    marginRight: 2,
+                    cursor: "pointer",
+                    "&:hover": {
+                      color: "black",
+                    },
+                  }}
                 >
                   {userName && userName}
                 </Typography>

@@ -14,7 +14,6 @@ function AdminHomePage() {
     const [messages, setMessages] = useState([]);
   
     useEffect(() => {
-      console.log("Useffect2")
       async function fetchOrders() {
         try {
           const response = await getNotStartedOrders();
@@ -35,33 +34,26 @@ function AdminHomePage() {
     }, []);
   
     useEffect(() => {
-      console.log("Useffect1")
       if (connection) {
         connection
           .start()
           .then(() => {
-            connection.on("ReceivedOrder", (message) => {
-              console.log("obržena objednávka")
-              console.log(message)
-              message.orderedAt = moment(message.orderedAt).format("HH:mm");
-              message.orderedFor = moment(message.orderedFor).format("HH:mm");
-              //Tady se zprávy jen přidávají do již existujícího pole zpráv
-              console.log("existující zprávy: ")
-              var prevArr=[...messages]
-              console.log(prevArr)
-              prevArr.push(message)
-              console.log("Po Přidaní zprávy:")
-              
-              //setMessages( [...messages, message]);
-              setMessages((prevMessages) => [...prevMessages, message]);
-              console.log(messages)
-            });
+            console.log("Connected to SignalR!");
           })
           .catch((error) => console.log(error));
+            connection.on("ReceivedOrder", (message) => {
+              message.orderedAt = moment(message.orderedAt).format("HH:mm");
+              message.orderedFor = moment(message.orderedFor).format("HH:mm");          
+              setMessages((prevMessages) => [...prevMessages, message]);
+            });
       }
-
     }, [connection]);
   
+    useEffect(() => {
+    console.log("další userffect")
+    console.log(JSON.stringify(messages));
+    }, [messages]);
+
     const moveCard = async (orderId, status) => {
       try{
         await sendChangeOrderStepRequest({

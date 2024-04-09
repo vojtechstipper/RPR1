@@ -25,7 +25,7 @@ const AdminOrderCard = ({data}) => {
   }
 
     return (
-      <Card>
+      <Card sx={{width:1, backgroundColor:"pink"}}>
         <CardContent>
           <Typography
             textAlign="right"

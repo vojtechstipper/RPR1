@@ -94,7 +94,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, str
             UserEmail = user.Email,
             OrderedAt = order.DateCreated,
             OrderedFor = order.DateOrdered,
-            OrderStatus = order.Status,
+            OrderStatus = order.Status.ToString(),
             OrderNote = order.Note
         });
 

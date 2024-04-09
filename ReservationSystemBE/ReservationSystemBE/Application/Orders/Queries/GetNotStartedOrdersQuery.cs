@@ -32,7 +32,7 @@ public class GetNotStartedOrdersQueryHandler : IRequestHandler<GetNotStartedOrde
                 UserEmail = x.User.Email,
                 OrderedAt = x.DateCreated,
                 OrderedFor = x.DateOrdered,
-                OrderStatus = x.Status,
+                OrderStatus = x.Status.ToString(),
                 OrderNote = x.Note
             }).ToListAsync();
 

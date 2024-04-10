@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useShoppingCart } from "../ShoppingCartContext";
 import { sendOrder } from "../../services/apiService";
 
 const OrderButton = ({ order, orderTime,orderNote }) => {
+  const navigate = useNavigate();
   const { cartData } = useShoppingCart();
   const [orderData, setOrderData] = useState({
     items: cartData,
@@ -42,6 +44,7 @@ const OrderButton = ({ order, orderTime,orderNote }) => {
     try {
       const response = await sendOrder(orderData);
       console.log("Objednávka byla úspěšně odeslána", response.data);
+      navigate('/thanksfororder');
     } catch (error) {
       console.error("Chyba při odesílání objednávky na API", error);
     }

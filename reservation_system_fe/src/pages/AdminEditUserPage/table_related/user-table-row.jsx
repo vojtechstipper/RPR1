@@ -27,7 +27,8 @@ export default function UserTableRow({
                                          isStudent,
                                          active,
                                          handleClick,
-                                         setItemId
+                                         setItemId,
+                                         fetchUsers
                                      }) {
     const [open, setOpen] = useState(null);
 
@@ -44,21 +45,24 @@ export default function UserTableRow({
         handleClick()
         handleCloseMenu()
         setItemId(id)
+        console.log("idecko " + id);
     }
 
-    const handleDeleteItem = () => {
-        handleCloseMenu()
-        //console.log(active);
-        deleteUser(id)
-            .then(response => {console.log(response.data)})
-            .catch((error) => {
-                if(error.response.status === 404){
-                    console.log("Uživatel nenalezen")
-                }
-            });
-        console.log("Deleting user with id: " + id);
-        //console.log(active);
+    const handleDeleteItem = async () => {
+        handleCloseMenu();
+        try {
+            await deleteUser(id);
+            console.log("Deleting user with id: " + id);
+            fetchUsers(); // Znovu načíst uživatele po smazání
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                console.log("Uživatel nenalezen");
+            } else {
+                console.error("Chyba při mazání uživatele:", error);
+            }
+        }
     };
+
 
     return (
         <>

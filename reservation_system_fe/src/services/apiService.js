@@ -211,11 +211,16 @@ const registerUserRequest = async (userData) => {
   }
 };
 
-const getUsers = async () => {
+const getUsers = async (Page , Count ) => {
   try {
     const response = await api.get(`/users`, {
+      params: {
+        Page: Page,
+        Count: Count
+      },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
+    console.log(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -292,3 +297,14 @@ function toastNotify(response, successMessage) {
   } else if (response.status === 500) toast.error("Neočekávaná chyba serveru");
 }
 
+const unavailableIntervals = [
+  { start: "10:00", end: "14:00" },
+];
+
+export const fetchUnavailableIntervals = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(unavailableIntervals);
+    }, 1000);
+  });
+};

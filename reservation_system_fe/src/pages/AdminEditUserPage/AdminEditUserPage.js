@@ -1,4 +1,4 @@
-﻿import React, {useState, useEffect} from 'react';
+﻿import React, {useCallback, useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
@@ -14,17 +14,23 @@ import Scrollbar from "../../components/global/scrollbar";
 import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
 import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 import EditUserModal from './components/EditUserModal';
-import { getUsers } from '../../services/apiService';
+import {getUsers} from '../../services/apiService';
+import {TableCell, TableRow} from "@mui/material";
 
 function AdminEditUserPage() {
     const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState(['name', 'email']);
     const [filterName, setFilterName] = useState('');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [itemId, setItemId] = useState(null)
+    const [dataFiltered, setDataFiltered] = useState([]);
+
+    const [isLoading, setIsLoading] = useState(true);
+
 
 
     const handleSort = (event, id) => {
@@ -56,11 +62,15 @@ function AdminEditUserPage() {
         setFilterName(event.target.value);
     };
 
-    const dataFiltered = applyFilter({
-        inputData: users,
-        comparator: getComparator(order, orderBy),
-        filterName,
-    });
+    useEffect(() => {
+        const filteredData = applyFilter({
+            inputData: users,
+            comparator: getComparator(order, orderBy),
+            filterName,
+        });
+        setDataFiltered(filteredData);
+    }, [users, order, orderBy, filterName]);
+
 
     const handleClick = () => {
         setEditModalOpen(true);
@@ -68,21 +78,27 @@ function AdminEditUserPage() {
 
     const notFound = !dataFiltered.length && !!filterName;
 
+
     async function fetchUsers() {
         try {
-            const response = await getUsers();
-            setUsers(response.data);
-            console.log(response.data)
+            console.log("page " + (page + 1) + " rows " + rowsPerPage)
+            const response = await getUsers( page + 1 , rowsPerPage)
+            setUsers(response.data)
+            setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání uživatelů:', error);
+        } finally {
+            setIsLoading(false)
         }
     }
 
     useEffect(() => {
-
-
         fetchUsers();
-    }, []);
+    }, [page, rowsPerPage]);
+
+    useEffect(() => {
+        console.log("dataFiltered:", dataFiltered);
+    }, [dataFiltered]);
 
 
     return (
@@ -114,8 +130,15 @@ function AdminEditUserPage() {
                                     ]}
                                 />
                                 <TableBody>
-                                    {dataFiltered
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={3}>
+                                                    Loading...
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : (
+                                        dataFiltered
+                                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row) => (
                                             <UserTableRow
                                                 key={row.id}
@@ -130,11 +153,11 @@ function AdminEditUserPage() {
                                                 handleClick={handleClick}
                                                 setItemId={setItemId}
                                             />
-                                        ))}
+                                        )))}
 
                                     <TableEmptyRows
                                         height={77}
-                                        emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                                        emptyRows={emptyRows(page, rowsPerPage)}
                                     />
 
                                     {notFound && <TableNoData query={filterName} />}
@@ -147,11 +170,18 @@ function AdminEditUserPage() {
                         labelRowsPerPage={"Počet řádků na straně"}
                         page={page}
                         component="div"
-                        count={users.length}
+                        count={totalCount}
                         rowsPerPage={rowsPerPage}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        sx={{
+                            ".MuiTablePagination-displayedRows, .MuiTablePagination-selectLabel": {
+                                "margin-top": "1em",
+                                "margin-bottom": "1em"
+                            }
+
+                        }}
                     />
 
                 </Card>

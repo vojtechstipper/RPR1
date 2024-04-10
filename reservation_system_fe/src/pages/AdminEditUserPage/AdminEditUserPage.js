@@ -1,4 +1,4 @@
-﻿import React, {useCallback, useEffect, useState} from 'react';
+﻿import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
@@ -28,9 +28,7 @@ function AdminEditUserPage() {
     const [users, setUsers] = useState([]);
     const [itemId, setItemId] = useState(null)
     const [dataFiltered, setDataFiltered] = useState([]);
-
     const [isLoading, setIsLoading] = useState(true);
-
 
 
     const handleSort = (event, id) => {
@@ -152,6 +150,7 @@ function AdminEditUserPage() {
                                                 isStudent={row.isStudent}
                                                 handleClick={handleClick}
                                                 setItemId={setItemId}
+                                                fetchUsers={fetchUsers}
                                             />
                                         )))}
 

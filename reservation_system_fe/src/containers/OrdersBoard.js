@@ -33,7 +33,7 @@ const OrdersBoard = ({ cards, moveCard }) => {
         });
       
         return (
-          <div ref={drop} style={{border:"1px solid" ,backgroundColor:"red" }}>
+          <div ref={drop} style={{border:"1px solid"  }}>
             <Typography variant="h4" align="center">
               {status}
             </Typography>
@@ -46,7 +46,7 @@ const OrdersBoard = ({ cards, moveCard }) => {
 
 
     return(
-        <Grid container maxWidth={true}  backgroundColor={"blue"}>
+        <Grid container maxWidth={true} >
           {statuses.map((orderStatus) => (
             <DroppableColumn key={orderStatus} status={orderStatus} moveCard={moveCard}>
               {cards

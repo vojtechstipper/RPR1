@@ -13,7 +13,7 @@ public class OrderMessage
     public string UserName { get; set; } = string.Empty;
     public string UserEmail { get; set; } = string.Empty;
     public string OrderIdentifikator { get; set; } = string.Empty;
-    public OrderStatus OrderStatus { get; set; }
+    public string OrderStatus { get; set; }
 }
 
 public class OrderItemDto

@@ -18,7 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.Development.json",
         optional: true,
-        reloadOnChange: true);
+        reloadOnChange: true)
+    .AddEnvironmentVariables();
 
 builder.Services.AddDbContext<ReservationSystemDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
@@ -47,6 +48,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<AddProductCommandValidator>
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IEmailNotifier, EmailNotifier>();
 
 builder.Services.AddAuthentication(options =>
 {

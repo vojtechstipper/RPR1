@@ -180,6 +180,17 @@ const sendChangeOrderStatusRequest = async (orderStatus) => {
   }
 };
 
+const sendChangeOrderStepRequest = async (orderStatus) => {
+  // try {
+    const response = await api.put("/order/change-step", orderStatus, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    return response.data;
+  // } catch (error) {
+  //   throw error;
+  // }
+};
+
 const loginUserRequest = async (userData) => {
   try {
     const response = await api.post("/auth/login", userData);
@@ -275,7 +286,8 @@ export {
   getUsers,
   getUserById,
   editUser,
-  deleteUser
+  deleteUser,
+  sendChangeOrderStepRequest
 };
 
 function toastNotify(response, successMessage) {

@@ -28,11 +28,11 @@ public class GetNotStartedOrdersQueryHandler : IRequestHandler<GetNotStartedOrde
                 Id = x.Id,
                 OrderItems = x.OrderItems.Select(y => new OrderItemDto() { Count = y.Count, ProductName = y.Product.Name }).ToList(),
                 OrderIdentifikator = x.OrderIdentifikator,
-                UserName = "Petr Novák",
-                UserEmail = "petr.novak@gmail.com",
+                UserName = $"{x.User.FirstName} {x.User.SecondName}",
+                UserEmail = x.User.Email,
                 OrderedAt = x.DateCreated,
                 OrderedFor = x.DateOrdered,
-                OrderStatus = x.Status,
+                OrderStatus = x.Status.ToString(),
                 OrderNote = x.Note
             }).ToListAsync();
 

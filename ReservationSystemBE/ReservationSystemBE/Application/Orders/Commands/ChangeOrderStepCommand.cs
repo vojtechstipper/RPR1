@@ -42,7 +42,7 @@ public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepComm
     private void ValidateStepChange(OrderStatus nextStatus, OrderStatus currentStatus)
     {
         var allowedStatusForNotStarted = new OrderStatus[] { OrderStatus.Canceled, OrderStatus.InPreparation };
-        var allowedStatusForInPreparation = new OrderStatus[] { OrderStatus.Canceled, OrderStatus.Prepared };
+        var allowedStatusForInPreparation = new OrderStatus[] { OrderStatus.Canceled, OrderStatus.Prepared, OrderStatus.InPreparation };
         var allowedStatusForPrepared = new OrderStatus[] { OrderStatus.Canceled, OrderStatus.Finished };
         var allowedStatusForFinished = new OrderStatus[] { OrderStatus.Canceled };
 

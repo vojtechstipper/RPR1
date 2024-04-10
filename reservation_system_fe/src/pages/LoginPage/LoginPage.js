@@ -28,24 +28,10 @@ const LoginPage = () => {
       userName: email,
       password: password,
     };
-
-    try {
-      const response = await loginUserRequest(userData);
-      if (response.token && response.userInfo) {
-        Cookies.set("token", response.token, {expires: 7});
-
-        // save user info
-        localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
-
-        navigate("/");
-
-        window.dispatchEvent(new Event("authChanged"));
-      } else {
-        console.error("Missing token or user information in the response.");
-      }
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+    const response = await loginUserRequest(userData);
+    Cookies.set("token", response.token, { expires: 7, secure: true });
+    navigate("/");
+    window.dispatchEvent(new Event('authChanged'));
   };
 
   const navigate = useNavigate();

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -25,17 +26,49 @@ const EditUserModal = ({ open, onClose, itemId }) => {
     //const [userStatus, setUserStatus] = useState(null);
     const [user, setUser] = useState(null);
 
-    const handleUserNameChanged = (e) => setUserName(e.target.value);
-    const handleUserSurnameChanged = (e) => setUserSurname(e.target.value);
-    const handleUserEmailChanged = (e) => setUserEmail(e.target.value);
+    const isValidEmail = (userEmail) => {
+        // Základní regulární výraz pro validaci e-mailové adresy
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(userEmail);
+    };
+
+    const handleUserNameChanged = (e) => {
+        setUserName(e.target.value);
+    };
+
+    const handleUserSurnameChanged = (e) => {
+        setUserSurname(e.target.value);
+    };
+
+    const handleUserEmailChanged = (e) => {
+        setUserEmail(e.target.value);
+    };
 
     const handleExitClicked = () => {
-        itemId = null;
+        itemId = "";
+        console.log(itemId)
+        setUserUpdate(user)
         onClose();
-        setUser(null);
     };
 
     const handleSaveClicked = async () => {
+
+        if (!userName || !userSurname || !userEmail) {
+            console.error("Jméno, příjmení a email musí být vyplněny.");
+            toast.error("Jméno, příjmení a email musí být vyplněny.");
+            // setUser(null);
+            itemId = null
+            return;
+        }
+
+        if (!isValidEmail(userEmail)) {
+            console.error("Emailová adresa není platná.");
+            toast.error("Emailová adresa není platná.");
+            // setUser(null);
+            itemId = null
+            return;
+        }
+
         const jsonData = {
             id: itemId,
             name: userName,
@@ -44,8 +77,8 @@ const EditUserModal = ({ open, onClose, itemId }) => {
             isVerified: userIsVerified,
             isStudent: userIsStudent,
             role: userRole,
-            //active: userStatus
         };
+
         try {
             if (itemId != null) {
                 await editUser(jsonData);
@@ -53,40 +86,46 @@ const EditUserModal = ({ open, onClose, itemId }) => {
         } catch (error) {
             console.log(jsonData)
             console.error("Chyba při vkládání uživatele:", error);
+        } finally {
+            itemId = null
+            onClose();
+            setUser(null);
+            console.log(itemId)
         }
-        itemId=null;
-        onClose();
-        setUser(null);
     };
+
+    const setUserUpdate = (user) => {
+        if(user === null){
+            setUser(null);
+            setUserName("");
+            setUserSurname("");
+            setUserEmail("");
+            setUserIsVerified(null);
+            setUserIsStudent(null);
+            setUserRole("");
+        } else {
+            setUserName(user.firstName);
+            setUserSurname(user.secondName);
+            setUserEmail(user.email);
+            setUserIsVerified(user.isVerified);
+            setUserIsStudent(user.isStudent);
+            setUserRole(user.role);
+            setUser(user)
+        }
+    }
 
     useEffect(() => {
         async function fetchUser() {
-
             if (itemId != null) {
                 try {
                     const response = await getUserById(itemId);
-                    setUser(response);
-                    setUserName(response.firstName);
-                    setUserSurname(response.secondName);
-                    setUserEmail(response.email);
-                    setUserIsVerified(response.isVerified);
-                    setUserIsStudent(response.isStudent);
-                    setUserRole(response.role);
-                    //setUserStatus(response.status);
-                    console.log(response);
+                    setUserUpdate(response)
                 } catch (error) {
                     console.error("Chyba při načítání uživatelů:", error);
                 }
             }
             else{
-                setUser(null);
-                setUserName("");
-                setUserSurname("");
-                setUserEmail("");
-                setUserIsVerified(null);
-                setUserIsStudent(null);
-                setUserRole("");
-                //setUserStatus(null);
+                setUserUpdate(null)
             }
         }
 

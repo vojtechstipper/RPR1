@@ -11,6 +11,8 @@ const AdminOrderCard = ({data}) => {
         orderId: data.id,
         status: accept ? "Accepted" : "Declined",
       });
+
+      data.orderStatus = accept ? "NotStarted" : "Canceled";
     setButtonsvisible(true)
   };
 
@@ -63,14 +65,14 @@ const AdminOrderCard = ({data}) => {
           <Typography color="text.secondary">{data.orderNote}</Typography>
           {data.orderStatus === "NotStarted" && (
             <Container>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="success"
                 disabled={visibleButtons}
                 onClick={() => sendChangeOrderStatus(true)}
               >
                 Příjmout
-              </Button>
+              </Button> */}
               <Button
                 variant="outlined"
                 disabled={visibleButtons}

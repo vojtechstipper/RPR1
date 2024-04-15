@@ -4,6 +4,14 @@ import AdminOrderCard from "../components/shared/admin/AdminOrderCard";
 
 const OrdersBoard = ({ cards, moveCard }) => {
     const statuses = ['NotStarted', 'InPreparation', 'Prepared', 'Finished', 'Canceled'];
+
+    var dict = {
+      NotStarted: "Nezapočeto",
+      InPreparation: "Připravováno",
+      Prepared: "Připraveno",
+      Finished:"Dokončeno",
+      Canceled:"Zamítnuto"
+    };
    
     const DraggableCard = ({ id, orderStatus, children, moveCard }) => {
         const [{ isDragging }, drag] = useDrag({
@@ -33,11 +41,11 @@ const OrdersBoard = ({ cards, moveCard }) => {
         });
       
         return (
-          <div ref={drop} style={{border:"1px solid"  }}>
-            <Typography variant="h4" align="center">
-              {status}
+          <div ref={drop} style={{border:"dotted", width:"20%", minHeight:"900px"}}>
+            <Typography variant="h4" align="center" >
+              {dict[status]}
             </Typography>
-            <Grid item sx={{ width: "90%", minWidth:'180px'}}>
+            <Grid item >
               {children}
             </Grid>
           </div>

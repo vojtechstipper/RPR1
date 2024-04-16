@@ -6,7 +6,7 @@ const OrdersBoard = ({ cards, moveCard }) => {
     const statuses = ['NotStarted', 'InPreparation', 'Prepared', 'Finished', 'Canceled'];
 
     var dict = {
-      NotStarted: "Nezapočeto",
+      NotStarted: "Nezapočato",
       InPreparation: "Připravováno",
       Prepared: "Připraveno",
       Finished:"Dokončeno",

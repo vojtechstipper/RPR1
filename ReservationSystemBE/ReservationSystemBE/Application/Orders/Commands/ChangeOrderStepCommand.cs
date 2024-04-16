@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Orders;
+using ReservationSystemBE.Application.Services;
 using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
 
@@ -16,10 +17,12 @@ public class ChangeOrderStepCommand : IRequest<Unit>
 public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepCommand, Unit>
 {
     private readonly ReservationSystemDbContext _context;
+    private readonly IEmailNotifier _notifier;
 
-    public ChangeOrderStepCommandHandler(ReservationSystemDbContext context)
+    public ChangeOrderStepCommandHandler(ReservationSystemDbContext context, IEmailNotifier notifier)
     {
         _context = context;
+        _notifier = notifier;
     }
 
     public async Task<Unit> Handle(ChangeOrderStepCommand request, CancellationToken cancellationToken)
@@ -36,6 +39,11 @@ public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepComm
 
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();
+
+        if (order.Status == OrderStatus.InPreparation || order.Status == OrderStatus.Canceled)
+        {
+            await _notifier.SendEmail(order.User.Email, $"{order.User.FirstName} {order.User.SecondName}", order.Status);
+        }
         return Unit.Value;
     }
 
@@ -81,6 +89,6 @@ public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepComm
 
     private Task<Order?> ValidateAndGetOrder(string orderId)
     {
-        return _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
+        return _context.Orders.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == orderId);
     }
 }

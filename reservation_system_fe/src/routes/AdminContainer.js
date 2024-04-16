@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import AdminHomePage from "../pages/AdminHomePage/AdminHomePage";
 import AdminStatsPage from "../pages/AdminStatsPage/AdminStatsPage";
-import AdminEditProductPage from "../pages/AdminEditProductPage/AdminEditProductPage";
+import AdminEditProductPage2 from "../pages/AdminEditProductPage/AdminEditProductPage2";
 import AdminEditUserPage from "../pages/AdminEditUserPage/AdminEditUserPage";
 import AdminLayout from "../components/layout/AdminLayout/AdminLayout";
 
@@ -20,7 +20,7 @@ const AdminContainer = {
         },
         {
             path: 'edit/products',
-            element: <AdminEditProductPage/>
+            element: <AdminEditProductPage2/>
         },
         {
             path: 'edit/users',

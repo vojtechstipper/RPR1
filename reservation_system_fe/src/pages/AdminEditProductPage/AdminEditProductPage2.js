@@ -1,35 +1,36 @@
-﻿import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import TableNoData from './table_related/table-no-data';
 import UserTableRow from './table_related/user-table-row';
 import UserTableHead from './table_related/user-table-head';
 import TableEmptyRows from './table_related/table-empty-rows';
-import UserTableToolbar from './table_related/user-table-toolbar';
 import Scrollbar from "../../components/global/scrollbar";
 import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
 import AdminSideBar from '../../components/shared/admin/AdminSidebar';
-import EditUserModal from './components/EditUserModal';
-import {getUsers} from '../../services/apiService';
-import {TableCell, TableRow} from "@mui/material";
+import EditProductModal from './components/EditProductModal';
+import {getProducts, getProductsList} from '../../services/apiService';
+import {Button, TableCell, TableRow} from "@mui/material";
+import Toolbar from "@mui/material/Toolbar";
 
-function AdminEditUserPage() {
+function AdminEditProductPage2() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [totalCount, setTotalCount] = useState(0);
+    //const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState(['name', 'email']);
-    const [filterName, setFilterName] = useState('');
+    const [orderBy, setOrderBy] = useState(['name']);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
-    const [users, setUsers] = useState([]);
+    const [products, setProducts] = useState([]);
     const [itemId, setItemId] = useState(null)
     const [dataFiltered, setDataFiltered] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [newItem, setNewItem] = useState('');
+    const [editItemIndex, setEditItemIndex] = useState(null);
+    const [selectValue, setSelectValue] = useState('');
 
     const handleSort = (event, id) => {
         const isAsc = orderBy === id && order === 'asc';
@@ -42,9 +43,23 @@ function AdminEditUserPage() {
     const handleCancelEdit = () => {
         setEditModalOpen(false);
         setItemId(null);
-        fetchUsers();
+        fetchProducts();
     };
 
+    const handleAddItem = () => {
+        setEditItemIndex(null)
+        console.log(editItemIndex);
+        setEditModalOpen(true);
+    };
+
+    // const handleChangePage = (event, newPage) => {
+    //     setPage(newPage);
+    // };
+
+    // const handleChangeRowsPerPage = (event) => {
+    //     setPage(0);
+    //     setRowsPerPage(parseInt(event.target.value, 10));
+    // };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -55,44 +70,40 @@ function AdminEditUserPage() {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const handleFilterByName = (event) => {
-        setPage(0);
-        console.log(event.target.value);
-        setFilterName(event.target.value);
-    };
-
     useEffect(() => {
         const filteredData = applyFilter({
-            inputData: users,
-            comparator: getComparator(order, orderBy),
-            filterName,
+            inputData: products,
+            comparator: getComparator(order, orderBy)
         });
         setDataFiltered(filteredData);
-    }, [users, order, orderBy, filterName]);
+    }, [products, order, orderBy]);
 
 
     const handleClick = () => {
         setEditModalOpen(true);
     };
 
-    const notFound = !dataFiltered.length && !!filterName;
 
-
-    async function fetchUsers() {
+    async function fetchProducts() {
         try {
-            console.log("page " + (page + 1) + " rows " + rowsPerPage)
-            const response = await getUsers( page + 1 , rowsPerPage)
-            setUsers(response.data)
-            setTotalCount(response.totalCount)
+            //console.log("page " + (page + 1) + " rows " + rowsPerPage)
+            //const response = await getUsers( page + 1 , rowsPerPage)
+            const response = await getProductsList()
+            setProducts(response)
+            //setTotalCount(response.totalCount)
         } catch (error) {
-            console.error('Chyba při načítání uživatelů:', error);
+            console.error('Chyba při načítání produktů:', error);
         } finally {
             setIsLoading(false)
         }
     }
 
+    // useEffect(() => {
+    //     fetchUsers();
+    // }, [page, rowsPerPage]);
+
     useEffect(() => {
-        fetchUsers();
+        fetchProducts();
     }, [page, rowsPerPage]);
 
     useEffect(() => {
@@ -105,10 +116,19 @@ function AdminEditUserPage() {
             <AdminSideBar/>
             <Container>
                 <Card>
-                    <UserTableToolbar
-                        filterName={filterName}
-                        onFilterName={handleFilterByName}
-                    />
+                    <Toolbar
+                        sx={{
+                            height: 96,
+                            display: 'flex',
+                            justifyContent: 'flex-end'
+
+                        }}
+                    >
+                        <Button variant="contained" color="primary" onClick={handleAddItem}>
+                            Přidat produkt
+                        </Button>
+
+                    </Toolbar>
 
                     <Scrollbar>
                         <TableContainer sx={{ overflow: 'unset'}}>
@@ -116,51 +136,44 @@ function AdminEditUserPage() {
                                 <UserTableHead
                                     order={order}
                                     orderBy={orderBy}
-                                    rowCount={users.length}
+                                    rowCount={products.length}
                                     onRequestSort={handleSort}
                                     headLabel={[
-                                        { id: 'secondName', label: 'Jméno' },
-                                        { id: 'email', label: 'Email' },
-                                        { id: 'role', label: 'Role' },
-                                        { id: 'isVerified', label: 'Ověřeno', align: 'center' },
-                                        { id: 'isStudent', label: 'Student', align: 'center' },
-                                        { id: 'active', label: 'Status' },
+                                        { id: 'name', label: 'Název' },
+                                        { id: 'productType', label: 'Typ produktu' },
+                                        { id: 'price', label: 'Cena', align: 'center' },
                                         { id: '' },
                                     ]}
                                 />
                                 <TableBody>
                                     {isLoading ? (
-                                            <TableRow>
-                                                <TableCell colSpan={3}>
-                                                    Loading...
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : (
+                                        <TableRow>
+                                            <TableCell colSpan={3}>
+                                                Loading...
+                                            </TableCell>
+                                        </TableRow>
+                                    ) : (
                                         dataFiltered
-                                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row) => (
-                                            <UserTableRow
-                                                key={row.id}
-                                                id={row.id}
-                                                firstName={row.firstName}
-                                                secondName={row.secondName}
-                                                role={row.role}
-                                                active={row.active}
-                                                email={row.email}
-                                                isVerified={row.isVerified}
-                                                isStudent={row.isStudent}
-                                                handleClick={handleClick}
-                                                setItemId={setItemId}
-                                                fetchUsers={fetchUsers}
-                                            />
-                                        )))}
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row) => (
+                                                <UserTableRow
+                                                    key={row.id}
+                                                    id={row.id}
+                                                    name={row.name}
+                                                    productType={row.productType.name}
+                                                    price={row.priceLevel.price}
+                                                    handleClick={handleClick}
+                                                    setItemId={setItemId}
+                                                    fetchProduct={fetchProducts}
+                                                />
+                                            )))}
 
                                     <TableEmptyRows
                                         height={77}
-                                        emptyRows={emptyRows(page, rowsPerPage)}
+                                        //emptyRows={emptyRows(page, rowsPerPage)}
+                                        emptyRows={emptyRows()}
                                     />
 
-                                    {notFound && <TableNoData query={filterName} />}
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -170,7 +183,8 @@ function AdminEditUserPage() {
                         labelRowsPerPage={"Počet řádků na straně"}
                         page={page}
                         component="div"
-                        count={totalCount}
+                        //count={totalCount}
+                        count={products.length}
                         rowsPerPage={rowsPerPage}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}
@@ -188,7 +202,7 @@ function AdminEditUserPage() {
 
             </Container>
 
-            <EditUserModal
+            <EditProductModal
                 open={isEditModalOpen}
                 onClose={handleCancelEdit}
                 itemId={itemId}
@@ -197,4 +211,4 @@ function AdminEditUserPage() {
     );
 }
 
-export default AdminEditUserPage;
+export default AdminEditProductPage2;

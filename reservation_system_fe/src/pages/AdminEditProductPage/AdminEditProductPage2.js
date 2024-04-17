@@ -42,6 +42,7 @@ function AdminEditProductPage2() {
 
     const handleCancelEdit = () => {
         setEditModalOpen(false);
+        setItemId(null);
         fetchProducts();
     };
 
@@ -88,9 +89,7 @@ function AdminEditProductPage2() {
             //console.log("page " + (page + 1) + " rows " + rowsPerPage)
             //const response = await getUsers( page + 1 , rowsPerPage)
             const response = await getProductsList()
-            console.log("jsem v try")
             setProducts(response)
-            console.log("data" + response)
             //setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);

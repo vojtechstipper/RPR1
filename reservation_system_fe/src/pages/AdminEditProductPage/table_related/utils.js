@@ -50,9 +50,6 @@ function descendingComparator(a, b, orderBy) {
 
 
 export function getComparator(order, orderBy) {
-
-    console.log(orderBy)
-
     if (orderBy === 'price') {
         return order === 'desc'
             ? (a, b) => b.priceLevel.price - a.priceLevel.price

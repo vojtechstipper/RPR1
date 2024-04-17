@@ -15,7 +15,7 @@ import {
     editProduct,
     getProductTypesDropdown,
     addProduct,
-    uploadImage, editUser, getUserById,
+    uploadImage,
 } from "../../../services/apiService";
 import "react-toastify/dist/ReactToastify.css";
 import {toast} from "react-toastify";
@@ -37,10 +37,18 @@ const EditProductModal = ({open, onClose, itemId}) => {
     const handleProductPriceNameChanged = (e) =>
         setProductPriceName(e.target.value);
     const handleProductTypeChanged = (e) => setProductType(e.target.value);
+
     const handleAllergensChanged = (e) => {
-        const {target: {value},} = e;
-        setProductAllergensSelected(value)
+        const { target: { value }, } = e;
+        const selectedIds = productAllergensSelected.map(alergen => alergen.id);
+        const newSelectedAlergens = value.filter(id => !selectedIds.includes(id)).map(id => {
+            const foundAlergen = allergens.find(alergen => alergen.id === id);
+            return foundAlergen ? { id: foundAlergen.id, name: foundAlergen.name } : null;
+        }).filter(Boolean);
+        setProductAllergensSelected([...productAllergensSelected, ...newSelectedAlergens]);
     }
+
+
     const handleProductDescriptionChanged = (e) =>
         setProductDescription(e.target.value);
 
@@ -92,67 +100,6 @@ const EditProductModal = ({open, onClose, itemId}) => {
         }
     };
 
-    // const handleSaveClicked = async () => {
-    //     const jsonData = {
-    //         id: itemId,
-    //         name: productName,
-    //         description: productDescription,
-    //         productTypeId: productType,
-    //         allergensIds: productAllergensSelected,
-    //         imageId: imageId,
-    //         priceLevel: {
-    //             name: productPriceName,
-    //             price: parseInt(productPriceValue),
-    //         },
-    //     };
-    //     try {
-    //         if (itemId != null) {
-    //             await editProduct(jsonData);
-    //         } else {
-    //             await addProduct(jsonData);
-    //         }
-    //     } catch (error) {
-    //         console.error("Chyba při vkládání produktu:", error);
-    //     }
-    //     itemId=null;
-    //     onClose();
-    // };
-
-
-    // useEffect(() => {
-    //     async function fetchProduct() {
-    //         const responseAllergensDropdown = await getAllergensDropdown();
-    //         setAllergens(responseAllergensDropdown);
-    //         const responseProductTypesDropdown = await getProductTypesDropdown();
-    //         setProductTypes(responseProductTypesDropdown);
-    //         if (itemId != null) {
-    //             try {
-    //                 const response = await getProductById(itemId);
-    //                 setProduct(response);
-    //                 setProductDescription(response.description);
-    //                 setProductName(response.name);
-    //                 setProductType(response.productTypeId);
-    //                 setProductPriceName(response.priceLevel.name);
-    //                 setProductPriceValue(response.priceLevel.price);
-    //                 setProductAllergensSelected(response.allergensIds);
-    //             } catch (error) {
-    //                 console.error("Chyba při načítání produktu:", error);
-    //             }
-    //         }
-    //         else{
-    //             setProduct(null);
-    //             setProductDescription("");
-    //             setProductName("");
-    //             setProductType("");
-    //             setProductPriceName("");
-    //             setProductPriceValue("");
-    //             setProductAllergensSelected([]);
-    //         }
-    //     }
-    //
-    //     fetchProduct();
-    // }, [itemId]);
-
     const handleSaveClicked = async () => {
 
         if (!productName || !productPriceValue || !productPriceName) {
@@ -162,12 +109,22 @@ const EditProductModal = ({open, onClose, itemId}) => {
             return;
         }
 
+        if (isNaN(productPriceValue) || parseFloat(productPriceValue) <= 0) {
+            console.error("Cena musí být kladné číslo.");
+            toast.error("Cena musí být kladné číslo.");
+            itemId = null;
+            return;
+        }
+
+        const allergenIds = productAllergensSelected.map(alergen => alergen.id);
+
+
         const jsonData = {
             id: itemId,
             name: productName,
             description: productDescription,
             productTypeId: productType,
-            allergensIds: productAllergensSelected,
+            allergensIds: allergenIds,
             imageId: imageId,
             priceLevel: {
                 name: productPriceName,
@@ -181,13 +138,11 @@ const EditProductModal = ({open, onClose, itemId}) => {
                 await addProduct(jsonData);
             }
         } catch (error) {
-            console.log(jsonData)
             console.error("Chyba při vkládání produktu:", error);
         } finally {
             itemId = null
             onClose();
             setProduct(null);
-            console.log(itemId)
         }
     };
 
@@ -209,9 +164,15 @@ const EditProductModal = ({open, onClose, itemId}) => {
             setProductDescription(product.description);
             setProductType(product.productTypeId);
             setImageId(product.imageId);
-            setProductAllergensSelected(product.allergenIds);
+            setProductAllergensSelected(product.allergensIds.map(id => {
+                const allergen = allergens.find(item => item.id === id);
+                return allergen ? allergen : { id: id, name: 'N/A' }; // Pokud alergen s daným ID existuje, vrátí ho, jinak vytvoří objekt s ID a name jako 'N/A'
+            }));
         }
     }
+
+    console.log(productAllergensSelected);
+
 
     useEffect(() => {
         async function fetchProduct() {
@@ -298,19 +259,21 @@ const EditProductModal = ({open, onClose, itemId}) => {
                                 labelId="demo-multiple-checkbox-label"
                                 id="demo-multiple-checkbox"
                                 multiple
-                                value={Array.isArray(productAllergensSelected) ? productAllergensSelected : []}
+                                value={Array.isArray(productAllergensSelected) ? productAllergensSelected.map(allergen => allergen.name) : []}
                                 onChange={handleAllergensChanged}
                                 input={<OutlinedInput label="Alergeny"/>}
                                 renderValue={(selected) => selected.join(', ')}
                                 MenuProps={MenuProps}
                             >
                                 {allergens.map((allergen) => (
-                                    <MenuItem key={allergen.id} value={allergen.name}>
-                                        <Checkbox checked={productAllergensSelected ? productAllergensSelected.includes(allergen.name) : false}/>
+                                    <MenuItem key={allergen.id} value={allergen.id}>
+                                        <Checkbox checked={productAllergensSelected ? productAllergensSelected.some(selected => selected.id === allergen.id) : false}/>
                                         <ListItemText primary={allergen.name}/>
                                     </MenuItem>
                                 ))}
                             </Select>
+
+
 
                         </FormControl>
                     </Grid>
@@ -335,9 +298,9 @@ const EditProductModal = ({open, onClose, itemId}) => {
                             />
                         </FormControl>
                     </Grid>
+                    <Grid item></Grid>
                 </Grid>
-
-                <Grid container spacing={12} marginBottom={1}>
+                <Grid container spacing={5} marginBottom={1} alignItems="center" justifyContent="space-between">
                     <Grid item xs={6}>
                         <CardMedia
                             component="img"

@@ -41,6 +41,7 @@ function AdminEditUserPage() {
 
     const handleCancelEdit = () => {
         setEditModalOpen(false);
+        setItemId(null);
         fetchUsers();
     };
 

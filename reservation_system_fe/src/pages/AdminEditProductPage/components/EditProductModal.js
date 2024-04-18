@@ -19,6 +19,8 @@ import {
 } from "../../../services/apiService";
 import "react-toastify/dist/ReactToastify.css";
 import {toast} from "react-toastify";
+import Stack from "@mui/material/Stack";
+//import nophoto.jpg from "../../../static/img/nophoto.jpg"
 
 const EditProductModal = ({open, onClose, itemId}) => {
     const [productName, setProductName] = useState("");
@@ -43,6 +45,7 @@ const EditProductModal = ({open, onClose, itemId}) => {
         const selectedIds = productAllergensSelected.map(alergen => alergen.id);
         const newSelectedAlergens = value.filter(id => !selectedIds.includes(id)).map(id => {
             const foundAlergen = allergens.find(alergen => alergen.id === id);
+            console.log(foundAlergen)
             return foundAlergen ? { id: foundAlergen.id, name: foundAlergen.name } : null;
         }).filter(Boolean);
         setProductAllergensSelected([...productAllergensSelected, ...newSelectedAlergens]);
@@ -128,7 +131,7 @@ const EditProductModal = ({open, onClose, itemId}) => {
             imageId: imageId,
             priceLevel: {
                 name: productPriceName,
-                price: parseInt(productPriceValue),
+                price: productPriceValue,
             },
         };
         try {
@@ -166,7 +169,7 @@ const EditProductModal = ({open, onClose, itemId}) => {
             setImageId(product.imageId);
             setProductAllergensSelected(product.allergensIds.map(id => {
                 const allergen = allergens.find(item => item.id === id);
-                return allergen ? allergen : { id: id, name: 'N/A' }; // Pokud alergen s daným ID existuje, vrátí ho, jinak vytvoří objekt s ID a name jako 'N/A'
+                return allergen ? allergen : { id: id, name: 'N/A' };
             }));
         }
     }
@@ -201,10 +204,10 @@ const EditProductModal = ({open, onClose, itemId}) => {
             <Box
                 sx={{
                     position: "absolute",
-                    top: "50%",
+                    top: "35%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: 400,
+                    width: 750,
                     bgcolor: "background.paper",
                     border: "2px solid #000",
                     boxShadow: 24,
@@ -253,7 +256,7 @@ const EditProductModal = ({open, onClose, itemId}) => {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <FormControl sx={{width: 335}}>
+                        <FormControl sx={{width: 685}}>
                             <InputLabel id="demo-multiple-checkbox-label">Alergeny</InputLabel>
                             <Select
                                 labelId="demo-multiple-checkbox-label"
@@ -298,18 +301,15 @@ const EditProductModal = ({open, onClose, itemId}) => {
                             />
                         </FormControl>
                     </Grid>
-                    <Grid item></Grid>
-                </Grid>
-                <Grid container spacing={5} marginBottom={1} alignItems="center" justifyContent="space-between">
-                    <Grid item xs={6}>
+                    <Grid item xs={6} align="center">
                         <CardMedia
                             component="img"
-                            sx={{width: 160, height: 100}}
-                            image={`https://localhost:7038/${product?.imageId ?? ""}`} //uložit do configu jako baseUrl
+                            sx={{width: 320, height: 200}}
+                            //image={`https://localhost:7038/${product?.imageId ? product.imageId : }`}
                             alt="Foto produktu"
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6}align="center">
                         <Button
                             component="label"
                             role={undefined}
@@ -322,26 +322,23 @@ const EditProductModal = ({open, onClose, itemId}) => {
                             <VisuallyHiddenInput type="file"/>
                         </Button>
                     </Grid>
-                </Grid>
-                <Grid container spacing={1}>
                     <Grid item xs>
-                        <Button
-                            variant="contained"
-                            color="error"
-                            onClick={handleExitClicked}
-                        >
-                            Zrušit
-                        </Button>
-                    </Grid>
-                    <Grid item xs></Grid>
-                    <Grid item xs>
-                        <Button
-                            variant="contained"
-                            color="success"
-                            onClick={handleSaveClicked}
-                        >
-                            Potvrdit
-                        </Button>
+                        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                            <Button
+                                variant="contained"
+                                color="error"
+                                onClick={handleExitClicked}
+                            >
+                                Zrušit
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="success"
+                                onClick={handleSaveClicked}
+                            >
+                                Potvrdit
+                            </Button>
+                        </Stack>
                     </Grid>
                 </Grid>
             </Box>

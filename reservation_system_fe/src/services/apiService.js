@@ -298,7 +298,7 @@ function toastNotify(response, successMessage) {
 }
 
 const unavailableIntervals = [
-  { start: "10:00", end: "14:00" },
+  { start: "16:00", end: "17:00" },
 ];
 
 export const fetchUnavailableIntervals = () => {

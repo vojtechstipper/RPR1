@@ -20,6 +20,6 @@ public class GetAllergensDropDownQueryHandler : IRequestHandler<GetAllergensDrop
 
     public async Task<List<AllergenDropDownDto>> Handle(GetAllergensDropDownQuery request, CancellationToken cancellationToken)
     {
-        return await _dbContext.Allergens.Select(x => new AllergenDropDownDto { Id = x.Id, Name = x.Name }).ToListAsync();
+        return await _dbContext.Allergens.OrderBy(x => x.Code).Select(x => new AllergenDropDownDto { Id = x.Id, Name = $"{x.Code}-{x.Name}" }).ToListAsync();
     }
 }

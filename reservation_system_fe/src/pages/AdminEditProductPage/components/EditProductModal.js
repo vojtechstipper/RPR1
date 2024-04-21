@@ -20,7 +20,7 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import {toast} from "react-toastify";
 import Stack from "@mui/material/Stack";
-//import nophoto.jpg from "../../../static/img/nophoto.jpg"
+import nophoto from "../../../static/img/nophoto.jpg"
 
 const EditProductModal = ({open, onClose, itemId}) => {
     const [productName, setProductName] = useState("");
@@ -33,27 +33,24 @@ const EditProductModal = ({open, onClose, itemId}) => {
     const [product, setProduct] = useState(null);
     const [allergens, setAllergens] = useState([]);
     const [productTypes, setProductTypes] = useState([]);
+
     const handleProductNameChanged = (e) => setProductName(e.target.value);
-    const handleProductPriceValueChanged = (e) =>
-        setProductPriceValue(e.target.value);
-    const handleProductPriceNameChanged = (e) =>
-        setProductPriceName(e.target.value);
+    const handleProductPriceValueChanged = (e) => setProductPriceValue(e.target.value);
+    const handleProductPriceNameChanged = (e) => setProductPriceName(e.target.value);
     const handleProductTypeChanged = (e) => setProductType(e.target.value);
+    const handleProductDescriptionChanged = (e) => setProductDescription(e.target.value);
 
     const handleAllergensChanged = (e) => {
         const { target: { value }, } = e;
-        const selectedIds = productAllergensSelected.map(alergen => alergen.id);
-        const newSelectedAlergens = value.filter(id => !selectedIds.includes(id)).map(id => {
-            const foundAlergen = allergens.find(alergen => alergen.id === id);
-            console.log(foundAlergen)
-            return foundAlergen ? { id: foundAlergen.id, name: foundAlergen.name } : null;
+        const selectedIds = productAllergensSelected.map(allergen => allergen.id);
+        const newSelectedAllergens = value.filter(id => !selectedIds.includes(id)).map(id => {
+            const foundAllergen = allergens.find(allergen => allergen.id === id);
+            console.log(foundAllergen)
+            return foundAllergen ? { id: foundAllergen.id, name: foundAllergen.name } : null;
         }).filter(Boolean);
-        setProductAllergensSelected([...productAllergensSelected, ...newSelectedAlergens]);
+        setProductAllergensSelected([...productAllergensSelected, ...newSelectedAllergens]);
     }
 
-
-    const handleProductDescriptionChanged = (e) =>
-        setProductDescription(e.target.value);
 
     const VisuallyHiddenInput = styled("input")({
         clip: "rect(0 0 0 0)",
@@ -94,6 +91,8 @@ const EditProductModal = ({open, onClose, itemId}) => {
             const res = await uploadImage(formData);
             if (res != null) {
                 setImageId(res);
+                console.log(res)
+                console.log("haloooooooooo tady jsem")
 
             }
             // Handle the response (e.g., update state or display a success message)
@@ -119,7 +118,7 @@ const EditProductModal = ({open, onClose, itemId}) => {
             return;
         }
 
-        const allergenIds = productAllergensSelected.map(alergen => alergen.id);
+        const allergenIds = productAllergensSelected.map(allergen => allergen.id);
 
 
         const jsonData = {
@@ -174,9 +173,6 @@ const EditProductModal = ({open, onClose, itemId}) => {
         }
     }
 
-    console.log(productAllergensSelected);
-
-
     useEffect(() => {
         async function fetchProduct() {
             const responseAllergensDropdown = await getAllergensDropdown();
@@ -199,12 +195,22 @@ const EditProductModal = ({open, onClose, itemId}) => {
         fetchProduct();
     }, [itemId]);
 
+
+    useEffect(() => {
+        if (imageId) {
+            setProduct(prevProduct => ({
+                ...prevProduct,
+                imageId: imageId
+            }));
+        }
+    }, [imageId]);
+
     return (
         <Modal open={open} onClose={onClose}>
             <Box
                 sx={{
                     position: "absolute",
-                    top: "35%",
+                    top: "45%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                     width: 750,
@@ -305,11 +311,11 @@ const EditProductModal = ({open, onClose, itemId}) => {
                         <CardMedia
                             component="img"
                             sx={{width: 320, height: 200}}
-                            //image={`https://localhost:7038/${product?.imageId ? product.imageId : }`}
+                            image={product && product.imageId ? `https://localhost:7038/${product.imageId}` : nophoto}
                             alt="Foto produktu"
                         />
                     </Grid>
-                    <Grid item xs={6}align="center">
+                    <Grid item xs={6} align="center">
                         <Button
                             component="label"
                             role={undefined}

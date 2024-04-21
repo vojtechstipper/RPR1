@@ -58,6 +58,7 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Pro
             product.Name = request.Name;
             product.ProductTypeId = request.ProductTypeId;
             product.PriceLevel = new PriceLevel(request.PriceLevel.Name, request.PriceLevel.Price);
+            product.Description = request.Description;
             product.Allergens = allergens;
             product.ImageId = request.ImageId;
             _context.Update(product);

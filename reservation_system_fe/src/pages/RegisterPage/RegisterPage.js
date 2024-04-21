@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { Link, useNavigate } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton';
-import { registerUserRequest } from '../../services/apiService';
-import Cookies from 'js-cookie';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { Link, useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+import { registerUserRequest } from "../../services/apiService";
+import Cookies from "js-cookie";
 const RegisterPage = () => {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -41,11 +41,26 @@ const RegisterPage = () => {
       name: name,
       surname: surname,
       email: email,
-      password: password
+      password: password,
     };
-    const response = await registerUserRequest(userData);
-    Cookies.set("token", response.token, { expires: 7, secure: true });
-    navigate("/");
+
+    try { //TODO same code in the login page -> extract code to the function?
+      const response = await registerUserRequest(userData);
+      if (response.token && response.userInfo) {
+        Cookies.set("token", response.token, { expires: 7 });
+
+        // save user info
+        localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
+
+        navigate("/");
+
+        window.dispatchEvent(new Event("authChanged"));
+      } else {
+        console.error("Missing token or user information in the response.");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   const navigate = useNavigate();
@@ -57,21 +72,21 @@ const RegisterPage = () => {
   return (
     <Box
       sx={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        background: 'white'
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        background: "white",
       }}
     >
       <IconButton
         sx={{
-          position: 'absolute',
-          top: '0px',
-          left: '24px',
-          '&:hover': { bgcolor: '#f1efef' },
-          '& .MuiAvatar-root': {
+          position: "absolute",
+          top: "0px",
+          left: "24px",
+          "&:hover": { bgcolor: "#f1efef" },
+          "& .MuiAvatar-root": {
             width: 48,
             height: 48,
             transition: "width 0.3s ease, height 0.3s ease",
@@ -80,20 +95,21 @@ const RegisterPage = () => {
         onClick={navigateHome}
         color="inherit"
         aria-label="company logo"
+      ></IconButton>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: "64px",
+          width: "100%",
+          maxWidth: "400px",
+          bgcolor: "#16191b",
+          color: "white",
+          borderRadius: "12px",
+        }}
       >
-       
-      </IconButton>
-      <Paper elevation={3} sx={{ 
-        padding: '64px', 
-        width: '100%', 
-        maxWidth: '400px', 
-        bgcolor: '#16191b', 
-        color: 'white', 
-        borderRadius: '12px', 
-      }}>
         <Box
           component="form"
-          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           onSubmit={handleSubmit}
           noValidate
           autoComplete="off"
@@ -103,8 +119,8 @@ const RegisterPage = () => {
             component="h1"
             gutterBottom
             sx={{
-              textAlign: 'center',
-              fontWeight: 'bold'
+              textAlign: "center",
+              fontWeight: "bold",
             }}
           >
             REGISTRACE
@@ -116,7 +132,11 @@ const RegisterPage = () => {
             onChange={handleNameChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'  },
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
           <TextField
@@ -126,7 +146,11 @@ const RegisterPage = () => {
             onChange={handleSurnameChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'  },
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
           <TextField
@@ -136,7 +160,11 @@ const RegisterPage = () => {
             onChange={handleEmailChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'  },
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
           <TextField
@@ -147,10 +175,14 @@ const RegisterPage = () => {
             onChange={handlePasswordChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'},
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
-            <TextField
+          <TextField
             placeholder="Heslo znovu*"
             type="password"
             variant="outlined"
@@ -158,27 +190,40 @@ const RegisterPage = () => {
             onChange={handlePasswordAgainChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px'},
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
-          <Button 
-            variant="contained" 
-            sx={{ 
-              bgcolor: 'red',
-              '&:hover': {
-                bgcolor: '#8b0000',
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: "red",
+              "&:hover": {
+                bgcolor: "#8b0000",
               },
-              color: 'white',
-              padding: '10px',
-              marginTop: '10px',
-              fontSize: '1rem',
-              borderRadius: '6px',
-            }} 
+              color: "white",
+              padding: "10px",
+              marginTop: "10px",
+              fontSize: "1rem",
+              borderRadius: "6px",
+            }}
             type="submit"
           >
             registrovat
           </Button>
-          <Link to="/login" style={{ color: 'white', textDecoration: 'none', textAlign: "center", marginTop: '10px', textDecorationLine: 'underline' }}>
+          <Link
+            to="/login"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              textAlign: "center",
+              marginTop: "10px",
+              textDecorationLine: "underline",
+            }}
+          >
             Již mám účet
           </Link>
         </Box>

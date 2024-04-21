@@ -52,9 +52,9 @@ public class ProductsController : Controller
     [HttpGet("list")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<ProductDto>>> GetProducts()
+    public async Task<ActionResult<List<ProductDto>>> GetProducts([FromQuery] GetPaginatedProductsQuery query)
     {
-        return Ok(await _mediator.Send(new GetProductsQuery()));
+        return Ok(await _mediator.Send(query));
     }
 
     [HttpGet("{id}")]

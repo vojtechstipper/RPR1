@@ -36,11 +36,12 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, L
     private readonly IAuthService _authService;
     private readonly IMapper _mapper;
 
-    public RegisterUserCommandHandler(ReservationSystemDbContext context, IUserService userService, IAuthService authService)
+    public RegisterUserCommandHandler(ReservationSystemDbContext context, IUserService userService, IAuthService authService, IMapper mapper)
     {
         _context = context;
         _userService = userService;
         _authService = authService;
+        _mapper = mapper;
     }
 
     public async Task<LoginResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)

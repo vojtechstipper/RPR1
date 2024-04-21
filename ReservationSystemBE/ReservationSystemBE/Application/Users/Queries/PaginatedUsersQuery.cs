@@ -8,11 +8,8 @@ using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Users.Queries;
 
-public class PaginatedUsersQuery : IRequest<PaginatedResult<UserDto>>
+public class PaginatedUsersQuery : PaginationFiltering, IRequest<PaginatedResult<UserDto>>
 {
-    public int Page { get; set; } = 1;
-    public int Count { get; set; } = 20;
-    public string Filter { get; set; } = string.Empty;
 }
 
 public class PaginatedUsersQueryValidator : AbstractValidator<PaginatedUsersQuery>
@@ -50,7 +47,31 @@ public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, P
     public async Task<PaginatedResult<UserDto>> Handle(PaginatedUsersQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await _context.Users.CountAsync();
-        var users = await _mapper.ProjectTo<UserDto>(_context.Users.Where(x => x.Email.Contains(request.Filter)).Skip((request.Page - 1) * request.Count).Take(request.Count)).ToListAsync();
+        var usersQuery = _context.Users.AsQueryable();
+
+        if (!string.IsNullOrEmpty(request.Filter))
+        {
+            usersQuery = usersQuery.Where(x => x.Email.Contains(request.Filter));
+        }
+
+        if (!string.IsNullOrEmpty(request.OrderBy))
+        {
+            switch (request.OrderBy.Trim().ToLower())
+            {
+                case "email":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.Email);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.Email);
+                    break;
+            }
+        }
+
+
+        usersQuery = usersQuery.Skip((request.Page - 1) * request.Count).Take(request.Count);
+
+        var users = await _mapper.ProjectTo<UserDto>(usersQuery).ToListAsync();
         return new PaginatedResult<UserDto>() { CurrentPage = request.Page, Data = users, TotalCount = totalCount };
     }
 }

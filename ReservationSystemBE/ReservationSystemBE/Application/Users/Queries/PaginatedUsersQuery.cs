@@ -12,7 +12,6 @@ public class PaginatedUsersQuery : IRequest<PaginatedResult<UserDto>>
 {
     public int Page { get; set; } = 1;
     public int Count { get; set; } = 20;
-    public string Filter { get; set; } = string.Empty;
 }
 
 public class PaginatedUsersQueryValidator : AbstractValidator<PaginatedUsersQuery>
@@ -50,7 +49,7 @@ public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, P
     public async Task<PaginatedResult<UserDto>> Handle(PaginatedUsersQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await _context.Users.CountAsync();
-        var users = await _mapper.ProjectTo<UserDto>(_context.Users.Where(x => x.Email.Contains(request.Filter)).Skip((request.Page - 1) * request.Count).Take(request.Count)).ToListAsync();
+        var users = await _mapper.ProjectTo<UserDto>(_context.Users.Skip((request.Page - 1) * request.Count).Take(request.Count)).ToListAsync();
         return new PaginatedResult<UserDto>() { CurrentPage = request.Page, Data = users, TotalCount = totalCount };
     }
 }

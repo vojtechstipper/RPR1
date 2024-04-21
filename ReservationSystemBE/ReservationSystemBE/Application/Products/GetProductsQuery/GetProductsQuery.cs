@@ -6,12 +6,10 @@ using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Products.GetProductsQuery;
 
-public class GetPaginatedProductsQuery : IRequest<PaginatedResult<ProductDto>>
-{
-    public int Page { get; set; } = 1;
-    public int Count { get; set; } = 20;
-    public string Filter { get; set; } = string.Empty;
-}
+public class GetPaginatedProductsQuery : PaginationFiltering, IRequest<PaginatedResult<ProductDto>>
+{ }
+
+
 
 public class GetProductsQueryHandler : IRequestHandler<GetPaginatedProductsQuery, PaginatedResult<ProductDto>>
 {
@@ -27,14 +25,32 @@ public class GetProductsQueryHandler : IRequestHandler<GetPaginatedProductsQuery
     public async Task<PaginatedResult<ProductDto>> Handle(GetPaginatedProductsQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await _dbContext.Products.CountAsync();
-        var products = await _dbContext.Products
-             .Where(x => x.Name.Contains(request.Filter))
+        var productsQuery = _dbContext.Products
              .Include(x => x.ProductType)
              .Include(x => x.PriceLevel)
-             .Include(x => x.Allergens)
-        .ToListAsync();
+             .Include(x => x.Allergens).AsQueryable();
 
-        var productsMapped = _mapper.Map<List<ProductDto>>(products);
+        if (!string.IsNullOrEmpty(request.Filter))
+        {
+            productsQuery = productsQuery.Where(x => x.Name.Contains(request.Filter));
+        }
+
+        if (!string.IsNullOrEmpty(request.OrderBy))
+        {
+            switch (request.OrderBy.Trim().ToLower())
+            {
+                case "name":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        productsQuery = productsQuery.OrderByDescending(x => x.Name);
+                    }
+                    else productsQuery = productsQuery.OrderBy(x => x.Name);
+                    break;
+            }
+        }
+
+        productsQuery = productsQuery.Skip((request.Page - 1) * request.Count).Take(request.Count);
+        var productsMapped = _mapper.Map<List<ProductDto>>(await productsQuery.ToListAsync());
         return new PaginatedResult<ProductDto>() { CurrentPage = request.Page, Data = productsMapped, TotalCount = totalCount };
     }
 }

@@ -89,7 +89,7 @@ function AdminEditProductPage() {
             //console.log("page " + (page + 1) + " rows " + rowsPerPage)
             //const response = await getUsers( page + 1 , rowsPerPage)
             const response = await getProductsList()
-            setProducts(response)
+            setProducts(response.data)
             //setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);

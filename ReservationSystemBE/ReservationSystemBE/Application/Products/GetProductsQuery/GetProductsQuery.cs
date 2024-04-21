@@ -13,6 +13,19 @@ public class GetPaginatedProductsQuery : IRequest<PaginatedResult<ProductDto>>
     public string Filter { get; set; } = string.Empty;
 }
 
+public class FilterProperty
+{
+    public string PropertyName { get; set; }
+    public SortingOrder sortingOrder { get; set; } = SortingOrder.None;
+}
+
+public enum SortingOrder
+{
+    Ascending,
+    Descending,
+    None
+}
+
 public class GetProductsQueryHandler : IRequestHandler<GetPaginatedProductsQuery, PaginatedResult<ProductDto>>
 {
     private readonly ReservationSystemDbContext _dbContext;

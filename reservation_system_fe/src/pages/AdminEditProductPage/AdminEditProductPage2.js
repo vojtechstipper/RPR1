@@ -12,14 +12,14 @@ import Scrollbar from "../../components/global/scrollbar";
 import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
 import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 import EditProductModal from './components/EditProductModal';
-import {getProducts, getProductsList} from '../../services/apiService';
+import { getProductsList } from "../../services/apiService";
 import {Button, TableCell, TableRow} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 
 function AdminEditProductPage2() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    //const [totalCount, setTotalCount] = useState(0);
+    const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState(['name']);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -52,23 +52,14 @@ function AdminEditProductPage2() {
         setEditModalOpen(true);
     };
 
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
+     const handleChangePage = (event, newPage) => {
+         setPage(newPage);
+     };
 
-    // const handleChangeRowsPerPage = (event) => {
-    //     setPage(0);
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    // };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setPage(0);
-        setRowsPerPage(parseInt(event.target.value, 10));
-    };
+     const handleChangeRowsPerPage = (event) => {
+         setPage(0);
+         setRowsPerPage(parseInt(event.target.value, 10));
+     };
 
     useEffect(() => {
         const filteredData = applyFilter({
@@ -85,12 +76,10 @@ function AdminEditProductPage2() {
 
 
     async function fetchProducts() {
-        try {
-            //console.log("page " + (page + 1) + " rows " + rowsPerPage)
-            //const response = await getUsers( page + 1 , rowsPerPage)
-            const response = await getProductsList()
-            setProducts(response)
-            //setTotalCount(response.totalCount)
+        try {           
+            const response = await getProductsList(page, rowsPerPage);
+            setProducts(response.data)
+            setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);
         } finally {
@@ -183,8 +172,7 @@ function AdminEditProductPage2() {
                         labelRowsPerPage={"Počet řádků na straně"}
                         page={page}
                         component="div"
-                        //count={totalCount}
-                        count={products.length}
+                        count={totalCount}
                         rowsPerPage={rowsPerPage}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}

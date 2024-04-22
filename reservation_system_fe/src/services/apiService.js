@@ -2,6 +2,15 @@ import { toast } from "react-toastify";
 import api from "./api";
 import Cookies from "js-cookie";
 
+const getProducts = async () => {
+  try {
+    const response = await api.get("/product/list");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getAllergens = async () => {
   try {
     const response = await api.get("/allergen/list");
@@ -19,14 +28,12 @@ const getProductsGroupped = async () => {
     throw error;
   }
 };
-const getProductsList = async (Page , Count, Filter ) => {
+const getProductsList = async (Page , Count ) => {
   try {
-    const response = await api.get("/product/list", {
-      params: {
-        Page: Page,
-        Count: Count,
-        Filter: Filter,
-      },
+    const response = await api.get("/product/list", { params: {
+      Page: Page,
+      Count: Count
+    },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
@@ -207,13 +214,12 @@ const registerUserRequest = async (userData) => {
   }
 };
 
-const getUsers = async (Page , Count, Filter ) => {
+const getUsers = async (Page , Count ) => {
   try {
     const response = await api.get(`/users`, {
       params: {
         Page: Page,
-        Count: Count,
-        Filter: Filter
+        Count: Count
       },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
@@ -264,6 +270,7 @@ const deleteUser = async (userId) => {
 export {
   getProductsGroupped,
   getProductById,
+  getProducts,
   getAllergens,
   getProductsList,
   getAllergensDropdown,

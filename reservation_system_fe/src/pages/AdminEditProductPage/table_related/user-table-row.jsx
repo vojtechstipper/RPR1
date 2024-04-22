@@ -64,7 +64,11 @@ export default function UserTableRow({
         <>
             <TableRow hover tabIndex={-1}>
 
-                <TableCell>{name}</TableCell>
+                <TableCell>
+                    <Typography variant="subtitle2" noWrap>
+                        {name}
+                    </Typography>
+                </TableCell>
 
                 <TableCell >{productType}</TableCell>
 

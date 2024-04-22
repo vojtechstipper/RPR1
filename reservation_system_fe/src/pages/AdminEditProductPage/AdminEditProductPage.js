@@ -52,15 +52,6 @@ function AdminEditProductPage() {
         setEditModalOpen(true);
     };
 
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-
-    // const handleChangeRowsPerPage = (event) => {
-    //     setPage(0);
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    // };
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -89,7 +80,7 @@ function AdminEditProductPage() {
             //console.log("page " + (page + 1) + " rows " + rowsPerPage)
             //const response = await getUsers( page + 1 , rowsPerPage)
             const response = await getProductsList()
-            setProducts(response.data)
+            setProducts(response)
             //setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);
@@ -180,7 +171,7 @@ function AdminEditProductPage() {
                         page={page}
                         component="div"
                         //count={totalCount}
-                        count={products.length}
+                        count={40}
                         rowsPerPage={rowsPerPage}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}

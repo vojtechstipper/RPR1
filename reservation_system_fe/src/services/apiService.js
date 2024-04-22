@@ -28,9 +28,12 @@ const getProductsGroupped = async () => {
     throw error;
   }
 };
-const getProductsList = async () => {
+const getProductsList = async (Page , Count ) => {
   try {
-    const response = await api.get("/product/list", {
+    const response = await api.get("/product/list", { params: {
+      Page: Page,
+      Count: Count
+    },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;

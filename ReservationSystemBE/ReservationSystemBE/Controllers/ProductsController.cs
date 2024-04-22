@@ -54,7 +54,7 @@ public class ProductsController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<ProductDto>>> GetProducts()
     {
-        return Ok(await _mediator.Send(new GetProductsQuery()));
+        return Ok(await _mediator.Send(new GetPaginatedProductsQuery()));
     }
 
     [HttpGet("{id}")]

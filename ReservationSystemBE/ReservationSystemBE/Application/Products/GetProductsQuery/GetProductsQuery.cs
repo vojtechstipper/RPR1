@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ReservationSystem.Shared.DTO;
 using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Products.GetProductsQuery;
@@ -21,7 +22,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetPaginatedProductsQuery
         _mapper = mapper;
     }
 
-    public async Task<List<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<ProductDto>> Handle(GetPaginatedProductsQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await _dbContext.Products.CountAsync();
         var productsQuery = _dbContext.Products

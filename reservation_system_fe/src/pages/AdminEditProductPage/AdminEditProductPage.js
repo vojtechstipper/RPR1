@@ -19,7 +19,7 @@ import Toolbar from "@mui/material/Toolbar";
 function AdminEditProductPage() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    //const [totalCount, setTotalCount] = useState(0);
+    const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState(['name']);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -78,10 +78,10 @@ function AdminEditProductPage() {
     async function fetchProducts() {
         try {
             //console.log("page " + (page + 1) + " rows " + rowsPerPage)
-            //const response = await getUsers( page + 1 , rowsPerPage)
+           
             const response = await getProductsList()
-            setProducts(response)
-            //setTotalCount(response.totalCount)
+            setProducts(response.data)
+            setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);
         } finally {

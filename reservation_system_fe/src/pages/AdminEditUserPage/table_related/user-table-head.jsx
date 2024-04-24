@@ -17,6 +17,9 @@ export default function UserTableHead({
                                           onRequestSort,
                                       }) {
     const onSort = (property) => (event) => {
+        console.log("heeeeeeej")
+        console.log("property " + property.toString() + " event " + event)
+        console.log(event)
         onRequestSort(event, property);
     };
 

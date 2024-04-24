@@ -1,4 +1,4 @@
-﻿import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
@@ -84,6 +84,7 @@ function AdminEditUserPage() {
     }
 
     useEffect(() => {
+        console.log("fetchujuuuu")
         fetchUsers();
     }, [page, rowsPerPage, filterName, orderBy, order]);
 

@@ -36,6 +36,7 @@ const getProductsList = async (Page , Count ) => {
     },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
+    console.log("page " + Page + " rows " + Count)
     return response.data;
   } catch (error) {
     throw error;

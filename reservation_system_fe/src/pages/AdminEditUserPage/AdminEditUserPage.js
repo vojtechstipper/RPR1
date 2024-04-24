@@ -22,21 +22,26 @@ function AdminEditUserPage() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState(['name', 'email']);
+    const [orderBy, setOrderBy] = useState('email');
     const [filterName, setFilterName] = useState('');
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [itemId, setItemId] = useState(null)
-    const [dataFiltered, setDataFiltered] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [descendingOrder, setDescendingOrder] = useState(false);
 
 
     const handleSort = (event, id) => {
+        console.log("event " + event + " id " + id)
+        setPage(0)
         const isAsc = orderBy === id && order === 'asc';
         if (id !== '') {
             setOrder(isAsc ? 'desc' : 'asc');
             setOrderBy(id);
         }
+        if (order === "asc"){
+            setDescendingOrder(false)
+        }else setDescendingOrder(true)
     };
 
     const handleCancelEdit = () => {
@@ -61,27 +66,27 @@ function AdminEditUserPage() {
         setFilterName(event.target.value);
     };
 
-    useEffect(() => {
-        const filteredData = applyFilter({
-            inputData: users,
-            comparator: getComparator(order, orderBy),
-            filterName,
-        });
-        setDataFiltered(filteredData);
-    }, [users, order, orderBy, filterName]);
+    // useEffect(() => {
+    //     const filteredData = applyFilter({
+    //         inputData: users,
+    //         comparator: getComparator(order, orderBy),
+    //         filterName,
+    //     });
+    //     setDataFiltered(filteredData);
+    // }, [users, order, orderBy, filterName]);
 
 
     const handleClick = () => {
         setEditModalOpen(true);
     };
 
-    const notFound = !dataFiltered.length && !!filterName;
+    const notFound = !users.length && !!filterName;
 
 
     async function fetchUsers() {
         try {
-            console.log("page " + (page + 1) + " rows " + rowsPerPage)
-            const response = await getUsers( page + 1 , rowsPerPage)
+            const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder)
+            console.log("page " + (page + 1) + " rows " + rowsPerPage + " filter " + filterName + " orderby " + orderBy + " desc " + descendingOrder)
             setUsers(response.data)
             setTotalCount(response.totalCount)
         } catch (error) {
@@ -92,12 +97,14 @@ function AdminEditUserPage() {
     }
 
     useEffect(() => {
+        console.log("fetchujuuuu")
         fetchUsers();
-    }, [page, rowsPerPage]);
+        console.log(users);
+    }, [page, rowsPerPage, filterName, orderBy, order]);
 
-    useEffect(() => {
-        console.log("dataFiltered:", dataFiltered);
-    }, [dataFiltered]);
+    // useEffect(() => {
+    //     console.log("dataFiltered:", dataFiltered);
+    // }, [dataFiltered]);
 
 
     return (
@@ -136,7 +143,7 @@ function AdminEditUserPage() {
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                        dataFiltered
+                                        users
                                         // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row) => (
                                             <UserTableRow

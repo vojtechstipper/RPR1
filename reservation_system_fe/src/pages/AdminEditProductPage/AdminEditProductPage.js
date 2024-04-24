@@ -77,9 +77,8 @@ function AdminEditProductPage() {
 
     async function fetchProducts() {
         try {
-            //console.log("page " + (page + 1) + " rows " + rowsPerPage)
-           
-            const response = await getProductsList()
+            console.log("page " + (page + 1) + " rows " + rowsPerPage)
+            const response = await getProductsList(page + 1 , rowsPerPage)
             setProducts(response.data)
             setTotalCount(response.totalCount)
         } catch (error) {
@@ -170,8 +169,7 @@ function AdminEditProductPage() {
                         labelRowsPerPage={"Počet řádků na straně"}
                         page={page}
                         component="div"
-                        //count={totalCount}
-                        count={40}
+                        count={totalCount}
                         rowsPerPage={rowsPerPage}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}

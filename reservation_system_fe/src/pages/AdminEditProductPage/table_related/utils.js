@@ -78,5 +78,7 @@ export function applyFilter({ inputData, comparator }) {
 
     inputData = stabilizedThis.map((el) => el[0]);
 
+    console.log(inputData)
+
     return inputData;
 }

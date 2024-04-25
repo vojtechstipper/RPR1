@@ -1,4 +1,4 @@
-﻿import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
@@ -22,21 +22,25 @@ function AdminEditUserPage() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState(['name', 'email']);
+    const [orderBy, setOrderBy] = useState('email');
     const [filterName, setFilterName] = useState('');
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [itemId, setItemId] = useState(null)
-    const [dataFiltered, setDataFiltered] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [descendingOrder, setDescendingOrder] = useState(false);
 
 
     const handleSort = (event, id) => {
+        setPage(0)
         const isAsc = orderBy === id && order === 'asc';
         if (id !== '') {
             setOrder(isAsc ? 'desc' : 'asc');
             setOrderBy(id);
         }
+        if (order === "asc"){
+            setDescendingOrder(false)
+        }else setDescendingOrder(true)
     };
 
     const handleCancelEdit = () => {
@@ -57,31 +61,19 @@ function AdminEditUserPage() {
 
     const handleFilterByName = (event) => {
         setPage(0);
-        console.log(event.target.value);
         setFilterName(event.target.value);
     };
-
-    useEffect(() => {
-        const filteredData = applyFilter({
-            inputData: users,
-            comparator: getComparator(order, orderBy),
-            filterName,
-        });
-        setDataFiltered(filteredData);
-    }, [users, order, orderBy, filterName]);
-
 
     const handleClick = () => {
         setEditModalOpen(true);
     };
 
-    const notFound = !dataFiltered.length && !!filterName;
+    const notFound = !users.length && !!filterName;
 
 
     async function fetchUsers() {
         try {
-            console.log("page " + (page + 1) + " rows " + rowsPerPage)
-            const response = await getUsers( page + 1 , rowsPerPage)
+            const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder)
             setUsers(response.data)
             setTotalCount(response.totalCount)
         } catch (error) {
@@ -92,12 +84,9 @@ function AdminEditUserPage() {
     }
 
     useEffect(() => {
+        console.log("fetchujuuuu")
         fetchUsers();
-    }, [page, rowsPerPage]);
-
-    useEffect(() => {
-        console.log("dataFiltered:", dataFiltered);
-    }, [dataFiltered]);
+    }, [page, rowsPerPage, filterName, orderBy, order]);
 
 
     return (
@@ -136,8 +125,7 @@ function AdminEditUserPage() {
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                        dataFiltered
-                                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        users
                                         .map((row) => (
                                             <UserTableRow
                                                 key={row.id}

@@ -36,6 +36,7 @@ const getProductsList = async (Page , Count ) => {
     },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
+    console.log("page " + Page + " rows " + Count)
     return response.data;
   } catch (error) {
     throw error;
@@ -214,16 +215,25 @@ const registerUserRequest = async (userData) => {
   }
 };
 
-const getUsers = async (Page , Count ) => {
+const getUsers = async (Page , Count, Filter, OrderBy, DescendingOrder ) => {
   try {
+
+    const params = {
+      Page: Page,
+      Count: Count,
+      OrderBy: OrderBy,
+      DescendingOrder: DescendingOrder,
+    };
+
+    if (Filter && Filter.trim() !== '') {
+      params.Filter = Filter;
+    }
+
     const response = await api.get(`/users`, {
-      params: {
-        Page: Page,
-        Count: Count
-      },
+      params: params,
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    console.log(response)
+
     return response.data;
   } catch (error) {
     throw error;

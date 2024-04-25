@@ -41,15 +41,13 @@ const EditProductModal = ({open, onClose, itemId}) => {
     const handleProductDescriptionChanged = (e) => setProductDescription(e.target.value);
 
     const handleAllergensChanged = (e) => {
-        const { target: { value }, } = e;
-        const selectedIds = productAllergensSelected.map(allergen => allergen.id);
-        const newSelectedAllergens = value.filter(id => !selectedIds.includes(id)).map(id => {
-            const foundAllergen = allergens.find(allergen => allergen.id === id);
-            console.log(foundAllergen)
-            return foundAllergen ? { id: foundAllergen.id, name: foundAllergen.name } : null;
-        }).filter(Boolean);
-        setProductAllergensSelected([...productAllergensSelected, ...newSelectedAllergens]);
-    }
+        const {target: {value},} = e;
+        const newSelectedAllergens = value.map(name => {
+            const newAllergen = allergens.find(allergen => allergen.name === name);
+            return newAllergen ? {id: newAllergen.id, name: newAllergen.name} : null;
+        });
+        setProductAllergensSelected(newSelectedAllergens)
+    };
 
 
     const VisuallyHiddenInput = styled("input")({
@@ -91,9 +89,6 @@ const EditProductModal = ({open, onClose, itemId}) => {
             const res = await uploadImage(formData);
             if (res != null) {
                 setImageId(res);
-                console.log(res)
-                console.log("haloooooooooo tady jsem")
-
             }
             // Handle the response (e.g., update state or display a success message)
         } catch (ex) {
@@ -104,9 +99,9 @@ const EditProductModal = ({open, onClose, itemId}) => {
 
     const handleSaveClicked = async () => {
 
-        if (!productName || !productPriceValue || !productPriceName) {
-            console.error("Název, cena a název ceny musí být vyplněny.");
-            toast.error("Název, cena a název ceny musí být vyplněny.");
+        if (!productName || !productPriceValue || !productPriceName || !productDescription || !productType) {
+            console.error("Název, popis, druh produktu, cena a název ceny musí být vyplněny.");
+            toast.error("Název, popis, druh produktu, cena a název ceny musí být vyplněny.");
             itemId = null
             return;
         }
@@ -168,7 +163,7 @@ const EditProductModal = ({open, onClose, itemId}) => {
             setImageId(product.imageId);
             setProductAllergensSelected(product.allergensIds.map(id => {
                 const allergen = allergens.find(item => item.id === id);
-                return allergen ? allergen : { id: id, name: 'N/A' };
+                return allergen ? allergen : {id: id, name: 'N/A'};
             }));
         }
     }
@@ -194,7 +189,6 @@ const EditProductModal = ({open, onClose, itemId}) => {
 
         fetchProduct();
     }, [itemId]);
-
 
     useEffect(() => {
         if (imageId) {
@@ -269,19 +263,20 @@ const EditProductModal = ({open, onClose, itemId}) => {
                                 id="demo-multiple-checkbox"
                                 multiple
                                 value={Array.isArray(productAllergensSelected) ? productAllergensSelected.map(allergen => allergen.name) : []}
-                                onChange={handleAllergensChanged}
+                                onChange={handleAllergensChanged}  // Pass the function directly
                                 input={<OutlinedInput label="Alergeny"/>}
                                 renderValue={(selected) => selected.join(', ')}
                                 MenuProps={MenuProps}
                             >
                                 {allergens.map((allergen) => (
-                                    <MenuItem key={allergen.id} value={allergen.id}>
-                                        <Checkbox checked={productAllergensSelected ? productAllergensSelected.some(selected => selected.id === allergen.id) : false}/>
+                                    <MenuItem key={allergen.id} value={allergen.name}>
+                                        <Checkbox key={allergen.id} checked={
+                                            productAllergensSelected ? productAllergensSelected.some(selected => selected.id === allergen.id) : false
+                                        }/>
                                         <ListItemText primary={allergen.name}/>
                                     </MenuItem>
                                 ))}
                             </Select>
-
 
 
                         </FormControl>

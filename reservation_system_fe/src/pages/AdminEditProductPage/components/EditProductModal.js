@@ -203,16 +203,20 @@ const EditProductModal = ({open, onClose, itemId}) => {
         <Modal open={open} onClose={onClose}>
             <Box
                 sx={{
-                    position: "absolute",
-                    top: "45%",
+                    position: "fixed",
+                    top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: 750,
+                    maxWidth: "100%",
+                    maxHeight: "90%",
+                    width: "auto",
                     bgcolor: "background.paper",
                     border: "2px solid #000",
                     boxShadow: 24,
                     p: 4,
-                    borderRadius: "12px"
+                    borderRadius: "12px",
+                    overflowY: "auto",
+                    zIndex: 9999
                 }}
             >
                 <Grid container direction={"column"} spacing={2}>

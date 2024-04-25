@@ -65,6 +65,34 @@ public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, P
                     }
                     else usersQuery = usersQuery.OrderBy(x => x.Email);
                     break;
+                case "role":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.Role);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.Role);
+                    break;
+                case "active":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.Active);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.Active);
+                    break;
+                case "isStudent":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.IsStudent);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.IsStudent);
+                    break;
+                case "secondName":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.SecondName);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.SecondName);
+                    break;
             }
         }
 

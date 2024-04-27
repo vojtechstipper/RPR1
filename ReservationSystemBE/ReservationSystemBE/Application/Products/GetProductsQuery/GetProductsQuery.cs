@@ -24,7 +24,6 @@ public class GetProductsQueryHandler : IRequestHandler<GetPaginatedProductsQuery
 
     public async Task<PaginatedResult<ProductDto>> Handle(GetPaginatedProductsQuery request, CancellationToken cancellationToken)
     {
-        var totalCount = await _dbContext.Products.CountAsync();
         var productsQuery = _dbContext.Products
              .Include(x => x.ProductType)
              .Include(x => x.PriceLevel)
@@ -48,7 +47,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetPaginatedProductsQuery
                     break;
             }
         }
-
+        var totalCount = await productsQuery.CountAsync();
         productsQuery = productsQuery.Skip((request.Page - 1) * request.Count).Take(request.Count);
         var productsMapped = _mapper.Map<List<ProductDto>>(await productsQuery.ToListAsync());
         return new PaginatedResult<ProductDto>() { CurrentPage = request.Page, Data = productsMapped, TotalCount = totalCount };

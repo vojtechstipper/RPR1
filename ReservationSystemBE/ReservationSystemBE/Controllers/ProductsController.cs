@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReservationSystem.Shared.DTO;
 using ReservationSystemBE.Application.Products.Commands.AddProductCommand;
 using ReservationSystemBE.Application.Products.Commands.DeleteProductCommand;
 using ReservationSystemBE.Application.Products.Commands.EditProductCommand;
@@ -52,7 +53,7 @@ public class ProductsController : Controller
     [HttpGet("list")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<ProductDto>>> GetProducts()
+    public async Task<ActionResult<PaginatedResult<ProductDto>>> GetProducts()
     {
         return Ok(await _mediator.Send(new GetPaginatedProductsQuery()));
     }

@@ -46,7 +46,7 @@ public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, P
 
     public async Task<PaginatedResult<UserDto>> Handle(PaginatedUsersQuery request, CancellationToken cancellationToken)
     {
-        var totalCount = await _context.Users.CountAsync();
+        //var totalCount = await _context.Users.CountAsync();
         var usersQuery = _context.Users.AsQueryable();
 
         if (!string.IsNullOrEmpty(request.Filter))
@@ -96,10 +96,10 @@ public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, P
             }
         }
 
-
+        var totalcount = await usersQuery.CountAsync();
         usersQuery = usersQuery.Skip((request.Page - 1) * request.Count).Take(request.Count);
 
         var users = await _mapper.ProjectTo<UserDto>(usersQuery).ToListAsync();
-        return new PaginatedResult<UserDto>() { CurrentPage = request.Page, Data = users, TotalCount = totalCount };
+        return new PaginatedResult<UserDto>() { CurrentPage = request.Page, Data = users, TotalCount = totalcount };
     }
 }

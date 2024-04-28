@@ -28,15 +28,17 @@ const getProductsGroupped = async () => {
     throw error;
   }
 };
-const getProductsList = async (Page , Count ) => {
+const getProductsList = async (Page , Count, OrderBy, DescendingOrder ) => {
   try {
-    const response = await api.get("/product/list", { params: {
-      Page: Page,
-      Count: Count
+    const response = await api.get("/product/list", {
+      params: {
+        Page: Page,
+        Count: Count,
+        OrderBy: OrderBy,
+        DescendingOrder: DescendingOrder
     },
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    console.log("page " + Page + " rows " + Count)
     return response.data;
   } catch (error) {
     throw error;

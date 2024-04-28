@@ -73,6 +73,9 @@ function AdminEditUserPage() {
 
     async function fetchUsers() {
         try {
+            // console.log("page " + (page + 1) + " rows " + rowsPerPage + " orderBy " + orderBy + " desc " + descendingOrder)
+            // console.log(orderBy)
+            // console.log(descendingOrder)
             const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder)
             setUsers(response.data)
             setTotalCount(response.totalCount)
@@ -84,7 +87,6 @@ function AdminEditUserPage() {
     }
 
     useEffect(() => {
-        console.log("fetchujuuuu")
         fetchUsers();
     }, [page, rowsPerPage, filterName, orderBy, order]);
 

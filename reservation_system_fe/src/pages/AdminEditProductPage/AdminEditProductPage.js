@@ -9,10 +9,10 @@ import UserTableRow from './table_related/user-table-row';
 import UserTableHead from './table_related/user-table-head';
 import TableEmptyRows from './table_related/table-empty-rows';
 import Scrollbar from "../../components/global/scrollbar";
-import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
+import { emptyRows } from "./table_related/utils";
 import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 import EditProductModal from './components/EditProductModal';
-import {getProducts, getProductsList} from '../../services/apiService';
+import {getProductsList} from '../../services/apiService';
 import {Button, TableCell, TableRow} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 
@@ -21,23 +21,24 @@ function AdminEditProductPage() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState(['name']);
+    const [orderBy, setOrderBy] = useState('name');
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [products, setProducts] = useState([]);
     const [itemId, setItemId] = useState(null)
-    const [dataFiltered, setDataFiltered] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    const [newItem, setNewItem] = useState('');
+    const [descendingOrder, setDescendingOrder] = useState(false);
     const [editItemIndex, setEditItemIndex] = useState(null);
-    const [selectValue, setSelectValue] = useState('');
 
     const handleSort = (event, id) => {
+        setPage(0)
         const isAsc = orderBy === id && order === 'asc';
         if (id !== '') {
             setOrder(isAsc ? 'desc' : 'asc');
             setOrderBy(id);
         }
+        if (order === "asc"){
+            setDescendingOrder(false)
+        }else setDescendingOrder(true)
     };
 
     const handleCancelEdit = () => {
@@ -61,15 +62,6 @@ function AdminEditProductPage() {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    useEffect(() => {
-        const filteredData = applyFilter({
-            inputData: products,
-            comparator: getComparator(order, orderBy)
-        });
-        setDataFiltered(filteredData);
-    }, [products, order, orderBy]);
-
-
     const handleClick = () => {
         setEditModalOpen(true);
     };
@@ -77,9 +69,12 @@ function AdminEditProductPage() {
 
     async function fetchProducts() {
         try {
-            console.log("page " + (page + 1) + " rows " + rowsPerPage)
-            const response = await getProductsList(page + 1 , rowsPerPage)
+            // console.log("page " + (page + 1) + " rows " + rowsPerPage + " orderBy " + orderBy + " desc " + descendingOrder)
+            // console.log(orderBy)
+            // console.log(descendingOrder)
+            const response = await getProductsList(page + 1 , rowsPerPage, orderBy, descendingOrder)
             setProducts(response.data)
+            //console.log(products)
             setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);
@@ -90,11 +85,7 @@ function AdminEditProductPage() {
 
     useEffect(() => {
         fetchProducts();
-    }, [page, rowsPerPage]);
-
-    useEffect(() => {
-        console.log("dataFiltered:", dataFiltered);
-    }, [dataFiltered]);
+    }, [page, rowsPerPage, orderBy, order]);
 
 
     return (
@@ -139,8 +130,7 @@ function AdminEditProductPage() {
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        dataFiltered
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        products
                                             .map((row) => (
                                                 <UserTableRow
                                                     key={row.id}

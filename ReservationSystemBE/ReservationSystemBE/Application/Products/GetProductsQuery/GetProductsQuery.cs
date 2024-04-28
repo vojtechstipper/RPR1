@@ -45,6 +45,20 @@ public class GetProductsQueryHandler : IRequestHandler<GetPaginatedProductsQuery
                     }
                     else productsQuery = productsQuery.OrderBy(x => x.Name);
                     break;
+                case "producttype":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        productsQuery = productsQuery.OrderByDescending(x => x.ProductType.Name);
+                    }
+                    else productsQuery = productsQuery.OrderBy(x => x.ProductType.Name);
+                    break;
+                case "price":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        productsQuery = productsQuery.OrderByDescending(x => x.PriceLevel.Price);
+                    }
+                    else productsQuery = productsQuery.OrderBy(x => x.PriceLevel.Price);
+                    break;
             }
         }
         var totalCount = await productsQuery.CountAsync();

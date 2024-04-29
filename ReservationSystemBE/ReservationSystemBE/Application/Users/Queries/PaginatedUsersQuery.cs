@@ -93,6 +93,13 @@ public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, P
                     }
                     else usersQuery = usersQuery.OrderBy(x => x.SecondName);
                     break;
+                case "isverified":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.IsVerified);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.IsVerified);
+                    break;
             }
         }
 

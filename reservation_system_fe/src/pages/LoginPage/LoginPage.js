@@ -8,10 +8,12 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { loginUserRequest } from "../../services/apiService";
 import Cookies from "js-cookie";
+import { useShoppingCart } from "../../components/ShoppingCartContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { clearCart } = useShoppingCart();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -39,6 +41,7 @@ const LoginPage = () => {
 
         navigate("/");
 
+        clearCart();
         window.dispatchEvent(new Event("authChanged"));
       } else {
         console.error("Missing token or user information in the response.");

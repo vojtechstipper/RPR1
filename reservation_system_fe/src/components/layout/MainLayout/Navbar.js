@@ -19,12 +19,14 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import logo from "../../../static/img/logoCCC.jpeg";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useNavigate } from "react-router-dom";
+import { useShoppingCart } from "../../../components/ShoppingCartContext";
 
 export default function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
+  const { clearCart } = useShoppingCart();
 
   useEffect(() => {
     const handleAuthChange = () => {
@@ -52,6 +54,7 @@ export default function ResponsiveAppBar() {
     setIsAuthenticated(false);
     navigate("/login");
     window.dispatchEvent(new Event("authChanged"));
+    clearCart();
   };
 
   const handleDrawerToggle = () => {

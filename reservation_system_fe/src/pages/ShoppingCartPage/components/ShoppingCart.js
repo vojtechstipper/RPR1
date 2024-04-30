@@ -20,11 +20,12 @@ const ShoppingCart = () => {
   };
 
   useEffect(() => {
-    console.log("cartData changed:", cartData);   
+    console.log("cartData changed:", cartData);
   }, [cartData]);
 
   const handleCountChange = (index, newCount) => {
-    cartData[index].count = newCount;   
+    if (newCount < 0) return;
+    cartData[index].count = newCount;
     changeCart(cartData);
   };
 

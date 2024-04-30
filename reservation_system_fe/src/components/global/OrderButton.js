@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useShoppingCart } from "../ShoppingCartContext";
 import { sendOrder } from "../../services/apiService";
 
-const OrderButton = ({ order, orderTime,orderNote }) => {
+const OrderButton = ({ order, orderTime, orderNote }) => {
   const navigate = useNavigate();
   const { cartData } = useShoppingCart();
   const [orderData, setOrderData] = useState({
@@ -12,6 +12,7 @@ const OrderButton = ({ order, orderTime,orderNote }) => {
     orderTime: orderTime,
     note: "",
   });
+  const { clearCart } = useShoppingCart();
 
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -44,7 +45,8 @@ const OrderButton = ({ order, orderTime,orderNote }) => {
     try {
       const response = await sendOrder(orderData);
       console.log("Objednávka byla úspěšně odeslána", response.data);
-      navigate('/thanksfororder');
+      navigate("/thanksfororder");
+      clearCart();
     } catch (error) {
       console.error("Chyba při odesílání objednávky na API", error);
     }
@@ -69,7 +71,7 @@ const OrderButton = ({ order, orderTime,orderNote }) => {
         <Button
           variant="contained"
           style={{
-            backgroundColor: "#d3d3d3",
+            backgroundColor: "#f1efef",
             width: "200px",
             color: "black",
             fontWeight: "bold",

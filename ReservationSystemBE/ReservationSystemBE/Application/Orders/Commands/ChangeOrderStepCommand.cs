@@ -42,7 +42,7 @@ public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepComm
 
         if (order.Status == OrderStatus.InPreparation || order.Status == OrderStatus.Canceled)
         {
-            await _notifier.SendEmail(order.User.Email, $"{order.User.FirstName} {order.User.SecondName}", order.Status);
+            await _notifier.SendEmail(order.User.Email, $"{order.User.FirstName} {order.User.SecondName}", order.Status,null);
         }
         return Unit.Value;
     }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Orders;
+using ReservationSystem.Shared.DTO;
 using ReservationSystemBE.Application.Services;
 using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
@@ -40,9 +41,24 @@ public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepComm
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();
 
+        var orderMailData = new TemplateMailData()
+        {
+            UserName = $"{order.User.FirstName} {order.User.SecondName}",
+            OrderTime = $"{order.DateOrdered.Hour}:{order.DateOrdered.Minute}",
+            OrderNumber = order.OrderIdentifikator,
+            OrderItems = order.OrderItems.Select(x => new ReservationSystem.Shared.DTO.OrderItem()
+            {
+                ProductName = x.Product.Name,
+                ProductPrice = x.Product.PriceLevel.Price,
+                ProductQuantity = x.Count,
+                ProductTotal = x.Product.PriceLevel.Price * x.Count
+            }).ToList()
+        };
+
+
         if (order.Status == OrderStatus.InPreparation || order.Status == OrderStatus.Canceled)
         {
-            await _notifier.SendEmail(order.User.Email, $"{order.User.FirstName} {order.User.SecondName}", order.Status,null);
+            await _notifier.SendEmail(order.User.Email, $"{order.User.FirstName} {order.User.SecondName}", order.Status,orderMailData);
         }
         return Unit.Value;
     }
@@ -89,6 +105,10 @@ public class ChangeOrderStepCommandHandler : IRequestHandler<ChangeOrderStepComm
 
     private Task<Order?> ValidateAndGetOrder(string orderId)
     {
-        return _context.Orders.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == orderId);
+        return _context.Orders.Include(x => x.User)
+            .Include(x => x.OrderItems)
+            .ThenInclude(x => x.Product)
+            .ThenInclude(x => x.PriceLevel)
+            .FirstOrDefaultAsync(x => x.Id == orderId);
     }
 }

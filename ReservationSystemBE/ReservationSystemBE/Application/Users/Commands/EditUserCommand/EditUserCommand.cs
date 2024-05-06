@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Users;
-using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
 using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
 
@@ -46,7 +45,7 @@ public class EditUserCommandHandler : IRequestHandler<EditUserCommand, string>
             throw new ValidationException($"Entity not found with Id: {request.Id}", "EntityNotFound");
         }
 
-        user.Email=request.Email;
+        user.Email = request.Email;
         user.FirstName = request.Name;
         user.SecondName = request.Surname;
         user.IsVerified = request.IsVerified;

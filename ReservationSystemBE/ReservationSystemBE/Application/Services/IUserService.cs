@@ -8,7 +8,9 @@ namespace ReservationSystemBE.Application.Services;
 public interface IUserService
 {
     Task<User> ValidateAndGetUser(string userEmail, string password);
+    Task<User> ValidateAndGetUserById(string userId, string password);
     Task<User> CreateUser(string email, string name, string surname, string password);
+    Task SetNewPassword(User user, string newPassword);
 }
 
 public class UserService : IUserService
@@ -29,9 +31,27 @@ public class UserService : IUserService
         return user;
     }
 
+    public async Task SetNewPassword(User user, string newPassword)
+    {
+        string securedPassword = BCR.HashPassword(newPassword, 4);
+        user.Password = securedPassword;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<User> ValidateAndGetUser(string userEmail, string password)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == userEmail);
+        if (user != null && BCR.Verify(password, user.Password))
+        {
+            return user;
+        }
+        else throw new Exception("User does not exists");
+    }
+
+    public async Task<User> ValidateAndGetUserById(string userId, string password)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
         if (user != null && BCR.Verify(password, user.Password))
         {
             return user;

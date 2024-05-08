@@ -54,7 +54,10 @@ const RegisterPage = () => {
 
         navigate("/");
 
-        window.dispatchEvent(new Event("authChanged"));
+        localStorage.setItem("logged_in", true);
+        window.dispatchEvent(new CustomEvent("authChanged", {
+          detail: { isLoggedIn: true }  // Zde předáváme, že uživatel je přihlášen
+        }));
       } else {
         console.error("Missing token or user information in the response.");
       }

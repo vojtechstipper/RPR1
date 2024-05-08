@@ -41,11 +41,21 @@ export default function ResponsiveAppBar() {
       }
     };
 
+    // Poslouchání události storage
+    const handleStorageChange = (event) => {
+      if (event.key === "logged_out" || event.key === "logged_in") {
+        handleAuthChange();
+        localStorage.removeItem(event.key);
+      }
+    };
+
     handleAuthChange();
     window.addEventListener("authChanged", handleAuthChange);
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
       window.removeEventListener("authChanged", handleAuthChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -53,7 +63,8 @@ export default function ResponsiveAppBar() {
     Cookies.remove("token");
     setIsAuthenticated(false);
     navigate("/login");
-    window.dispatchEvent(new Event("authChanged"));
+    localStorage.setItem("logged_out", "true");
+    localStorage.removeItem("userInfo");
     clearCart();
   };
 

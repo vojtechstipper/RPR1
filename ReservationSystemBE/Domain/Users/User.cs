@@ -27,6 +27,7 @@ public class User : Entity
     public bool Active { get; set; } = true;
     public UserRole Role { get; set; }
     public IEnumerable<Order> Orders { get; set; }
+    public IEnumerable<PasswordResetCode> PasswordResetCodes { get; set; }
 
 }
 

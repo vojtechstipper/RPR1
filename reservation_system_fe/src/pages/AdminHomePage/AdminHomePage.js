@@ -8,11 +8,14 @@ import OrdersBoard from '../../containers/OrdersBoard';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { toast } from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 function AdminHomePage() {
     const [connection, setConnection] = useState(null);
     const [messages, setMessages] = useState([]);
-  
+    const navigate = useNavigate();
+
+
     useEffect(() => {
       async function fetchOrders() {
         try {
@@ -21,7 +24,7 @@ function AdminHomePage() {
           setMessages([...response]);
         } catch (error) {
           console.error("Chyba při načítání produktů:", error);
-        }
+          navigate("/error", { state: { error: error.response.status } });        }
     }
 
     fetchOrders();

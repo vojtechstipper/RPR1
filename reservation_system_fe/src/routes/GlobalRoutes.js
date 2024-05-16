@@ -8,6 +8,8 @@ import LoginPage from "../pages/LoginPage/LoginPage.js";
 import RegisterPage from "../pages/RegisterPage/RegisterPage.js";
 import UserInfoPage from "../pages/UserInfoPage/UserInfoPage.js";
 import ThanksForOrderPage from "../pages/ThanksForOrderPage/ThanksForOrderPage.js";
+import NotFoundPage from "../pages/ErrorResponsePages/NotFoundPage";
+import ErrorResponsePage from "../pages/ErrorResponsePages/ErrorResponsePage";
 
 
 const GlobalRoutes = {
@@ -49,6 +51,14 @@ const GlobalRoutes = {
         {
             path: '/thanksfororder',
             element: <ThanksForOrderPage/>
+        },
+        {
+            path: '/error',
+            element: <ErrorResponsePage/>
+        },
+        {
+            path: '*',
+            element: <NotFoundPage/>
         }
     ]
 }

@@ -14,6 +14,7 @@ import {
     editUser,
 } from "../../../services/apiService";
 import "react-toastify/dist/ReactToastify.css";
+import {useNavigate} from "react-router-dom";
 
 const EditUserModal = ({ open, onClose, itemId }) => {
 
@@ -25,6 +26,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
     const [userIsStudent, setUserIsStudent] = useState(null);
     //const [userStatus, setUserStatus] = useState(null);
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     const isValidEmail = (userEmail) => {
         // Základní regulární výraz pro validaci e-mailové adresy
@@ -86,6 +88,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
         } catch (error) {
             console.log(jsonData)
             console.error("Chyba při vkládání uživatele:", error);
+            navigate("/error", { state: { error: error.response.status } });
         } finally {
             itemId = null
             onClose();

@@ -18,8 +18,10 @@ import BlockIcon from "@mui/icons-material/Block";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import { editUser } from "../../../services/apiService";
+import {useNavigate} from "react-router-dom";
 
 const UserInfo = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [editInfo, setEditInfo] = useState({
@@ -79,6 +81,7 @@ const UserInfo = () => {
     } catch (error) {
       console.log(postData);
       console.error("Chyba při upravě uživatele:", error);
+      navigate("/error", { state: { error: error.response.status } });
     }
   };
 

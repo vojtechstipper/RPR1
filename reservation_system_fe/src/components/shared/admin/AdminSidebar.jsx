@@ -17,6 +17,8 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
+
 
 const drawerWidth = 240;
 
@@ -68,6 +70,13 @@ const AdminSideBar = () => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        Cookies.remove("token");
+        navigate("/");
+        localStorage.setItem("logged_out", "true");
+        localStorage.removeItem("userInfo");
+    };
 
     const handleDrawer = () => {
         setOpen(!open);
@@ -138,7 +147,7 @@ const AdminSideBar = () => {
                                 justifyContent: 'center',
                                 px: 2.5,
                             }}
-                            //onClick={() => handleItemClick('/logout')}
+                            onClick={handleLogout}
                         >
                             <ListItemIcon
                                 sx={{

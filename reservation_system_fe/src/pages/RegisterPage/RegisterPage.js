@@ -63,6 +63,7 @@ const RegisterPage = () => {
       }
     } catch (error) {
       console.error("Login failed:", error);
+        navigate("/error", { state: { error: error.response.status } });
     }
   };
 

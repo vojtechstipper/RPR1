@@ -4,11 +4,13 @@ import FoodItemCard from "./FoodItemCard";
 import MenuWrapper from "./MenuWrapper";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function ProductList() {
   const [productTypesWithProducts, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [categories, setCategories] = useState([]); // Pro uložení všech kategorií
+  const navigate = useNavigate();
 
   const handleSearchTermChange = (term) => {
     setSearchTerm(term);
@@ -23,6 +25,7 @@ function ProductList() {
         setCategories(response);
       } catch (error) {
         console.error("Chyba při načítání produktů:", error);
+        navigate("/error", { state: { error: error.response.status } });
       }
     }
 

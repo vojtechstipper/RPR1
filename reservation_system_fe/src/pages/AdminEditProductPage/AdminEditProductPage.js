@@ -15,6 +15,7 @@ import EditProductModal from './components/EditProductModal';
 import {getProductsList} from '../../services/apiService';
 import {Button, TableCell, TableRow} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
+import {useNavigate} from "react-router-dom";
 
 function AdminEditProductPage() {
     const [page, setPage] = useState(0);
@@ -28,6 +29,7 @@ function AdminEditProductPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [descendingOrder, setDescendingOrder] = useState(false);
     const [editItemIndex, setEditItemIndex] = useState(null);
+    const navigate = useNavigate();
 
     const handleSort = (event, id) => {
         setPage(0)
@@ -69,16 +71,13 @@ function AdminEditProductPage() {
 
     async function fetchProducts() {
         try {
-            // console.log("page " + (page + 1) + " rows " + rowsPerPage + " orderBy " + orderBy + " desc " + descendingOrder)
-            // console.log(orderBy)
-            // console.log(descendingOrder)
             const response = await getProductsList(page + 1 , rowsPerPage, orderBy, descendingOrder)
             setProducts(response.data)
-            //console.log(products)
             setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);
-        } finally {
+            navigate("/error", { state: { error: error.response.status } });
+    } finally {
             setIsLoading(false)
         }
     }

@@ -14,8 +14,9 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { clearCart } = useShoppingCart();
+  const navigate = useNavigate();
 
-  const handleEmailChange = (event) => {
+    const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
@@ -52,10 +53,9 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error("Login failed:", error);
+      navigate("/error", { state: { error: error.response.status } });
     }
   };
-
-  const navigate = useNavigate();
 
   return (
     <Box

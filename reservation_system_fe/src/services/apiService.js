@@ -279,6 +279,25 @@ const deleteUser = async (userId) => {
   }
 };
 
+export const changePassword = async ({ userId, oldPassword, newPassword }) => {
+  try {
+    const response = await api.put('/users/password', {
+      userId, 
+      oldPassword, 
+      newPassword
+    }, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+    });
+
+    toastNotify("Heslo bylo úspěšně změněno!", 'success');
+    return response.data;
+  } catch (error) {
+    toastNotify(`Chyba při změně hesla: ${error.message}`, 'error');
+    throw error;
+  }
+};
+
+
 export {
   getProductsGroupped,
   getProductById,

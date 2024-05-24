@@ -39,9 +39,9 @@ public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand,
             //vrátit výsledek 202 ok 
             return "eh";
         }
-        //vygenerovat kod
+
         string code = GeneratedCode();
-        //uložit kod
+
         PasswordResetCode passwordResetCode = new()
         {
             Code = code,
@@ -58,21 +58,15 @@ public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand,
     {
         Random random = new Random();
 
-        // Define the characters from which to generate the random string
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        // Create a StringBuilder to hold the random string
         StringBuilder stringBuilder = new StringBuilder();
 
-        // Generate 8 random characters
         for (int i = 0; i < 6; i++)
         {
-            // Append a random character from the defined character set
             stringBuilder.Append(chars[random.Next(chars.Length)]);
         }
 
-        // Output the generated random string
         return stringBuilder.ToString();
-
     }
 }

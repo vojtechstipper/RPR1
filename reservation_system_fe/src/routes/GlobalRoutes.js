@@ -8,6 +8,7 @@ import LoginPage from "../pages/LoginPage/LoginPage.js";
 import RegisterPage from "../pages/RegisterPage/RegisterPage.js";
 import UserInfoPage from "../pages/UserInfoPage/UserInfoPage.js";
 import ThanksForOrderPage from "../pages/ThanksForOrderPage/ThanksForOrderPage.js";
+import PasswordResetPage from "../pages/PasswordResetPage/PasswordResetPage.js";
 
 
 const GlobalRoutes = {
@@ -49,6 +50,11 @@ const GlobalRoutes = {
         {
             path: '/thanksfororder',
             element: <ThanksForOrderPage/>
+        }
+        ,
+        {
+            path: '/forgottenpassword',
+            element: <PasswordResetPage/>
         }
     ]
 }

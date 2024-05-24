@@ -279,6 +279,20 @@ const deleteUser = async (userId) => {
   }
 };
 
+const resetPassword = async (passwordResetData) => {
+  try {
+    const response = await api.post(
+      `/users/reset-password`,
+      passwordResetData
+    );
+    toastNotify(response, "Požadavek na reset hesla odeslán!");
+    return response.data;
+  } catch (error) {
+    toastNotify(error.response);
+    throw error;
+  }
+};
+
 export {
   getProductsGroupped,
   getProductById,
@@ -302,7 +316,8 @@ export {
   getUserById,
   editUser,
   deleteUser,
-  sendChangeOrderStepRequest
+  sendChangeOrderStepRequest,
+  resetPassword
 };
 
 function toastNotify(response, successMessage) {

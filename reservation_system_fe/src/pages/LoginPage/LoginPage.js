@@ -129,7 +129,7 @@ const LoginPage = () => {
             }}
           />
           <Link
-            to="/forgotPassword"
+            to="/forgottenpassword"
             style={{
               color: "white",
               textDecoration: "none",

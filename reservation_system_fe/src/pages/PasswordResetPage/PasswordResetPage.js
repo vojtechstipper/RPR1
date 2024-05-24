@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import logo from "../../static/img/logoCCC.jpeg";
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
+import { resetPassword } from '../../services/apiService';
 
 const PasswordResetPage = () => {
   const [email, setEmail] = useState('');
@@ -16,9 +17,16 @@ const PasswordResetPage = () => {
     setEmail(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Implementujte logiku pro resetování hesla
+    const userData = {
+      userEmail: email
+    };
+
+    try {
+      const response = await resetPassword(userData);
+    }
+    catch{}
   };
 
   const navigate = useNavigate();

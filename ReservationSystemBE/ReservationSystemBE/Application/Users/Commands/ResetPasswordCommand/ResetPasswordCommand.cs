@@ -36,8 +36,8 @@ public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand,
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.UserEmail);
         if (user == null)
         {
-            //vrátit výsledek 202 ok 
-            return "eh";
+            //vrací se OK, aby nedošlo k útoku na maily
+            return "";
         }
 
         string code = GeneratedCode();

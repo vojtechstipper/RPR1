@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Domain.Users;
 using ReservationSystemBE.Application.Services;
 using ReservationSystemBE.Infrastructure.Exceptions;
 using ReservationSystemBE.Infrastructure.Persistence;
+using ValidationException = ReservationSystemBE.Infrastructure.Exceptions.ValidationException;
 
 namespace ReservationSystemBE.Application.Users.Commands.SetNewPasswordCommand;
 
@@ -12,6 +14,15 @@ public class SetNewPasswordCommand : IRequest<string>
     public string UserEmail { get; set; }
     public string PasswordResetCode { get; set; }
     public string NewPassword { get; set; }
+}
+public class SetPasswordCommandValidator : AbstractValidator<SetNewPasswordCommand>
+{ 
+    public SetPasswordCommandValidator()
+    {
+        RuleFor(x => x.UserEmail).NotEmpty().EmailAddress();
+        RuleFor(x => x.PasswordResetCode).NotEmpty();
+        RuleFor(x => x.NewPassword).MinimumLength(8).NotEmpty();
+    }
 }
 
 public class SetNewPasswordCommandHandler : IRequestHandler<SetNewPasswordCommand, string>

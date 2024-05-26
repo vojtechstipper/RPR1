@@ -6,6 +6,8 @@ using ReservationSystemBE.Application.Users.Commands;
 using ReservationSystemBE.Application.Users.Commands.ChangePasswordCommand;
 using ReservationSystemBE.Application.Users.Commands.EditUserCommand;
 using ReservationSystemBE.Application.Users.Commands.RegisterUserCommand;
+using ReservationSystemBE.Application.Users.Commands.ResetPasswordCommand;
+using ReservationSystemBE.Application.Users.Commands.SetNewPasswordCommand;
 using ReservationSystemBE.Application.Users.Queries;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -81,4 +83,21 @@ public class UsersController : Controller
         }
         return Ok(await _mediator.Send(command));
     }
+
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> ResetPassword([FromBody] ResetPasswordCommand command)
+    {     
+        return Ok(await _mediator.Send(command));
+    }
+
+    [HttpPost("set-password")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> SetNewPassword([FromBody] SetNewPasswordCommand command)
+    {
+        return Ok(await _mediator.Send(command));
+    }
+
 }

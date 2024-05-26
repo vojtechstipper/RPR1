@@ -279,7 +279,35 @@ const deleteUser = async (userId) => {
   }
 };
 
-export const changePassword = async ({ userId, oldPassword, newPassword }) => {
+const resetPassword = async (passwordResetData) => {
+  try {
+    const response = await api.post(
+      `/users/reset-password`,
+      passwordResetData
+    );
+    toastNotify(response, "Požadavek na reset hesla odeslán!");
+    return response.data;
+  } catch (error) {
+    toastNotify(error.response);
+    throw error;
+  }
+};
+
+const resetSetNewPassword = async (passwordResetData) => {
+  try {
+    const response = await api.post(
+      `/users/set-password`,
+      passwordResetData
+    );
+    toastNotify(response, "Požadavek na reset hesla odeslán!");
+    return response.data;
+  } catch (error) {
+    toastNotify(error.response);
+    throw error;
+  }
+};
+
+const changePassword = async ({ userId, oldPassword, newPassword }) => {
   try {
     const response = await api.put('/users/password', {
       userId, 
@@ -293,10 +321,10 @@ export const changePassword = async ({ userId, oldPassword, newPassword }) => {
     return response.data;
   } catch (error) {
     toastNotify(`Chyba při změně hesla: ${error.message}`, 'error');
+
     throw error;
   }
 };
-
 
 export {
   getProductsGroupped,
@@ -321,7 +349,10 @@ export {
   getUserById,
   editUser,
   deleteUser,
-  sendChangeOrderStepRequest
+  sendChangeOrderStepRequest,
+  resetPassword,
+  resetSetNewPassword,
+  changePassword
 };
 
 function toastNotify(response, successMessage) {

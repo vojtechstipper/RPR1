@@ -4,69 +4,91 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import logo from "../../static/img/logoCCC.jpeg";
-import { useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
+import { resetPassword, resetSetNewPassword } from '../../services/apiService';
 
 const PasswordResetPage = () => {
   const [email, setEmail] = useState('');
+  const [showCode, setShowCode] = useState(false);
+  const [passwordResetCode, setPasswordResetCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [passwordEquals, setPasswordEquals] = useState(false);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Implementujte logiku pro resetování hesla
+  const handlePasswordResetCodeChanged = (event) => {
+    setPasswordResetCode(event.target.value);
+  };
+  const handlePasswordChanged = (event) => {
+    setPassword(event.target.value);
+    if (password === passwordAgain) setPasswordEquals(true);
+    else setPasswordEquals(false);
+  };
+  const handlePasswordAgainChanged = (event) => {
+    
+    setPasswordAgain(event.target.value);
+    if(password===passwordAgain) setPasswordEquals(true);
+      else setPasswordEquals(false)
   };
 
-  const navigate = useNavigate();
 
-  const navigateHome = () => {
-    navigate("/");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if(showCode)
+      {
+        const userData = {
+          userEmail: email,
+          passwordResetCode: passwordResetCode,
+          newPassword: password,
+        };
+        
+        try {
+          const response = await resetSetNewPassword(userData);
+        }
+        catch{}
+      }
+      else{
+
+        const userData = {
+          userEmail: email
+        };
+        
+        try {
+          const response = await resetPassword(userData);
+          setShowCode(true)
+        }
+        catch{}
+      }
   };
 
   return (
     <Box
       sx={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        background: 'white'
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        background: "white",
       }}
     >
-      <IconButton
+      <Paper
+        elevation={3}
         sx={{
-          position: 'absolute',
-          top: '0px',
-          left: '24px',
-          '&:hover': { bgcolor: '#f1efef' },
-          '& .MuiAvatar-root': {
-            width: 48,
-            height: 48,
-            transition: "width 0.3s ease, height 0.3s ease",
-          },
+          padding: "64px",
+          width: "100%",
+          maxWidth: "400px",
+          bgcolor: "#16191b",
+          color: "white",
+          borderRadius: "12px",
         }}
-        onClick={navigateHome}
-        color="inherit"
-        aria-label="company logo"
       >
-        <Avatar src={logo} sx={{ width: 48, height: 48 }} />
-      </IconButton>
-      <Paper elevation={3} sx={{ 
-        padding: '64px', 
-        width: '100%', 
-        maxWidth: '400px', 
-        bgcolor: '#16191b', 
-        color: 'white', 
-        borderRadius: '12px', 
-      }}>
         <Box
           component="form"
-          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           onSubmit={handleSubmit}
           noValidate
           autoComplete="off"
@@ -76,8 +98,8 @@ const PasswordResetPage = () => {
             component="h1"
             gutterBottom
             sx={{
-              textAlign: 'center',
-              fontWeight: 'bold'
+              textAlign: "center",
+              fontWeight: "bold",
             }}
           >
             ZAPOMENUTÉ HESLO
@@ -89,22 +111,76 @@ const PasswordResetPage = () => {
             onChange={handleEmailChange}
             required
             InputProps={{
-              style: { color: 'black', backgroundColor: 'white', borderRadius: '6px' },
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
             }}
           />
-          <Button 
-            variant="contained" 
-            sx={{ 
-              bgcolor: 'red',
-              '&:hover': {
-                bgcolor: '#8b0000',
+          <TextField
+            placeholder="Obnovovací kód "
+            variant="outlined"
+            hidden={!showCode}
+            value={passwordResetCode}
+            onChange={handlePasswordResetCodeChanged}
+            required
+            InputProps={{
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
               },
-              color: 'white',
-              padding: '10px',
-              marginTop: '10px',
-              fontSize: '1rem',
-              borderRadius: '6px',
-            }} 
+            }}
+          />
+          <TextField
+            placeholder="Nové heslo *"
+            type="password"
+            variant="outlined"
+            value={password}
+            hidden={!showCode}
+            onChange={handlePasswordChanged}
+            required
+            InputProps={{
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
+            }}
+          />
+          <TextField
+            placeholder="Nové heslo znovu*"
+            type="password"
+            variant="outlined"
+            value={passwordAgain}
+            hidden={!showCode}
+            onChange={handlePasswordAgainChanged}
+            required
+            error={passwordEquals}
+            helperText={!passwordEquals ? null : "Hesla se musí shodovat"}
+            InputProps={{
+              style: {
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: "6px",
+              },
+            }}
+          />
+
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: "red",
+              "&:hover": {
+                bgcolor: "#8b0000",
+              },
+              color: "white",
+              padding: "10px",
+              marginTop: "10px",
+              fontSize: "1rem",
+              borderRadius: "6px",
+            }}
             type="submit"
           >
             resetovat heslo

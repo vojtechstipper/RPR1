@@ -15,6 +15,7 @@ public class Order : Entity
     /// Na kdy bylo objednáno
     /// </summary>
     public DateTime DateOrdered { get; set; }
+
     public List<OrderItem> OrderItems { get; set; }
     /// <summary>
     /// Identifikátor objednávky ve formátu YYYYMMDDxxx

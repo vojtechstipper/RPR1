@@ -4,10 +4,6 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import logo from "../../static/img/logoCCC.jpeg";
-import { useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
 import { resetPassword, resetSetNewPassword } from '../../services/apiService';
 
 const PasswordResetPage = () => {
@@ -66,12 +62,6 @@ const PasswordResetPage = () => {
         }
         catch{}
       }
-  };
-
-  const navigate = useNavigate();
-
-  const navigateHome = () => {
-    navigate("/");
   };
 
   return (

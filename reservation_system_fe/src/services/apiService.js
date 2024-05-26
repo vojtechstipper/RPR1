@@ -307,6 +307,25 @@ const resetSetNewPassword = async (passwordResetData) => {
   }
 };
 
+const changePassword = async ({ userId, oldPassword, newPassword }) => {
+  try {
+    const response = await api.put('/users/password', {
+      userId, 
+      oldPassword, 
+      newPassword
+    }, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+    });
+
+    toastNotify("Heslo bylo úspěšně změněno!", 'success');
+    return response.data;
+  } catch (error) {
+    toastNotify(`Chyba při změně hesla: ${error.message}`, 'error');
+
+    throw error;
+  }
+};
+
 export {
   getProductsGroupped,
   getProductById,
@@ -332,7 +351,8 @@ export {
   deleteUser,
   sendChangeOrderStepRequest,
   resetPassword,
-  resetSetNewPassword
+  resetSetNewPassword,
+  changePassword
 };
 
 function toastNotify(response, successMessage) {

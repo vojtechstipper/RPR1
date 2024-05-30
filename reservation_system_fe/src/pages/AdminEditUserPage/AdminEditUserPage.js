@@ -75,12 +75,11 @@ function AdminEditUserPage() {
 
     async function fetchUsers() {
         try {
-            const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder)
+            const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder, navigate)
             setUsers(response.data)
             setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání uživatelů:', error);
-            navigate("/error", { state: { error: error.response.status } });
         } finally {
             setIsLoading(false)
         }

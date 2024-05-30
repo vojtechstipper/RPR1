@@ -15,7 +15,7 @@ function Footer() {
             Kontaktní údaje
           </Typography>
           <Typography variant="body2">
-            Informace o provozovateli: (text bude dodán)
+            Informace o provozovateli:
           </Typography>
           <Typography variant="body2">
             Adresa: Moravská Ostrava 3397, Ostrava 702 00

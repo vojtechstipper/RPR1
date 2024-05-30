@@ -20,12 +20,11 @@ function ProductList() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await getProductsGroupped();
+        const response = await getProductsGroupped(navigate);
         setProducts(response);
         setCategories(response);
       } catch (error) {
         console.error("Chyba při načítání produktů:", error);
-        navigate("/error", { state: { error: error.response.status } });
       }
     }
 

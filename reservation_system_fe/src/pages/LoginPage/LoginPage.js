@@ -33,7 +33,7 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await loginUserRequest(userData);
+      const response = await loginUserRequest(userData, navigate);
       if (response.token && response.userInfo) {
         Cookies.set("token", response.token, { expires: 7 });
 
@@ -53,7 +53,6 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      navigate("/error", { state: { error: error.response.status } });
     }
   };
 

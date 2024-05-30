@@ -134,11 +134,10 @@ const EditProductModal = ({open, onClose, itemId}) => {
             if (itemId != null) {
                 await editProduct(jsonData);
             } else {
-                await addProduct(jsonData);
+                await addProduct(jsonData, navigate);
             }
         } catch (error) {
             console.error("Chyba při vkládání produktu:", error);
-            navigate("/error", { state: { error: error.response.status } });
     } finally {
             itemId = null
             onClose();
@@ -174,26 +173,24 @@ const EditProductModal = ({open, onClose, itemId}) => {
     useEffect(() => {
         async function fetchProduct() {
             try {
-                const responseAllergensDropdown = await getAllergensDropdown();
+                const responseAllergensDropdown = await getAllergensDropdown(navigate);
                 setAllergens(responseAllergensDropdown);
 
-                const responseProductTypesDropdown = await getProductTypesDropdown();
+                const responseProductTypesDropdown = await getProductTypesDropdown(navigate);
                 setProductTypes(responseProductTypesDropdown);
 
                 if (itemId != null) {
                     try {
-                        const response = await getProductById(itemId);
+                        const response = await getProductById(itemId, navigate);
                         setProductUpdate(response);
                     } catch (error) {
                         console.error("Chyba při načítání produktu:", error);
-                        navigate("/error", { state: { error: error.response.status } });
                     }
                 } else {
                     setProductUpdate(null);
                 }
             } catch (error) {
                 console.error("Chyba při načítání dat:", error);
-                navigate("/error", { state: { error: error.response ? error.response.status : 'unknown' } });
             }
         }
 

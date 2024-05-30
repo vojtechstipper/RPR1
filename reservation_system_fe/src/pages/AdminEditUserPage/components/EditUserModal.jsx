@@ -121,7 +121,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
         async function fetchUser() {
             if (itemId != null) {
                 try {
-                    const response = await getUserById(itemId);
+                    const response = await getUserById(itemId, navigate);
                     setUserUpdate(response)
                 } catch (error) {
                     console.error("Chyba při načítání uživatelů:", error);

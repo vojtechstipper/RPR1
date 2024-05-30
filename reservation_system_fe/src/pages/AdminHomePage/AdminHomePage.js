@@ -19,12 +19,12 @@ function AdminHomePage() {
     useEffect(() => {
       async function fetchOrders() {
         try {
-          const response = await getNotStartedOrders();
+          const response = await getNotStartedOrders(navigate);
           //init stav objednávek
           setMessages([...response]);
         } catch (error) {
           console.error("Chyba při načítání produktů:", error);
-          navigate("/error", { state: { error: error.response.status } });        }
+        }
     }
 
     fetchOrders();

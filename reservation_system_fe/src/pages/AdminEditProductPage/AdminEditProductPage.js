@@ -71,12 +71,11 @@ function AdminEditProductPage() {
 
     async function fetchProducts() {
         try {
-            const response = await getProductsList(page + 1 , rowsPerPage, orderBy, descendingOrder)
+            const response = await getProductsList(page + 1 , rowsPerPage, orderBy, descendingOrder, navigate)
             setProducts(response.data)
             setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání produktů:', error);
-            navigate("/error", { state: { error: error.response.status } });
     } finally {
             setIsLoading(false)
         }

@@ -25,6 +25,7 @@ function ProductList() {
         setCategories(response);
       } catch (error) {
         console.error("Chyba při načítání produktů:", error);
+        navigate("/error", { state: { error: error.response.status } });
       }
     }
 

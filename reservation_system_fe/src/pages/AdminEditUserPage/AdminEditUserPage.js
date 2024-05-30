@@ -80,6 +80,7 @@ function AdminEditUserPage() {
             setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání uživatelů:', error);
+            navigate("/error", { state: { error: error.response.status } });
         } finally {
             setIsLoading(false)
         }

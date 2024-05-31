@@ -84,7 +84,6 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, str
 
         var orderItemsForMessage = orderItems.Select(x => new OrderItemDto() { ProductName = x.Product.Name, Count = x.Count }).ToList();
 
-        //TODO provolání servicy, která pošle event
         await _hub.Clients.All.SendAsync("ReceivedOrder", new OrderMessage()
         {
             Id = order.Id,
@@ -102,7 +101,6 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, str
     }
     static string GenerateRandomNumberString(Random random, int length)
     {
-        // Generate a string of specified length with random digits
         char[] digits = new char[length];
         for (int i = 0; i < length; i++)
         {

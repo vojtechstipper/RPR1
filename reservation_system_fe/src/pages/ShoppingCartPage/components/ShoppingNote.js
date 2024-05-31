@@ -17,6 +17,9 @@ const ShoppingNote = ({ onTimeChange,onNoteChange }) => {
         const response = await getOrderTimesDropdown(navigate);
         setTimes(response);
         setTime(response[0].time)
+        onTimeChange(response[0].time);
+        console.log("časyyyy")
+        console.log(response[0].time)
       } catch (error) {
         console.error("Chyba při načítání alergenů:", error);
       }

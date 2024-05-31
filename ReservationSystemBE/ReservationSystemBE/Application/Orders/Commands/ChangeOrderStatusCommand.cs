@@ -74,8 +74,6 @@ public class ChangeOrderStatusCommandHandler : IRequestHandler<ChangeOrderStatus
                 }).ToList()
             };
 
-
-            //TODO provolání servicy na odeslání notifikace uživateli
             await _notifier.SendEmail(order.User.Email, $"{order.User.FirstName} {order.User.SecondName}", order.Status, orderMailData);
             return new OrderStatusChangedDto(order.Status);
         }

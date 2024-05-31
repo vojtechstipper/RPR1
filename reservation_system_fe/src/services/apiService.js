@@ -11,24 +11,39 @@ const getProducts = async () => {
   }
 };
 
-const getAllergens = async () => {
+
+const getAllergens = async (navigate) => {
   try {
     const response = await api.get("/allergen/list");
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.message === 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.') {
+      navigate("/error", { state: { error: 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.' } });
+    } else if (error.response) {
+      navigate("/error", { state: { error: error.response.status } });
+    } else {
+      console.error('An error occurred:', error.message);
+      navigate("/error", { state: { error: error.message } });
+    }
   }
 };
 
-const getProductsGroupped = async () => {
+const getProductsGroupped = async (navigate) => {
   try {
     const response = await api.get("/product/groupped");
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.message === 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.') {
+      navigate("/error", { state: { error: 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.' } });
+    } else if (error.response) {
+      navigate("/error", { state: { error: error.response.status } });
+    } else {
+      console.error('An error occurred:', error.message);
+      navigate("/error", { state: { error: error.message } });
+    }
   }
 };
-const getProductsList = async (Page , Count, OrderBy, DescendingOrder ) => {
+const getProductsList = async (Page , Count, OrderBy, DescendingOrder, navigate) => {
   try {
     const response = await api.get("/product/list", {
       params: {
@@ -41,12 +56,19 @@ const getProductsList = async (Page , Count, OrderBy, DescendingOrder ) => {
     });
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.message === 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.') {
+      navigate("/error", { state: { error: 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.' } });
+    } else if (error.response) {
+      navigate("/error", { state: { error: error.response.status } });
+    } else {
+      console.error('An error occurred:', error.message);
+      navigate("/error", { state: { error: error.message } });
+    }
   }
 };
 
 // Funkce pro přidání produktu
-const addProduct = async (productData) => {
+const addProduct = async (productData, navigate) => {
   try {
     const response = await api.post("/product", productData, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
@@ -54,7 +76,7 @@ const addProduct = async (productData) => {
     toastNotify(response, "Produkt přidán!");
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
@@ -68,7 +90,6 @@ const editProduct = async (productData) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 
@@ -81,19 +102,18 @@ const deleteProduct = async (productId) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 
 // Funkce pro získání produktu podle ID
-const getProductById = async (productId) => {
+const getProductById = async (productId, navigate) => {
   try {
     const response = await api.get(`/product/${productId}`, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
@@ -106,7 +126,6 @@ const uploadImage = async (image) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 const getImage = async (imageId) => {
@@ -114,51 +133,57 @@ const getImage = async (imageId) => {
     const response = await api.get(`/`, imageId);
     return response.data;
   } catch (error) {
-    throw error;
   }
 };
 
-const getAllergensDropdown = async () => {
+const getAllergensDropdown = async (navigate) => {
   try {
     const response = await api.get(`/allergen/dropdown`, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
-const getProductTypesDropdown = async () => {
+const getProductTypesDropdown = async (navigate) => {
   try {
     const response = await api.get(`/productstypes/dropdown`, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
-const getNotStartedOrders = async () => {
+const getNotStartedOrders = async (navigate) => {
   try {
     const response = await api.get(`/order/not-started`, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.message === 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.') {
+      navigate("/error", { state: { error: 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.' } });
+    } else if (error.response) {
+      navigate("/error", { state: { error: error.response } });
+    } else {
+      console.error('An error occurred:', error.message);
+      navigate("/error", { state: { error: error.message } });
+    }
   }
 };
 
-const getOrderTimesDropdown = async () => {
+const getOrderTimesDropdown = async (navigate) => {
   try {
     const response = await api.get(`/order/order-times`, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
@@ -171,18 +196,17 @@ const sendOrder = async (orderData) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 
-const sendChangeOrderStatusRequest = async (orderStatus) => {
+const sendChangeOrderStatusRequest = async (orderStatus, navigate) => {
   try {
     const response = await api.post("/order/accept", orderStatus, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
@@ -197,27 +221,27 @@ const sendChangeOrderStepRequest = async (orderStatus) => {
   // }
 };
 
-const loginUserRequest = async (userData) => {
+const loginUserRequest = async (userData, navigate) => {
   try {
     const response = await api.post("/auth/login", userData);
     toastNotify(response, "Uživatel přihlášen!");
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
-const registerUserRequest = async (userData) => {
+const registerUserRequest = async (userData, navigate) => {
   try {
     const response = await api.post("/users", userData);
     toastNotify(response, "Zaregistrován!");
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
-const getUsers = async (Page , Count, Filter, OrderBy, DescendingOrder ) => {
+const getUsers = async (Page , Count, Filter, OrderBy, DescendingOrder, navigate ) => {
   try {
 
     const params = {
@@ -238,18 +262,25 @@ const getUsers = async (Page , Count, Filter, OrderBy, DescendingOrder ) => {
 
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.message === 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.') {
+      navigate("/error", { state: { error: 'Připojení bylo odmítnuto. Zkontrolujte, zda je server spuštěn.' } });
+    } else if (error.response) {
+      navigate("/error", { state: { error: error.response.status } });
+    } else {
+      console.error('An error occurred:', error.message);
+      navigate("/error", { state: { error: error.message } });
+    }
   }
 };
 
-const getUserById = async (userId) => {
+const getUserById = async (userId, navigate) => {
   try {
     const response = await api.get(`/users/${userId}`, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw error;
+    navigate("/error", { state: { error: error.response.status } });
   }
 };
 
@@ -262,7 +293,6 @@ const editUser = async (userData) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 
@@ -275,7 +305,6 @@ const deleteUser = async (userId) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 
@@ -289,7 +318,6 @@ const resetPassword = async (passwordResetData) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 
@@ -303,7 +331,6 @@ const resetSetNewPassword = async (passwordResetData) => {
     return response.data;
   } catch (error) {
     toastNotify(error.response);
-    throw error;
   }
 };
 
@@ -321,8 +348,6 @@ const changePassword = async ({ userId, oldPassword, newPassword }) => {
     return response.data;
   } catch (error) {
     toastNotify(`Chyba při změně hesla: ${error.message}`, 'error');
-
-    throw error;
   }
 };
 

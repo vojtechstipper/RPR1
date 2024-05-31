@@ -9,14 +9,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';  // Import navigate funkce
 
 const AllergensList = () => {
   const [allergens, setAllergens] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchAllergens() {
       try {
-        const response = await getAllergens();
+        const response = await getAllergens(navigate);
         setAllergens(response);
       } catch (error) {
         console.error('Chyba při načítání alergenů:', error);

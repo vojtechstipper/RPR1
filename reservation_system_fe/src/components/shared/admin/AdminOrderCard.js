@@ -1,16 +1,18 @@
 import { Button, Card, CardContent, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { sendChangeOrderStatusRequest } from "../../../services/apiService";
+import {useNavigate} from "react-router-dom";
 
 const AdminOrderCard = ({data}) => {
     const [order, setOrder] = useState(null);
     const [visibleButtons, setButtonsvisible] = useState(false);
-  
-    const sendChangeOrderStatus = async (accept) => {
+    const navigate = useNavigate();
+
+  const sendChangeOrderStatus = async (accept) => {
       await sendChangeOrderStatusRequest({
         orderId: data.id,
         status: accept ? "Accepted" : "Declined",
-      });
+      }, navigate);
 
       data.orderStatus = accept ? "NotStarted" : "Canceled";
     setButtonsvisible(true)

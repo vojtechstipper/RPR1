@@ -42,14 +42,15 @@ function HomePage() {
             fontWeight="bold"
             textAlign={matches ? "center" : "left"}
           >
-            Vítá vás City Campus Coffee
+            City Campus Coffee
           </Typography>
           <Typography
             variant="subtitle1"
             sx={{ mb: 2, textAlign: matches ? "center" : "left" }}
           >
-            Jsme kavárna/bistro/školní bufet/bar a mnoho dalšího. Jsme přesně
-            to, co zrovna potřebujete (provizorní text).
+            Vítejte v naší kavárně, která nabízí mnohem více než jen skvělou kávu. U nás si můžete vychutnat lahodný croissant z Croissant House nebo naše domácí sladké dobroty. Pro fanoušky sportovních utkání máme čepovanou kofolu nebo pivo a k tomu párky či toasty.
+
+            V naší kavárně najdete vše, co si jen můžete přát. Těšíme se na Vaši návštěvu.
           </Typography>
           <Box
             display="flex"

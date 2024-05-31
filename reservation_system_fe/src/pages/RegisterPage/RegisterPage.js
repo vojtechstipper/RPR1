@@ -45,7 +45,7 @@ const RegisterPage = () => {
     };
 
     try { //TODO same code in the login page -> extract code to the function?
-      const response = await registerUserRequest(userData);
+      const response = await registerUserRequest(userData, navigate);
       if (response.token && response.userInfo) {
         Cookies.set("token", response.token, { expires: 7 });
 
@@ -63,6 +63,7 @@ const RegisterPage = () => {
       }
     } catch (error) {
       console.error("Login failed:", error);
+        navigate("/error", { state: { error: error.response.status } });
     }
   };
 

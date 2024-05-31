@@ -16,6 +16,7 @@ import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 import EditUserModal from './components/EditUserModal';
 import {getUsers} from '../../services/apiService';
 import {TableCell, TableRow} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function AdminEditUserPage() {
     const [page, setPage] = useState(0);
@@ -29,6 +30,7 @@ function AdminEditUserPage() {
     const [itemId, setItemId] = useState(null)
     const [isLoading, setIsLoading] = useState(true);
     const [descendingOrder, setDescendingOrder] = useState(false);
+    const navigate = useNavigate();
 
 
     const handleSort = (event, id) => {
@@ -73,14 +75,12 @@ function AdminEditUserPage() {
 
     async function fetchUsers() {
         try {
-            // console.log("page " + (page + 1) + " rows " + rowsPerPage + " orderBy " + orderBy + " desc " + descendingOrder)
-            // console.log(orderBy)
-            // console.log(descendingOrder)
-            const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder)
+            const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder, navigate)
             setUsers(response.data)
             setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání uživatelů:', error);
+            navigate("/error", { state: { error: error.response.status } });
         } finally {
             setIsLoading(false)
         }

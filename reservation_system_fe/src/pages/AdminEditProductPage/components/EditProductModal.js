@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {toast} from "react-toastify";
 import Stack from "@mui/material/Stack";
 import nophoto from "../../../static/img/nophoto.jpg"
+import {useNavigate} from "react-router-dom";
 
 const EditProductModal = ({open, onClose, itemId}) => {
     const [productName, setProductName] = useState("");
@@ -33,6 +34,7 @@ const EditProductModal = ({open, onClose, itemId}) => {
     const [product, setProduct] = useState(null);
     const [allergens, setAllergens] = useState([]);
     const [productTypes, setProductTypes] = useState([]);
+    const navigate = useNavigate();
 
     const handleProductNameChanged = (e) => setProductName(e.target.value);
     const handleProductPriceValueChanged = (e) => setProductPriceValue(e.target.value);
@@ -132,11 +134,11 @@ const EditProductModal = ({open, onClose, itemId}) => {
             if (itemId != null) {
                 await editProduct(jsonData);
             } else {
-                await addProduct(jsonData);
+                await addProduct(jsonData, navigate);
             }
         } catch (error) {
             console.error("Chyba při vkládání produktu:", error);
-        } finally {
+    } finally {
             itemId = null
             onClose();
             setProduct(null);
@@ -170,25 +172,30 @@ const EditProductModal = ({open, onClose, itemId}) => {
 
     useEffect(() => {
         async function fetchProduct() {
-            const responseAllergensDropdown = await getAllergensDropdown();
-            setAllergens(responseAllergensDropdown);
-            const responseProductTypesDropdown = await getProductTypesDropdown();
-            setProductTypes(responseProductTypesDropdown);
+            try {
+                const responseAllergensDropdown = await getAllergensDropdown(navigate);
+                setAllergens(responseAllergensDropdown);
 
-            if (itemId != null) {
-                try {
-                    const response = await getProductById(itemId);
-                    setProductUpdate(response);
-                } catch (error) {
-                    console.error("Chyba při načítání produktu:", error);
+                const responseProductTypesDropdown = await getProductTypesDropdown(navigate);
+                setProductTypes(responseProductTypesDropdown);
+
+                if (itemId != null) {
+                    try {
+                        const response = await getProductById(itemId, navigate);
+                        setProductUpdate(response);
+                    } catch (error) {
+                        console.error("Chyba při načítání produktu:", error);
+                    }
+                } else {
+                    setProductUpdate(null);
                 }
-            } else {
-                setProductUpdate(null);
+            } catch (error) {
+                console.error("Chyba při načítání dat:", error);
             }
         }
 
         fetchProduct();
-    }, [itemId]);
+    }, [itemId, navigate]);
 
     useEffect(() => {
         if (imageId) {

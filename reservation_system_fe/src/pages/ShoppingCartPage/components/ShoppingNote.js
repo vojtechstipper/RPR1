@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Grid, Typography, TextField, Divider, Select, MenuItem } from "@mui/material";
 import Box from "@mui/material/Box";
 import { getOrderTimesDropdown } from "../../../services/apiService";
+import {useNavigate} from "react-router-dom";
 
 const ShoppingNote = ({ onTimeChange,onNoteChange }) => {
   const [times, setTimes] = useState([]);
   const [orderNote, setOrderNote] = useState("");
   const [time, setTime] = useState(getCurrentTime());
+  const navigate = useNavigate();
 
 
   useEffect(() => {
     async function fetchTimes() {
       try {
-        const response = await getOrderTimesDropdown();
+        const response = await getOrderTimesDropdown(navigate);
         setTimes(response);
         setTime(response[0].time)
       } catch (error) {

@@ -17,11 +17,13 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import BlockIcon from "@mui/icons-material/Block";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
+import {useNavigate} from "react-router-dom";
 import { editUser, changePassword } from "../../../services/apiService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const UserInfo = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
@@ -130,6 +132,7 @@ const UserInfo = () => {
     } catch (error) {
       console.error("Chyba při upravě uživatele:", error);
       toast.error("Chyba při upravě uživatele.");
+      navigate("/error", { state: { error: error.response.status } });
     }
   };
 

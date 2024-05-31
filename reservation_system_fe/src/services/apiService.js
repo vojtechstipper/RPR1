@@ -25,7 +25,6 @@ const getAllergens = async (navigate) => {
       console.error('An error occurred:', error.message);
       navigate("/error", { state: { error: error.message } });
     }
-    throw error;
   }
 };
 
@@ -42,7 +41,6 @@ const getProductsGroupped = async (navigate) => {
       console.error('An error occurred:', error.message);
       navigate("/error", { state: { error: error.message } });
     }
-    throw error;
   }
 };
 const getProductsList = async (Page , Count, OrderBy, DescendingOrder, navigate) => {
@@ -66,7 +64,6 @@ const getProductsList = async (Page , Count, OrderBy, DescendingOrder, navigate)
       console.error('An error occurred:', error.message);
       navigate("/error", { state: { error: error.message } });
     }
-    throw error;
   }
 };
 
@@ -80,7 +77,6 @@ const addProduct = async (productData, navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -120,7 +116,6 @@ const getProductById = async (productId, navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -153,7 +148,6 @@ const getAllergensDropdown = async (navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -165,7 +159,6 @@ const getProductTypesDropdown = async (navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -184,7 +177,6 @@ const getNotStartedOrders = async (navigate) => {
       console.error('An error occurred:', error.message);
       navigate("/error", { state: { error: error.message } });
     }
-    throw error;
   }
 };
 
@@ -196,7 +188,6 @@ const getOrderTimesDropdown = async (navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -221,7 +212,6 @@ const sendChangeOrderStatusRequest = async (orderStatus, navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -243,7 +233,6 @@ const loginUserRequest = async (userData, navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -254,7 +243,6 @@ const registerUserRequest = async (userData, navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 
@@ -286,7 +274,7 @@ const getUsers = async (Page , Count, Filter, OrderBy, DescendingOrder, navigate
     } else {
       console.error('An error occurred:', error.message);
       navigate("/error", { state: { error: error.message } });
-    }    throw error;
+    }
   }
 };
 
@@ -298,7 +286,6 @@ const getUserById = async (userId, navigate) => {
     return response.data;
   } catch (error) {
     navigate("/error", { state: { error: error.response.status } });
-    throw error;
   }
 };
 

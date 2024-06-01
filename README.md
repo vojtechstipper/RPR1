@@ -5,7 +5,7 @@ Projekt vytvořený v rámci předmětu ROPR1 a ROPR2. Jedná se o rezervační 
 
 ## Lokální vývoj
 
-Pro lokální vývoj je zapotřebí mít nainstalovaný .NET 6 a Docker a Node.js
+Pro lokální vývoj je zapotřebí mít nainstalovaný .NET 6 a Docker Desktop a Node.js LTS (v20.14.0)
 
 ### Docker
 Je zde kvůli databázi a to konkrétně MS SQL 2022

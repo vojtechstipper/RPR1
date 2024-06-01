@@ -8,12 +8,15 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { loginUserRequest } from "../../services/apiService";
 import Cookies from "js-cookie";
+import { useShoppingCart } from "../../components/ShoppingCartContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { clearCart } = useShoppingCart();
+  const navigate = useNavigate();
 
-  const handleEmailChange = (event) => {
+    const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
@@ -30,25 +33,29 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await loginUserRequest(userData);
+      const response = await loginUserRequest(userData, navigate);
       if (response.token && response.userInfo) {
-        Cookies.set("token", response.token, {expires: 7});
+        Cookies.set("token", response.token, { expires: 7 });
 
         // save user info
         localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
 
         navigate("/");
 
-        window.dispatchEvent(new Event("authChanged"));
+        clearCart();
+        localStorage.setItem("logged_in", true);
+        window.dispatchEvent(new CustomEvent("authChanged", {
+          detail: { isLoggedIn: true }  // Zde předáváme, že uživatel je přihlášen
+        }));
+        
       } else {
         console.error("Missing token or user information in the response.");
       }
     } catch (error) {
       console.error("Login failed:", error);
+      navigate("/error", { state: { error: error.response.status } });
     }
   };
-
-  const navigate = useNavigate();
 
   return (
     <Box
@@ -122,7 +129,7 @@ const LoginPage = () => {
             }}
           />
           <Link
-            to="/forgotPassword"
+            to="/forgottenpassword"
             style={{
               color: "white",
               textDecoration: "none",

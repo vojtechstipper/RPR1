@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/layout/MainLayout/Navbar";
-import Footer from "../../components/layout/MainLayout/Footer";
 import ShoppingCart from "./components/ShoppingCart";
 import Box from "@mui/material/Box";
 import ShoppingNote from "./components/ShoppingNote";
@@ -8,26 +6,25 @@ import OrderButton from "../../components/global/OrderButton";
 import { useShoppingCart } from "../../components/ShoppingCartContext";
 
 function ShoppingCartPage() {
-    const {cartData} = useShoppingCart();
-    const [orderTime, setOrderTime] = useState("");
-    const [orderNote, setOrderNote] = useState("");
-  
-    useEffect(() => {
-    }, [cartData]);
-  
-    const updateOrderTime = (time) => {     
-      setOrderTime(time);
-    };
-    const updateOrderNote = (note) => {
-      setOrderNote(note);
-    };
+  const { cartData } = useShoppingCart();
+  const [orderTime, setOrderTime] = useState("");
+  const [orderNote, setOrderNote] = useState("");
+
+  useEffect(() => {}, [cartData]);
+
+  const updateOrderTime = (time) => {
+    setOrderTime(time);
+  };
+  const updateOrderNote = (note) => {
+    setOrderNote(note);
+  };
 
   return (
-    <div>
+    <div style={{ marginTop: "60px" }}>
       <Box
         sx={{
-          backgroundColor: "#d3d3d3",
-          padding: "40px",
+          backgroundColor: "#f1efef",
+          padding: "5px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -50,8 +47,8 @@ function ShoppingCartPage() {
       <Box
         sx={{
           marginTop: "50px",
-          backgroundColor: "#d3d3d3",
-          padding: "40px",
+          backgroundColor: "#f1efef",
+          padding: "5px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -78,6 +75,6 @@ function ShoppingCartPage() {
       </Box>
     </div>
   );
-};
+}
 
 export default ShoppingCartPage;

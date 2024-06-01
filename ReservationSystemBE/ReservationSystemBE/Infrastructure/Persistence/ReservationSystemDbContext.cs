@@ -14,6 +14,7 @@ public class ReservationSystemDbContext : DbContext
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<PasswordResetCode> PasswordResetCodes => Set<PasswordResetCode>();
 
 
     public ReservationSystemDbContext(DbContextOptions options) : base(options)

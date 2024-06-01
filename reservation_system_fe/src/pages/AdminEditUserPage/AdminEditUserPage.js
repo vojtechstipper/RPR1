@@ -1,4 +1,4 @@
-﻿import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
@@ -14,29 +14,40 @@ import Scrollbar from "../../components/global/scrollbar";
 import {applyFilter, emptyRows, getComparator} from "./table_related/utils";
 import AdminSideBar from '../../components/shared/admin/AdminSidebar';
 import EditUserModal from './components/EditUserModal';
-import { getUsers } from '../../services/apiService';
+import {getUsers} from '../../services/apiService';
+import {TableCell, TableRow} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function AdminEditUserPage() {
     const [page, setPage] = useState(0);
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState(['name', 'email']);
-    const [filterName, setFilterName] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [totalCount, setTotalCount] = useState(0);
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('email');
+    const [filterName, setFilterName] = useState('');
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [itemId, setItemId] = useState(null)
+    const [isLoading, setIsLoading] = useState(true);
+    const [descendingOrder, setDescendingOrder] = useState(false);
+    const navigate = useNavigate();
 
 
     const handleSort = (event, id) => {
+        setPage(0)
         const isAsc = orderBy === id && order === 'asc';
         if (id !== '') {
             setOrder(isAsc ? 'desc' : 'asc');
             setOrderBy(id);
         }
+        if (order === "asc"){
+            setDescendingOrder(false)
+        }else setDescendingOrder(true)
     };
 
     const handleCancelEdit = () => {
         setEditModalOpen(false);
+        setItemId(null);
         fetchUsers();
     };
 
@@ -52,37 +63,32 @@ function AdminEditUserPage() {
 
     const handleFilterByName = (event) => {
         setPage(0);
-        console.log(event.target.value);
         setFilterName(event.target.value);
     };
-
-    const dataFiltered = applyFilter({
-        inputData: users,
-        comparator: getComparator(order, orderBy),
-        filterName,
-    });
 
     const handleClick = () => {
         setEditModalOpen(true);
     };
 
-    const notFound = !dataFiltered.length && !!filterName;
+    const notFound = !users.length && !!filterName;
+
 
     async function fetchUsers() {
         try {
-            const response = await getUsers();
-            setUsers(response.data);
-            console.log(response.data)
+            const response = await getUsers( page + 1 , rowsPerPage,filterName, orderBy, descendingOrder, navigate)
+            setUsers(response.data)
+            setTotalCount(response.totalCount)
         } catch (error) {
             console.error('Chyba při načítání uživatelů:', error);
+            navigate("/error", { state: { error: error.response.status } });
+        } finally {
+            setIsLoading(false)
         }
     }
 
     useEffect(() => {
-
-
         fetchUsers();
-    }, []);
+    }, [page, rowsPerPage, filterName, orderBy, order]);
 
 
     return (
@@ -114,8 +120,14 @@ function AdminEditUserPage() {
                                     ]}
                                 />
                                 <TableBody>
-                                    {dataFiltered
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={3}>
+                                                    Loading...
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : (
+                                        users
                                         .map((row) => (
                                             <UserTableRow
                                                 key={row.id}
@@ -129,12 +141,13 @@ function AdminEditUserPage() {
                                                 isStudent={row.isStudent}
                                                 handleClick={handleClick}
                                                 setItemId={setItemId}
+                                                fetchUsers={fetchUsers}
                                             />
-                                        ))}
+                                        )))}
 
                                     <TableEmptyRows
                                         height={77}
-                                        emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                                        emptyRows={emptyRows(page, rowsPerPage)}
                                     />
 
                                     {notFound && <TableNoData query={filterName} />}
@@ -147,11 +160,18 @@ function AdminEditUserPage() {
                         labelRowsPerPage={"Počet řádků na straně"}
                         page={page}
                         component="div"
-                        count={users.length}
+                        count={totalCount}
                         rowsPerPage={rowsPerPage}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        sx={{
+                            ".MuiTablePagination-displayedRows, .MuiTablePagination-selectLabel": {
+                                "margin-top": "1em",
+                                "margin-bottom": "1em"
+                            }
+
+                        }}
                     />
 
                 </Card>

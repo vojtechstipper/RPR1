@@ -8,10 +8,8 @@ using ReservationSystemBE.Infrastructure.Persistence;
 
 namespace ReservationSystemBE.Application.Users.Queries;
 
-public class PaginatedUsersQuery : IRequest<PaginatedResult<UserDto>>
+public class PaginatedUsersQuery : PaginationFiltering, IRequest<PaginatedResult<UserDto>>
 {
-    public int Page { get; set; } = 1;
-    public int Count { get; set; } = 20;
 }
 
 public class PaginatedUsersQueryValidator : AbstractValidator<PaginatedUsersQuery>
@@ -48,8 +46,67 @@ public class PaginatedUsersQueryHandler : IRequestHandler<PaginatedUsersQuery, P
 
     public async Task<PaginatedResult<UserDto>> Handle(PaginatedUsersQuery request, CancellationToken cancellationToken)
     {
-        var totalCount = await _context.Users.CountAsync();
-        var users = await _mapper.ProjectTo<UserDto>(_context.Users.Skip((request.Page - 1) * request.Count).Take(request.Count)).ToListAsync();
-        return new PaginatedResult<UserDto>() { CurrentPage = request.Page, Data = users, TotalCount = totalCount };
+        //var totalCount = await _context.Users.CountAsync();
+        var usersQuery = _context.Users.AsQueryable();
+
+        if (!string.IsNullOrEmpty(request.Filter))
+        {
+            usersQuery = usersQuery.Where(x => x.Email.Contains(request.Filter));
+        }
+
+        if (!string.IsNullOrEmpty(request.OrderBy))
+        {
+            switch (request.OrderBy.Trim().ToLower())
+            {
+                case "email":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.Email);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.Email);
+                    break;
+                case "role":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.Role);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.Role);
+                    break;
+                case "active":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.Active);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.Active);
+                    break;
+                case "isstudent":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.IsStudent);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.IsStudent);
+                    break;
+                case "secondname":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.SecondName);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.SecondName);
+                    break;
+                case "isverified":
+                    if (request.DescendingOrder is not null && request.DescendingOrder == true)
+                    {
+                        usersQuery = usersQuery.OrderByDescending(x => x.IsVerified);
+                    }
+                    else usersQuery = usersQuery.OrderBy(x => x.IsVerified);
+                    break;
+            }
+        }
+
+        var totalcount = await usersQuery.CountAsync();
+        usersQuery = usersQuery.Skip((request.Page - 1) * request.Count).Take(request.Count);
+
+        var users = await _mapper.ProjectTo<UserDto>(usersQuery).ToListAsync();
+        return new PaginatedResult<UserDto>() { CurrentPage = request.Page, Data = users, TotalCount = totalcount };
     }
 }

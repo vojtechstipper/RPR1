@@ -19,12 +19,14 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import logo from "../../../static/img/logoCCC.jpeg";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useNavigate } from "react-router-dom";
+import { useShoppingCart } from "../../../components/ShoppingCartContext";
 
 export default function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
+  const { clearCart } = useShoppingCart();
 
   useEffect(() => {
     const handleAuthChange = () => {
@@ -39,11 +41,21 @@ export default function ResponsiveAppBar() {
       }
     };
 
+    // Poslouchání události storage
+    const handleStorageChange = (event) => {
+      if (event.key === "logged_out" || event.key === "logged_in") {
+        handleAuthChange();
+        localStorage.removeItem(event.key);
+      }
+    };
+
     handleAuthChange();
     window.addEventListener("authChanged", handleAuthChange);
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
       window.removeEventListener("authChanged", handleAuthChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -51,7 +63,9 @@ export default function ResponsiveAppBar() {
     Cookies.remove("token");
     setIsAuthenticated(false);
     navigate("/login");
-    window.dispatchEvent(new Event("authChanged"));
+    localStorage.setItem("logged_out", "true");
+    localStorage.removeItem("userInfo");
+    clearCart();
   };
 
   const handleDrawerToggle = () => {
@@ -191,7 +205,15 @@ export default function ResponsiveAppBar() {
                   <PersonOutlineIcon />
                 </IconButton>
                 <Typography
-                  sx={{ display: { xs: "none", sm: "block" }, marginRight: 2 }}
+                  onClick={handleNavigate("/userinfo")}
+                  sx={{
+                    display: { xs: "none", sm: "block" },
+                    marginRight: 2,
+                    cursor: "pointer",
+                    "&:hover": {
+                      color: "black",
+                    },
+                  }}
                 >
                   {userName && userName}
                 </Typography>

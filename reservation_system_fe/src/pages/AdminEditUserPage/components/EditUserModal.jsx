@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -13,6 +14,7 @@ import {
     editUser,
 } from "../../../services/apiService";
 import "react-toastify/dist/ReactToastify.css";
+import {useNavigate} from "react-router-dom";
 
 const EditUserModal = ({ open, onClose, itemId }) => {
 
@@ -24,18 +26,51 @@ const EditUserModal = ({ open, onClose, itemId }) => {
     const [userIsStudent, setUserIsStudent] = useState(null);
     //const [userStatus, setUserStatus] = useState(null);
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    const handleUserNameChanged = (e) => setUserName(e.target.value);
-    const handleUserSurnameChanged = (e) => setUserSurname(e.target.value);
-    const handleUserEmailChanged = (e) => setUserEmail(e.target.value);
+    const isValidEmail = (userEmail) => {
+        // Základní regulární výraz pro validaci e-mailové adresy
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(userEmail);
+    };
+
+    const handleUserNameChanged = (e) => {
+        setUserName(e.target.value);
+    };
+
+    const handleUserSurnameChanged = (e) => {
+        setUserSurname(e.target.value);
+    };
+
+    const handleUserEmailChanged = (e) => {
+        setUserEmail(e.target.value);
+    };
 
     const handleExitClicked = () => {
-        itemId = null;
+        itemId = "";
+        console.log(itemId)
+        setUserUpdate(user)
         onClose();
-        setUser(null);
     };
 
     const handleSaveClicked = async () => {
+
+        if (!userName || !userSurname || !userEmail) {
+            console.error("Jméno, příjmení a email musí být vyplněny.");
+            toast.error("Jméno, příjmení a email musí být vyplněny.");
+            // setUser(null);
+            itemId = null
+            return;
+        }
+
+        if (!isValidEmail(userEmail)) {
+            console.error("Emailová adresa není platná.");
+            toast.error("Emailová adresa není platná.");
+            // setUser(null);
+            itemId = null
+            return;
+        }
+
         const jsonData = {
             id: itemId,
             name: userName,
@@ -44,8 +79,8 @@ const EditUserModal = ({ open, onClose, itemId }) => {
             isVerified: userIsVerified,
             isStudent: userIsStudent,
             role: userRole,
-            //active: userStatus
         };
+
         try {
             if (itemId != null) {
                 await editUser(jsonData);
@@ -53,40 +88,47 @@ const EditUserModal = ({ open, onClose, itemId }) => {
         } catch (error) {
             console.log(jsonData)
             console.error("Chyba při vkládání uživatele:", error);
+            navigate("/error", { state: { error: error.response.status } });
+        } finally {
+            itemId = null
+            onClose();
+            setUser(null);
+            console.log(itemId)
         }
-        itemId=null;
-        onClose();
-        setUser(null);
     };
+
+    const setUserUpdate = (user) => {
+        if(user === null){
+            setUser(null);
+            setUserName("");
+            setUserSurname("");
+            setUserEmail("");
+            setUserIsVerified(null);
+            setUserIsStudent(null);
+            setUserRole("");
+        } else {
+            setUserName(user.firstName);
+            setUserSurname(user.secondName);
+            setUserEmail(user.email);
+            setUserIsVerified(user.isVerified);
+            setUserIsStudent(user.isStudent);
+            setUserRole(user.role);
+            setUser(user)
+        }
+    }
 
     useEffect(() => {
         async function fetchUser() {
-
             if (itemId != null) {
                 try {
-                    const response = await getUserById(itemId);
-                    setUser(response);
-                    setUserName(response.firstName);
-                    setUserSurname(response.secondName);
-                    setUserEmail(response.email);
-                    setUserIsVerified(response.isVerified);
-                    setUserIsStudent(response.isStudent);
-                    setUserRole(response.role);
-                    //setUserStatus(response.status);
-                    console.log(response);
+                    const response = await getUserById(itemId, navigate);
+                    setUserUpdate(response)
                 } catch (error) {
                     console.error("Chyba při načítání uživatelů:", error);
                 }
             }
             else{
-                setUser(null);
-                setUserName("");
-                setUserSurname("");
-                setUserEmail("");
-                setUserIsVerified(null);
-                setUserIsStudent(null);
-                setUserRole("");
-                //setUserStatus(null);
+                setUserUpdate(null)
             }
         }
 
@@ -157,6 +199,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                                     control={<Radio />}
                                     label="User"
                                     onChange={(e) => setUserRole(e.target.value)}
+                                    style={{ marginRight: '45px' }}
                                 />
                                 <FormControlLabel
                                     value="Admin"
@@ -182,6 +225,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                                     control={<Radio />}
                                     label="Ano"
                                     onChange={() => setUserIsVerified(!userIsVerified)}
+                                    style={{ marginRight: '50px' }}
                                 />
                                 <FormControlLabel
                                     value={false}
@@ -207,6 +251,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                                     control={<Radio />}
                                     label="Ano"
                                     onChange={() => setUserIsStudent(!userIsStudent)}
+                                    style={{ marginRight: '50px' }}
                                 />
                                 <FormControlLabel
                                     value={false}
@@ -243,7 +288,7 @@ const EditUserModal = ({ open, onClose, itemId }) => {
                             </RadioGroup>
                         </FormControl>
                     </Grid>*/}
-                    <Grid container spacing={1}>
+                    <Grid container spacing={1} paddingTop={3}>
                         <Grid item xs>
                             <Button
                                 variant="contained"

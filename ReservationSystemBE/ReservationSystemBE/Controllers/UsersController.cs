@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReservationSystem.Shared.DTO;
 using ReservationSystemBE.Application.Users.Commands;
+using ReservationSystemBE.Application.Users.Commands.ChangePasswordCommand;
 using ReservationSystemBE.Application.Users.Commands.EditUserCommand;
 using ReservationSystemBE.Application.Users.Commands.RegisterUserCommand;
+using ReservationSystemBE.Application.Users.Commands.ResetPasswordCommand;
+using ReservationSystemBE.Application.Users.Commands.SetNewPasswordCommand;
 using ReservationSystemBE.Application.Users.Queries;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace ReservationSystemBE.Controllers;
 
@@ -60,4 +65,39 @@ public class UsersController : Controller
     {
         return Ok(await _mediator.Send(command));
     }
+
+    [HttpPut("password")]
+    [Authorize(Roles = "User, Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePasswordCommand command)
+    {
+        var authorizationheader = HttpContext.Request.Headers["Authorization"];
+        string accessToken = string.Empty;
+        if (authorizationheader.ToString().StartsWith("Bearer"))
+        {
+            accessToken = authorizationheader.ToString().Substring("Bearer ".Length).Trim();
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.ReadJwtToken(accessToken);
+            var userId = jwt.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            command.UserId = userId;
+        }
+        return Ok(await _mediator.Send(command));
+    }
+
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> ResetPassword([FromBody] ResetPasswordCommand command)
+    {     
+        return Ok(await _mediator.Send(command));
+    }
+
+    [HttpPost("set-password")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> SetNewPassword([FromBody] SetNewPasswordCommand command)
+    {
+        return Ok(await _mediator.Send(command));
+    }
+
 }

@@ -1,16 +1,20 @@
-import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardContent, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { sendChangeOrderStatusRequest } from "../../../services/apiService";
+import {useNavigate} from "react-router-dom";
 
 const AdminOrderCard = ({data}) => {
     const [order, setOrder] = useState(null);
     const [visibleButtons, setButtonsvisible] = useState(false);
-  
-    const sendChangeOrderStatus = async (accept) => {
+    const navigate = useNavigate();
+
+  const sendChangeOrderStatus = async (accept) => {
       await sendChangeOrderStatusRequest({
         orderId: data.id,
         status: accept ? "Accepted" : "Declined",
-      });
+      }, navigate);
+
+      data.orderStatus = accept ? "NotStarted" : "Canceled";
     setButtonsvisible(true)
   };
 
@@ -25,7 +29,7 @@ const AdminOrderCard = ({data}) => {
   }
 
     return (
-      <Card>
+      <Card sx={{ width: 1 }}>
         <CardContent>
           <Typography
             textAlign="right"
@@ -48,7 +52,9 @@ const AdminOrderCard = ({data}) => {
           <Typography variant="h5" fontWeight="bold" component="div">
             Vyzvednutí
           </Typography>
-          <Typography color="text.secondary">{formatTime(data.orderedFor)}</Typography>
+          <Typography color="text.secondary">
+            {formatTime(data.orderedFor)}
+          </Typography>
           <Typography variant="h5" fontWeight="bold" component="div">
             Zákazník
           </Typography>
@@ -59,21 +65,25 @@ const AdminOrderCard = ({data}) => {
             Poznámka
           </Typography>
           <Typography color="text.secondary">{data.orderNote}</Typography>
-          <Button
-            variant="contained"
-            color="success"
-            disabled={visibleButtons}
-            onClick={() => sendChangeOrderStatus(true)}
-          >
-            Příjmout
-          </Button>
-          <Button
-            variant="outlined"
-            disabled={visibleButtons}
-            onClick={() => sendChangeOrderStatus(false)}
-          >
-            Zamítnout
-          </Button>
+          {data.orderStatus === "NotStarted" && (
+            <Container>
+              {/* <Button
+                variant="contained"
+                color="success"
+                disabled={visibleButtons}
+                onClick={() => sendChangeOrderStatus(true)}
+              >
+                Příjmout
+              </Button> */}
+              <Button
+                variant="outlined"
+                disabled={visibleButtons}
+                onClick={() => sendChangeOrderStatus(false)}
+              >
+                Zamítnout
+              </Button>
+            </Container>
+          )}
         </CardContent>
       </Card>
     );

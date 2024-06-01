@@ -180,6 +180,29 @@ namespace ReservationSystemBE.Migrations
                     b.ToTable("ProductTypes");
                 });
 
+            modelBuilder.Entity("ReservationSystem.Domain.Users.PasswordResetCode", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ValidTill")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PasswordResetCodes");
+                });
+
             modelBuilder.Entity("ReservationSystem.Domain.Users.User", b =>
                 {
                     b.Property<string>("Id")
@@ -280,6 +303,17 @@ namespace ReservationSystemBE.Migrations
                     b.Navigation("ProductType");
                 });
 
+            modelBuilder.Entity("ReservationSystem.Domain.Users.PasswordResetCode", b =>
+                {
+                    b.HasOne("ReservationSystem.Domain.Users.User", "User")
+                        .WithMany("PasswordResetCodes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ReservationSystem.Domain.Orders.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -293,6 +327,8 @@ namespace ReservationSystemBE.Migrations
             modelBuilder.Entity("ReservationSystem.Domain.Users.User", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("PasswordResetCodes");
                 });
 #pragma warning restore 612, 618
         }

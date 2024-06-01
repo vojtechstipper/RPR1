@@ -45,7 +45,7 @@ const RegisterPage = () => {
     };
 
     try { //TODO same code in the login page -> extract code to the function?
-      const response = await registerUserRequest(userData);
+      const response = await registerUserRequest(userData, navigate);
       if (response.token && response.userInfo) {
         Cookies.set("token", response.token, { expires: 7 });
 
@@ -54,12 +54,16 @@ const RegisterPage = () => {
 
         navigate("/");
 
-        window.dispatchEvent(new Event("authChanged"));
+        localStorage.setItem("logged_in", true);
+        window.dispatchEvent(new CustomEvent("authChanged", {
+          detail: { isLoggedIn: true }  // Zde předáváme, že uživatel je přihlášen
+        }));
       } else {
         console.error("Missing token or user information in the response.");
       }
     } catch (error) {
       console.error("Login failed:", error);
+        navigate("/error", { state: { error: error.response.status } });
     }
   };
 

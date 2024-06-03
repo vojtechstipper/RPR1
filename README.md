@@ -1,7 +1,7 @@
 # Ročníkový projekt - Rezervační systém
 
 ## Popis
-Projekt vytvořený v rámci předmětu ROPR1 a ROPR2. Jedná se o rezervační systém pro bufet Ostravské univerzity. Backend projektu je napsaný pomocí .NET. Frontend je vytvořen pomocí Reactu.
+Projekt vytvořený v rámci předmětu ROPR1 a ROPR2. Jedná se o rezervační systém pro bufet Ostravské univerzity. Backend projektu je napsaný pomocí .NET. Frontend je vytvořen pomocí Reactu. DB je zde zastoupena Microsoft SQL Server
 
 ## Lokální vývoj
 

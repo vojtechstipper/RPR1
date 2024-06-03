@@ -24,3 +24,20 @@ docker compose up
 
 Poté se vytvoří kontejner s Microsoft SQL Server, který je potřebný pro běh BE.
 Migrace jsou zde automatické a tak není zapotřebí spouštět manuální aplikaci migrací.
+
+## Backend
+V hlavní BE složce (/ReservationSystemBE/ReservationSystemBE) se nachází soubor ReservationSystemBE.csproj. V této složce je potřeba otevřít terminál a vložit příkaz:
+```bash
+dotnet run
+```
+
+## Frontend
+V hlavní FE složce (/reservation_system_fe) spusťte následující příkaz pro instalaci všech potřebných závislostí:
+```bash
+npm i
+```
+Po úspěšné instalaci závislostí spusťte projekt pomocí příkazu:
+```bash
+npm start
+```
+Tento příkaz spustí vývojový server a váš projekt bude dostupný na lokální adrese (http://localhost:3000).

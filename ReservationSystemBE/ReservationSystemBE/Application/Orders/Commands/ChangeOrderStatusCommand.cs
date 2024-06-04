@@ -63,7 +63,7 @@ public class ChangeOrderStatusCommandHandler : IRequestHandler<ChangeOrderStatus
             var orderMailData = new TemplateMailData()
             {
                 UserName = $"{order.User.FirstName} {order.User.SecondName}",
-                OrderTime = $"{order.DateOrdered.Hour}:{order.DateOrdered.Minute}",
+                OrderTime = $"{order.DateOrdered.ToString("mm:ss:ff")}",
                 OrderNumber = order.OrderIdentifikator,
                 OrderItems = order.OrderItems.Select(x => new ReservationSystem.Shared.DTO.OrderItem()
                 {
@@ -71,7 +71,8 @@ public class ChangeOrderStatusCommandHandler : IRequestHandler<ChangeOrderStatus
                     ProductPrice = x.Product.PriceLevel.Price,
                     ProductQuantity = x.Count,
                     ProductTotal = x.Product.PriceLevel.Price * x.Count
-                }).ToList()
+                }).ToList(),
+                
             };
 
             await _notifier.SendEmail(order.User.Email, $"{order.User.FirstName} {order.User.SecondName}", order.Status, orderMailData);

@@ -414,3 +414,4 @@ FodyWeavers.xsd
 /.idea/
 /ReservationSystemBE/ReservationSystemBE/Assets/
 /ReservationSystemBE/ReservationSystemBE/appsettings.Development.json
+/ReservationSystemBE/ReservationSystemBE/appsettings .Development.json

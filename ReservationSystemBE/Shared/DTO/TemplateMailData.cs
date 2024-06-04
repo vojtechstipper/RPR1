@@ -6,6 +6,7 @@ public class TemplateMailData
     public string OrderNumber { get; set; }
     public string OrderTime { get; set; }
     public List<OrderItem> OrderItems { get; set; }
+    public decimal TotalPrice  => OrderItems.Sum(x => x.ProductTotal);
 
 }
 

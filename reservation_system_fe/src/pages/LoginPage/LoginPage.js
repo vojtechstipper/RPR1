@@ -32,29 +32,35 @@ const LoginPage = () => {
       password: password,
     };
 
-    try {
-      const response = await loginUserRequest(userData, navigate);
-      if (response.token && response.userInfo) {
-        Cookies.set("token", response.token, { expires: 7 });
+      try {
+          const response = await loginUserRequest(userData, navigate);
+          if (response) {
+              if (response.token && response.userInfo) {
+                  Cookies.set("token", response.token, { expires: 7 });
 
-        // save user info
-        localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
+                  localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
 
-        navigate("/");
+                  navigate("/");
 
-        clearCart();
-        localStorage.setItem("logged_in", true);
-        window.dispatchEvent(new CustomEvent("authChanged", {
-          detail: { isLoggedIn: true }  // Zde předáváme, že uživatel je přihlášen
-        }));
-        
-      } else {
-        console.error("Missing token or user information in the response.");
+                  clearCart();
+                  localStorage.setItem("logged_in", true);
+                  window.dispatchEvent(new CustomEvent("authChanged", {
+                      detail: { isLoggedIn: true }
+                  }));
+
+              } else {
+                  console.error("Missing token or user information in the response.");
+              }
+          } else {
+              console.error("Response is undefined.");
+          }
+      } catch (error) {
+          console.error("Login failed:", error);
+
+          const errorStatus = error.response && error.response.status ? error.response.status : "Unknown error status";
+          navigate("/error", { state: { error: errorStatus } });
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      navigate("/error", { state: { error: error.response.status } });
-    }
+
   };
 
   return (

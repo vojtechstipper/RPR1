@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { resetPassword, resetSetNewPassword } from '../../services/apiService';
+import { useNavigate } from "react-router-dom";
 
 const PasswordResetPage = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ const PasswordResetPage = () => {
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
   const [passwordEquals, setPasswordEquals] = useState(false);
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -47,6 +49,7 @@ const PasswordResetPage = () => {
         
         try {
           const response = await resetSetNewPassword(userData);
+          if (response) navigate("/login");
         }
         catch{}
       }

@@ -45,8 +45,7 @@ npm start
 ```
 Tento příkaz spustí vývojový server a váš projekt bude dostupný na lokální adrese (http://localhost:3000).
 
-##Seznam portů
-
-Frontend :3000
-Backend :7038
-DB: 1433
+## Seznam portů
+Frontend: 3000 <br/>
+Backend: 7038 <br/>
+DB: 1433 <br/>

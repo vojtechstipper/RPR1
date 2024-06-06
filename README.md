@@ -6,6 +6,8 @@ Projekt vytvořený v rámci předmětu ROPR1 a ROPR2. Jedná se o rezervační 
 - Frontend aplikace se napsaný pomoci technologie React 18.2.0 s použitím JavaScriptu
 - Použitá databáze je Microsoft SQL 2022
 
+- Frontend část projektu je rozdělena na 2 podčástí a tou je část uživatelská (z pohledu zákakazníka bufetu) a na administrátorskou část (obsluha bufetu)
+
 <br/>
   
 > [!TIP]
@@ -30,6 +32,7 @@ V hlavní BE složce (/ReservationSystemBE/ReservationSystemBE) se nachází sou
 ```bash
 dotnet run
 ```
+Tento příkaz spustí vývojový server a váš projekt bude dostupný na lokální adrese (https://localhost:7038/).
 
 ## Frontend
 V hlavní FE složce (/reservation_system_fe) spusťte následující příkaz pro instalaci všech potřebných závislostí:
@@ -41,3 +44,9 @@ Po úspěšné instalaci závislostí spusťte projekt pomocí příkazu:
 npm start
 ```
 Tento příkaz spustí vývojový server a váš projekt bude dostupný na lokální adrese (http://localhost:3000).
+
+##Seznam portů
+
+Frontend :3000
+Backend :7038
+DB: 1433
